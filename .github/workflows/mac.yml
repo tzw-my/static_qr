@@ -34,7 +34,7 @@ jobs:
           brew install automake
           brew install libtool
           brew install pkg-config
-          brew install libpng12-dev
+          brew install libpng
           brew install wget
           brew install unzip
           wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
