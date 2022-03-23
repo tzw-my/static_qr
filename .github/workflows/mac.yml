@@ -28,6 +28,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
+          mkdir qr
           brew update
           brew install autoconf
           brew install automake
@@ -41,9 +42,8 @@ jobs:
           cd libqrencode-4.1.1
           echo "static build"
           echo "-----------------------------------------------"
-          mkdir qr
           . ./autogen.sh
-          ./configure --prefix=./qr
+          ./configure --prefix=/home/runner/work/static_qr/static_qr/qr
           make
           make install
       
