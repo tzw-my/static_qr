@@ -43,7 +43,7 @@ jobs:
           echo "static build"
           echo "-----------------------------------------------"
           . ./autogen.sh
-          ./configure --prefix=/home/runner/work/static_qr/static_qr/qr
+          ./configure
           make
           make install
       
