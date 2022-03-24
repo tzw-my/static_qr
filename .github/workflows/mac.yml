@@ -26,9 +26,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Download dependencies
         run: |
-          mkdir qr
           brew update
           brew install autoconf
           brew install automake
@@ -38,17 +37,25 @@ jobs:
           brew install wget
           brew install unzip
           brew install git
-          brew install 7z
+          brew install p7zip
+          mkdir qr
+          git clone git@github.com:static-build/qrencode.git
+
+      - name: Download libqrencode
+        run: |
           wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
           unzip v4.1.1.zip
-          git clone git@github.com:static-build/qrencode.git
+
+      - name: Static build
+        run: |
           cd libqrencode-4.1.1
-          echo "static build"
-          echo "-----------------------------------------------
           . ./autogen.sh
           ./configure --prefix="$GITHUB_WORKSPACE/qr"
           make -j4 LDFLAGS="-static -all-static"
           make install
+      
+      - name: Rename AND git push
+        run: |
           mv $GITHUB_WORKSPACE/qr/bin/qrencode $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
           7z a $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
           mv $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z  $GITHUB_WORKSPACE/qrencode/bin/
