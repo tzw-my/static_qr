@@ -28,38 +28,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
-          brew update
-          brew install autoconf
-          brew install automake
-          brew install libtool
-          brew install pkg-config
-          brew install libpng
-          brew install wget
-          brew install unzip
+          touch vbnm
           brew install git
-          brew install p7zip
-          mkdir qr
-          git clone git@github.com:static-build/qrencode.git
-
-      - name: Download libqrencode
-        run: |
-          wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
-          unzip v4.1.1.zip
-
-      - name: Static build
-        run: |
-          cd libqrencode-4.1.1
-          . ./autogen.sh
-          ./configure --prefix="$GITHUB_WORKSPACE/qr"
-          make -j4 LDFLAGS="-static -all-static"
-          make install
-      
-      - name: Rename AND git push
-        run: |
-          mv $GITHUB_WORKSPACE/qr/bin/qrencode $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
-          7z a $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
-          mv $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z  $GITHUB_WORKSPACE/qrencode/bin/
-          cd $GITHUB_WORKSPACE/qrencode
+          git clone git@github.com:tzw-my/static_qr.git
+          cd static_qr
+          touch testss
           git add .
           git commit -m "update mac x64 qrencode"
           git push
