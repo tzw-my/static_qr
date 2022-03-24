@@ -29,21 +29,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir qr
-          brew update
-          brew install autoconf
-          brew install automake
-          brew install libtool
-          brew install pkg-config
-          brew install libpng
-          brew install wget
-          brew install unzip
-          wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
-          unzip v4.1.1.zip
-          cd libqrencode-4.1.1
-          echo "static build"
-          echo "-----------------------------------------------"
-          . ./autogen.sh
-          ./configure
-          make
-          make install
+          echo $GITHUB_WORKSPACE
+          cd qr
+          pwd
       
