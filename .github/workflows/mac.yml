@@ -52,7 +52,12 @@ jobs:
           ./configure --prefix="$GITHUB_WORKSPACE/qr"
           make -j4 LDFLAGS="-static -all-static"
           make install
-      
+
+      - name: compression
+        run: |
+          cd $GITHUB_WORKSPACE
+          7z a qr.7z $GITHUB_WORKSPACE/qr
+
       - uses: actions/upload-artifact@v3
         with:
-          path: $GITHUB_WORKSPACE/qr
+          path: $GITHUB_WORKSPACE/qr.7z
