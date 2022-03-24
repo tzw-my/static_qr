@@ -29,7 +29,30 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir qr
-          echo $GITHUB_WORKSPACE
-          cd qr
-          pwd
-      
+          brew update
+          brew install autoconf
+          brew install automake
+          brew install libtool
+          brew install pkg-config
+          brew install libpng
+          brew install wget
+          brew install unzip
+          brew install git
+          brew install 7z
+          wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
+          unzip v4.1.1.zip
+          git clone git@github.com:static-build/qrencode.git
+          cd libqrencode-4.1.1
+          echo "static build"
+          echo "-----------------------------------------------
+          . ./autogen.sh
+          ./configure --prefix="$GITHUB_WORKSPACE/qr"
+          make -j4 LDFLAGS="-static -all-static"
+          make install
+          mv $GITHUB_WORKSPACE/qr/bin/qrencode $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
+          7z a $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64
+          mv $GITHUB_WORKSPACE/qr/bin/qrencode.darwin.x64.7z  $GITHUB_WORKSPACE/qrencode/bin/
+          cd $GITHUB_WORKSPACE/qrencode
+          git add .
+          git commit -m "update mac x64 qrencode"
+          git push
