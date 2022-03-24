@@ -28,6 +28,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
+          brew update
           brew install autoconf
           brew install automake
           brew install libtool
@@ -52,7 +53,6 @@ jobs:
           make -j4 LDFLAGS="-static -all-static"
           make install
       
-      - name: Rename AND git push
       - uses: actions/upload-artifact@v3
         with:
           path: $GITHUB_WORKSPACE/qr
