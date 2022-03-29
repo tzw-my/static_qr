@@ -28,8 +28,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
-          apt-get update
-          apt-get install tar
+          sudo apt-get update
+          sudo apt-get install tar
           wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
           export PATH=$PATH:/usr/local/go/bin
           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
