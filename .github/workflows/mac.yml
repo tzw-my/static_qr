@@ -28,26 +28,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install tar
           if go version;then
+            command -v go
             sudo rm -rf /usr/local/go
           fi
-          
-          wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-          export PATH=$PATH:/usr/local/go/bin
-          printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
-          source ~/.profile
           go version
-
-      - name: Download terraform
-        run: |
-          wget https://github.com/hashicorp/terraform/archive/refs/tags/v1.1.7.tar.gz
-          tar -zxvf v1.1.7.tar.gz
-
-      - name: Static build
-        run: |
-          cd terraform-1.1.7
-          go build
-          go install
-          ls
