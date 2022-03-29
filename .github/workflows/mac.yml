@@ -31,14 +31,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install tar
           if go version;then
-            go get golang.org/dl/go1.18
-            go1.18 download
-          else
-            wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-            export PATH=$PATH:/usr/local/go/bin
-            printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
-            source ~/.profile
+            sudo rm -rf /usr/local/go
           fi
+          
+          wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+          export PATH=$PATH:/usr/local/go/bin
+          printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
+          source ~/.profile
           go version
 
       - name: Download terraform
