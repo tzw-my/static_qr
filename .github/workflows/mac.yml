@@ -58,11 +58,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           7z a terraform.7z $GITHUB_WORKSPACE/terraform-1.1.7/terraform
-          ls 
-          pwd
-          ls $GITHUB_WORKSPACE/terraform.7z
 
       - uses: actions/upload-artifact@v3
         with:
-          path: $GITHUB_WORKSPACE/terraform.7z
-          
+          path: terraform.7z
