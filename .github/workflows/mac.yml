@@ -30,6 +30,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install tar
+          sudo apt-get install p7zip
           if go version;then
             sudo rm -rf "$(command -v go)"
             sudo rm -rf /usr/local/go
@@ -37,9 +38,9 @@ jobs:
 
           wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
           export PATH=$PATH:/usr/local/go/bin
-          sudo cp -r /usr/local/go/bin/* /usr/bin
           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
           source ~/.profile
+          sudo cp -r /usr/local/go/bin/* /usr/bin
           go version
 
       - name: Download terraform
@@ -51,4 +52,13 @@ jobs:
         run: |
           cd terraform-1.1.7
           go build
+          go install 
           ls
+
+      - name: compression
+        run: |
+          7z a terraform.7z terraform
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: $GITHUB_WORKSPACE/terraform-1.1.7/terraform.7z
