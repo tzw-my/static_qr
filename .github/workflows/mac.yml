@@ -34,15 +34,4 @@ jobs:
           export PATH=$PATH:/usr/local/go/bin
           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
           source ~/.profile
-
-      - name: Download terraform
-        run: |
-          wget https://github.com/hashicorp/terraform/archive/refs/tags/v1.1.7.tar.gz
-          tar -zxvf v1.1.7.tar.gz
-
-      - name: Static build
-        run: |
-          cd terraform-1.1.7
-          go build
-          go install
-          ls
+          go version
