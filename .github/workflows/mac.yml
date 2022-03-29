@@ -31,7 +31,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install tar
           if go version;then
-            rm -rf "$(command -v go)"
+            sudo rm -rf "$(command -v go)"
             sudo rm -rf /usr/local/go
           fi
 
