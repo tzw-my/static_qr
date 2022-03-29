@@ -31,7 +31,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install tar
           if go version;then
-            rm -rf "$(command -v go)"
+            sudo rm -rf "$(command -v go)"
             sudo rm -rf /usr/local/go
           fi
 
@@ -40,15 +40,3 @@ jobs:
           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
           source ~/.profile
           go version
-
-      - name: Download terraform
-        run: |
-          wget https://github.com/hashicorp/terraform/archive/refs/tags/v1.1.7.tar.gz
-          tar -zxvf v1.1.7.tar.gz
-
-      - name: Static build
-        run: |
-          cd terraform-1.1.7
-          go build
-          go install
-          ls
