@@ -56,7 +56,7 @@ jobs:
 
       - name: compression
         run: |
-          7z a terraform.7z terraform
+          7z a terraform.7z $GITHUB_WORKSPACE/terraform-1.1.7/terraform
 
       - uses: actions/upload-artifact@v3
         with:
