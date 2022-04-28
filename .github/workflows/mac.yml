@@ -28,37 +28,21 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install tar
-          sudo apt-get install p7zip
-          if go version;then
-            sudo rm -rf "$(command -v go)"
-            sudo rm -rf /usr/local/go
-          fi
+          echo "test1"
+          echo "xxxxxkkkkkkkkkkkkkkk"
 
-          wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-          export PATH=$PATH:/usr/local/go/bin
-          printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
-          source ~/.profile
-          sudo cp -r /usr/local/go/bin/* /usr/bin
-          go version
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-      - name: Download terraform
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Download dependencies
         run: |
-          wget https://github.com/hashicorp/terraform/archive/refs/tags/v1.1.7.tar.gz
-          tar -zxvf v1.1.7.tar.gz
-
-      - name: Static build
-        run: |
-          cd terraform-1.1.7
-          go build -w -s
-          ls
-
-      - name: compression
-        run: |
-          cd $GITHUB_WORKSPACE
-          7z a terraform.7z $GITHUB_WORKSPACE/terraform-1.1.7/terraform
-
-      - uses: actions/upload-artifact@v3
-        with:
-          path: terraform.7z
+          echo "test"
