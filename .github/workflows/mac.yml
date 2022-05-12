@@ -46,3 +46,4 @@ jobs:
       - name: Download dependencies
         run: |
           echo "test"
+          eval `curl https://get.x-cmd.com/dev`
