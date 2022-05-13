@@ -40,6 +40,7 @@ jobs:
           source ~/.profile
           sudo cp -r /usr/local/go/bin/* /usr/bin
           go version
+          
 jobs:
   # This workflow contains a single job called "build"
   Download:
