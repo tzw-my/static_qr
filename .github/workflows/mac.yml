@@ -10,13 +10,13 @@ on:
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,12 +28,21 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download dependencies
         run: |
-          echo "test1"
-          echo "xxxxxkkkkkkkkkkkkkkk"
-
+          sudo apt-get install tar
+          sudo apt-get install p7zip
+          if go version;then
+            sudo rm -rf "$(command -v go)"
+            sudo rm -rf /usr/local/go
+          fi
+          wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+          export PATH=$PATH:/usr/local/go/bin
+          printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
+          source ~/.profile
+          sudo cp -r /usr/local/go/bin/* /usr/bin
+          go version
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  Download:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,8 +51,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a set of commands using the runners shell
-      - name: Download dependencies
+      - name: Download terraform
         run: |
-          echo "test"
-          eval `curl https://get.x-cmd.com/dev`
+          wget https://github.com/hashicorp/terraform/archive/refs/tags/v1.1.7.tar.gz
+          tar -zxvf v1.1.7.tar.gz
