@@ -53,7 +53,6 @@ jobs:
 
       - name: Download terraform
         run: |
-          PATH=$PATH;C:\msys64
-          echo $PATH
-          msys64
+          cd C:\msys64
+          ls
           winget
