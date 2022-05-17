@@ -54,5 +54,5 @@ jobs:
       - name: Download terraform
         run: |
           cd C:\msys64
-          ls
+          ./mingw64.exe
           winget
