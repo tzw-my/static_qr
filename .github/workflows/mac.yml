@@ -50,7 +50,7 @@ jobs:
       - name: container
         run: |
           docker ps
-          docker run -it mcr.microsoft.com/windows:20H2
+          docker run -it mcr.microsoft.com/windows:20H2 sh
           echo "------"
           ls
           echo "......."
