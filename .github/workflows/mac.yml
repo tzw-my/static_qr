@@ -51,10 +51,8 @@ jobs:
         run: |
           docker ps -a
           docker image ls
-          docker run -it mcr.microsoft.com/windows:20H2 shell
+          docker pull mcr.microsoft.com/windows:20H2
+          docker run -it mcr.microsoft.com/windows:20H2 cmd.exe
           echo "------"
           ls
           echo "......."
-          docker ps -a
-          docker image ls
-          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 shell
