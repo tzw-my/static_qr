@@ -53,6 +53,7 @@ jobs:
           docker ps -a
           docker image ls
           docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
-          echo "-----"
+          mkdir -p test
           exit
+          ls -lh
           docker ps -a
