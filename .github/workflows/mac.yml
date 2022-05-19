@@ -52,7 +52,7 @@ jobs:
         run: |
           docker ps -a
           docker image ls
-          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
+          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 pwsh.exe
           echo "Hello World!" > Hello.txt
           exit
           ls -lh
