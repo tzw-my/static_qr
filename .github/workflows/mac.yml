@@ -52,5 +52,5 @@ jobs:
 
       - name: container
         run: |
-           docker pull mcr.microsoft.com/windows
+           docker pull seabreeze/windowsshellcommands:v2
           
