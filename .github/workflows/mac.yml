@@ -15,44 +15,43 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  test:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+#   # This workflow contains a single job called "build"
+#   test:
+#     # The type of runner that the job will run on
+#     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
+#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#       - uses: actions/checkout@v2
 
-      # Runs a set of commands using the runners shell
-      - name: Download dependencies
-        run: |
-          sudo apt-get install tar
-          sudo apt-get install p7zip
-          if go version;then
-            sudo rm -rf "$(command -v go)"
-            sudo rm -rf /usr/local/go
-          fi
-          wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-          export PATH=$PATH:/usr/local/go/bin
-          printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
-          source ~/.profile
-          sudo cp -r /usr/local/go/bin/* /usr/bin
-          go version
+#       # Runs a set of commands using the runners shell
+#       - name: Download dependencies
+#         run: |
+#           sudo apt-get install tar
+#           sudo apt-get install p7zip
+#           if go version;then
+#             sudo rm -rf "$(command -v go)"
+#             sudo rm -rf /usr/local/go
+#           fi
+#           wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+#           export PATH=$PATH:/usr/local/go/bin
+#           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
+#           source ~/.profile
+#           sudo cp -r /usr/local/go/bin/* /usr/bin
+#           go version
           
   # This workflow contains a single job called "build"
   Download:
     # The type of runner that the job will run on
     runs-on: windows-latest
-
+    container: docker pull mcr.microsoft.com/windows
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Download terraform
+      - name: container
         run: |
-          cd C:\msys64
-          ./mingw64.exe
-          winget
+          ls
+          
