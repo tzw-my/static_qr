@@ -52,6 +52,5 @@ jobs:
           docker ps -a
           docker image ls
           docker pull mcr.microsoft.com/windows:20H2
-          docker run -it mcr.microsoft.com/windows:20H2 cmd.exe
           command -v choco
           
