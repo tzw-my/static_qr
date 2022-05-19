@@ -54,4 +54,4 @@ jobs:
           docker image ls
           docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
           command -v choco
-          
+          echo "-----"
