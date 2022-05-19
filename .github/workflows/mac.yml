@@ -49,9 +49,10 @@ jobs:
     steps:
       - name: container
         run: |
-          docker ps
+          docker ps -a
+          docker image ls
           docker run -it mcr.microsoft.com/windows:20H2 sh
           echo "------"
           ls
           echo "......."
-          docker ps
+          docker ps -a
