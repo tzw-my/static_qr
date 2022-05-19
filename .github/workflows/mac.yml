@@ -51,6 +51,7 @@ jobs:
         run: |
           docker ps
           docker run -it mcr.microsoft.com/windows:20H2
+          echo "------"
           ls
-          eval `curl https://get.x-cmd.com/dev`
+          echo "......."
           docker ps
