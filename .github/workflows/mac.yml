@@ -50,5 +50,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: container
         run: |
-          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
-          pwd
+          echo "aaa">text | docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
+          ls
+          
