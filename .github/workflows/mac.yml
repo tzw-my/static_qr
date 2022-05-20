@@ -50,5 +50,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: container
         run: |
-          winget search git
           Chocolatey --help
