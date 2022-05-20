@@ -51,7 +51,7 @@ jobs:
       - name: container
         run: |
           powershell
-          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
+          winpty docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
           pwd
           echo "aaa">text
           ls
