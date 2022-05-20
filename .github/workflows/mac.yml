@@ -52,3 +52,4 @@ jobs:
       - name: container
         run: |
           winget search git
+          Chocolatey --help
