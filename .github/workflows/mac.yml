@@ -50,11 +50,37 @@ jobs:
       - uses: actions/checkout@v2
       - name: container
         run: |
-          choco install mtputty
-          winpty docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
-          pwd
-          echo "aaa">text
-          ls
-          docker ps -a
-          exit
+          choco install mingw
+          choco install make
+          choco install wget
+          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
+          tar zxvf libressl-3.5.2.tar.gz
+          cd libressl && {
+            ./config no-shared LDFLAGS="-static"
+            make
+            make install
+          }
+          wget https://www.zlib.net/zlib-1.2.12.tar.gz
+          tar zxvf zlib-1.2.12.tar.gz 
+          cd zlib && {
+            ./configure --static
+            make
+            make install
+          }
+          wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
+          tar zxvf libssh2-1.10.0.tar.gz 
+          cd libssh2 && {
+            LDFLAGS="-static" CFLAGS="-DHAVE_OPAQUE_STRUCTS=1 "   ./configure
+            make
+            make install
+          }
+          https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
+          tar zxvf curl-7_83_1.tar.gz
+          cd curl-7_83_1 && {
+            autoreconf -fi
+            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/curl
+            make -j4 LDFLAGS="-static -all-static"
+            make install
+          }
+
           
