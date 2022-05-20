@@ -55,5 +55,6 @@ jobs:
           pwd
           echo "aaa">text
           ls
+          docker ps -a
           exit
           
