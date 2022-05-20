@@ -55,11 +55,11 @@ jobs:
           choco install wget
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
-          cd libressl-3.5.2 && {
-            ./config no-shared LDFLAGS="-static"
-            make
-            make install
-          }
+          cd libressl-3.5.2 
+          ./config no-shared LDFLAGS="-static"
+          make
+          make install
+          cd ..
           wget https://www.zlib.net/zlib-1.2.12.tar.gz
           tar zxvf zlib-1.2.12.tar.gz 
           cd zlib-1.2.12 && {
@@ -74,7 +74,7 @@ jobs:
             make
             make install
           }
-          https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
+          wget https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
           tar zxvf curl-7_83_1.tar.gz
           cd curl-curl-7_83_1 && {
             autoreconf -fi
