@@ -55,5 +55,6 @@ jobs:
           PowerShell
           docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
           echo "Hello World!" > Hello.txt
-          ls -lh
+          ls 
+          pwd
           docker ps -a
