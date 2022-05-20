@@ -50,6 +50,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: container
         run: |
+          choco install mtputty
           winpty docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
           pwd
           echo "aaa">text
