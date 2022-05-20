@@ -51,11 +51,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: container
         run: |
-          docker ps -a
-          docker image ls
-          PowerShell
-          docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd.exe
-          echo "Hello World!" > Hello.txt
-          ls 
-          pwd
-          docker ps -a
+          winget search git
