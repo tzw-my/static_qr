@@ -51,13 +51,14 @@ jobs:
       - name: container
         run: |
           bash
-          choco install mingw
-          choco install make
+      # choco install mingw
+      # choco install make
           choco install wget
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
-          D:\a\static_qr\static_qr\libressl-3.5.2\config no-shared LDFLAGS="-static"
+          cat config
+      # D:\a\static_qr\static_qr\libressl-3.5.2\config no-shared LDFLAGS="-static"
           ls
           make
           make install
