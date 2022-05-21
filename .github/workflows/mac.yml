@@ -61,9 +61,9 @@ jobs:
           ./config no-shared LDFLAGS="-static"
           echo "-------------------"
           pwd
-          make SHELL=cmd
+          make SHELL=bash
           echo "++++++++++++++++"
-          make install SHELL=cmd
+          make install SHELL=bash
 
       # cd ..
       # wget https://www.zlib.net/zlib-1.2.12.tar.gz
