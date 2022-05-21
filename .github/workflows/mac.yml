@@ -61,7 +61,7 @@ jobs:
           ./config no-shared LDFLAGS="-static"
           echo "-------------------"
           pwd
-          mkdir -p /usr/bin/sh
+          command -v mingw
           make
           echo "++++++++++++++++"
           make install
