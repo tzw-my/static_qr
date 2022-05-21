@@ -59,9 +59,9 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
           ./config no-shared LDFLAGS="-static"
-          command -v wget
+          command -v mingw
           echo "-------------------"
-          echo $PATH
+          PATH=$PATH:/c/ProgramData/Chocolatey/bin
           pwd
           mkdir -p /usr/bin/sh
           make
