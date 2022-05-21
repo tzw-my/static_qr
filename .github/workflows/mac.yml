@@ -56,9 +56,9 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
           cat config
-          ./config no-shared LDFLAGS="-static"
+          . ./config no-shared LDFLAGS="-static"
           echo "echo llll">a
-          ./a
+          . ./a
           ls
           make
           make install
