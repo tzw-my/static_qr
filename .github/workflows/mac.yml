@@ -57,7 +57,7 @@ jobs:
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
-          ./config no-shared LDFLAGS="-static"
+          D:\a\static_qr\static_qr\libressl-3.5.2\config no-shared LDFLAGS="-static"
           ls
           make
           make install
