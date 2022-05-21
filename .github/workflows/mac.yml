@@ -61,6 +61,7 @@ jobs:
           ./config no-shared LDFLAGS="-static"
           command -v wget
           echo "-------------------"
+          echo $PATH
           pwd
           mkdir -p /usr/bin/sh
           make
