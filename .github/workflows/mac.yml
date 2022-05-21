@@ -58,7 +58,8 @@ jobs:
           cd libressl-3.5.2 
           ./config no-shared LDFLAGS="-static"
           echo "-------------------"
-          mkdir -p /usr/bin
+          pwd
+          mkdir -p /usr/bin/sh
           make
           echo "++++++++++++++++"
           make install
