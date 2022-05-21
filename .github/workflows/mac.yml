@@ -61,7 +61,6 @@ jobs:
           ./config no-shared LDFLAGS="-static"
           echo "-------------------"
           pwd
-          command -v mingw
           make SHELL=cmd
           echo "++++++++++++++++"
           make install SHELL=cmd
