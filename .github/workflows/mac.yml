@@ -53,7 +53,7 @@ jobs:
         run: |
           bash
           choco install wget
-          choco install mingw64
+          choco install mingw
           choco install make
           choco install libtool
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
