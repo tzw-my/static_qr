@@ -62,9 +62,9 @@ jobs:
           echo "-------------------"
           pwd
           command -v mingw
-          make
+          make SHELL=cmd
           echo "++++++++++++++++"
-          make install
+          make install SHELL=cmd
 
       # cd ..
       # wget https://www.zlib.net/zlib-1.2.12.tar.gz
