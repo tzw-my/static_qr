@@ -61,6 +61,7 @@ jobs:
           ./config no-shared LDFLAGS="-static"
           echo "-------------------"
           pwd
+          cat Makefile
           make SHELL=bash
           echo "++++++++++++++++"
           make install SHELL=bash
