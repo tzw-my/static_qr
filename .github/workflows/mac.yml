@@ -60,6 +60,7 @@ jobs:
           echo "-------------------"
           mkdir -p /usr/bin
           make
+          echo "++++++++++++++++"
           make install
       # choco install mingw
       # choco install make
