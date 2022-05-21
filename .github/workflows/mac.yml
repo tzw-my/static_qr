@@ -56,12 +56,14 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
           cat config
+          ./config no-shared LDFLAGS="-static"
+          echo "echo llll">a
+          ./a
           ls
           make
           make install
             # choco install mingw
       # choco install make
-      # D:\a\static_qr\static_qr\libressl-3.5.2\config no-shared LDFLAGS="-static"
       # cd ..
       # wget https://www.zlib.net/zlib-1.2.12.tar.gz
       # tar zxvf zlib-1.2.12.tar.gz 
