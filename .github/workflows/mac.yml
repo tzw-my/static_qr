@@ -56,11 +56,7 @@ jobs:
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
-          cat config
           ./config no-shared LDFLAGS="-static"
-          echo "echo llll">a
-          ./a
-          ls
           make
           make install
       # choco install mingw
