@@ -57,6 +57,8 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
           ./config no-shared LDFLAGS="-static"
+          echo "-------------------"
+          mkdir -p /usr/bin
           make
           make install
       # choco install mingw
