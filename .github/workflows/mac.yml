@@ -58,13 +58,12 @@ jobs:
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 
-          ./config no-shared LDFLAGS="-static"
+          ./config no-shared LDFLAGS="-static" --prefix="\/usr/local"
           echo "-------------------"
           pwd
-          cat Makefile
-          make SHELL=bash
+          make
           echo "++++++++++++++++"
-          make install SHELL=bash
+          make install
 
       # cd ..
       # wget https://www.zlib.net/zlib-1.2.12.tar.gz
