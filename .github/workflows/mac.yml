@@ -30,15 +30,15 @@ jobs:
          git clone https://github.com/openssl/openssl.git
          cd openssl && {
            git checkout openssl-3.0.0
-           ./config --prefix=$GITHUB_WORKSPACE/openssl
-           echo "--------------"
+           ./config --prefix=$GITHUB_WORKSPACE/opensslBuild/
            make
+           echo "--------------"
            make install
          }
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a openssl.7z $GITHUB_WORKSPACE/openssl
+          7z a openssl.7z $GITHUB_WORKSPACE/opensslBuild
       - uses: actions/upload-artifact@v3
         with:
           path: openssl.7z
