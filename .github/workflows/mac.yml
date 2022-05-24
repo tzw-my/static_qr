@@ -30,7 +30,7 @@ jobs:
          git clone https://github.com/openssl/openssl.git
          cd openssl && {
            git checkout openssl-3.0.0
-           ./config -fPIC no-shared --prefix=$GITHUB_WORKSPACE/openssl
+           ./config --prefix=$GITHUB_WORKSPACE/openssl
            make
            make install
          }
