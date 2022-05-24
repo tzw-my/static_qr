@@ -34,11 +34,20 @@ jobs:
            make
            make install
          }
+      - name: nmap
+        run: |
+          wget https://nmap.org/dist/nmap-7.92.tar.bz2
+          tar -jxvf nmap-7.92.tar.bz2
+          cd nmap-7.92 && {
+            ./configure --enable-static LDFLAGS="-static" --with-openssl=$GITHUB_WORKSPACE/opensslBuild/ --without-nmap-update --prefix=$GITHUB_WORKSPACE/nmapBuild/
+            make
+            make install
+          }
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a openssl.7z $GITHUB_WORKSPACE/opensslBuild
+          7z a nmap.7z $GITHUB_WORKSPACE/nmapBuild
       - uses: actions/upload-artifact@v3
         with:
-          path: openssl.7z
-          name: openssl.7z
+          path: nmap.7z
+          name: nmap
