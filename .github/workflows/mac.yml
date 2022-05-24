@@ -25,7 +25,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: build openssl
+      - name: build magick
         run: |
          wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.0-24.zip
          unzip 7.1.0-24.zip
