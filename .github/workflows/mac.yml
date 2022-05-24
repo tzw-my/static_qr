@@ -30,9 +30,8 @@ jobs:
          git clone https://github.com/openssl/openssl.git
          cd openssl && {
            git checkout openssl-3.0.0
-           ./config --prefix=$GITHUB_WORKSPACE/opensslBuild/
+           ./config -fPIC no-shared --prefix=$GITHUB_WORKSPACE/opensslBuild/
            make
-           echo "--------------"
            make install
          }
       - name: compression
@@ -42,3 +41,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: openssl.7z
+          name: openssl.7z
