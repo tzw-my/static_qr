@@ -16,77 +16,28 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 #   # This workflow contains a single job called "build"
-#   test:
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
-
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#       - uses: actions/checkout@v2
-
-#       # Runs a set of commands using the runners shell
-#       - name: Download dependencies
-#         run: |
-#           sudo apt-get install tar
-#           sudo apt-get install p7zip
-#           if go version;then
-#             sudo rm -rf "$(command -v go)"
-#             sudo rm -rf /usr/local/go
-#           fi
-#           wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-#           export PATH=$PATH:/usr/local/go/bin
-#           printf "%s" "PATH=$PATH:/usr/local/go/bin">>$HOME/.profile
-#           source ~/.profile
-#           sudo cp -r /usr/local/go/bin/* /usr/bin
-#           go version
+#  test:
           
   # This workflow contains a single job called "build"
-  Download:
+  build:
     # The type of runner that the job will run on
-    runs-on: windows-2022
+    runs-on: mac-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: container
-        shell: bash
+      - name: build openssl
         run: |
-          bash
-          choco install wget
-          choco install mingw
-          choco install make
-          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
-          tar zxvf libressl-3.5.2.tar.gz
-          cd libressl-3.5.2 
-          ./config no-shared LDFLAGS="-static" --prefix="\/usr/local"
-          echo "-------------------"
-          pwd
-          make
-          echo "++++++++++++++++"
-          make install
-
-      # cd ..
-      # wget https://www.zlib.net/zlib-1.2.12.tar.gz
-      # tar zxvf zlib-1.2.12.tar.gz 
-      # cd zlib-1.2.12 && {
-      #   ./configure --static
-      #   make
-      #   make install
-      # }
-      # wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
-      # tar zxvf libssh2-1.10.0.tar.gz 
-      # cd libssh2-libssh2-1.10.0 && {
-      #   LDFLAGS="-static" CFLAGS="-DHAVE_OPAQUE_STRUCTS=1 "   ./configure
-      #   make
-      #   make install
-      # }
-      # wget https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
-      # tar zxvf curl-7_83_1.tar.gz
-      # cd curl-curl-7_83_1 && {
-      #   autoreconf -fi
-      #   LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/curl
-      #   make -j4 LDFLAGS="-static -all-static"
-      #   make install
-      # }
-
-          
+         git clone https://github.com/openssl/openssl.git
+         cd openssl && {
+           git checkout openssl-3.0.0
+           ./config -fPIC no-shared --prefix=$GITHUB_WORKSPACE/openssl
+           make
+           make install
+         }
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a openssl.7z $GITHUB_WORKSPACE/openssl
+      - uses: actions/upload-artifact@v3
+        with:
+          path: openssl.7z
