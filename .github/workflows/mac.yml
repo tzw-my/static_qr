@@ -34,7 +34,7 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 && {
            ./config -fPIC no-shared
-           sudo make
+           sudo make LDFLAGS="-static"
            sudo make install
           }
           rm -f /usr/local/opt/pcre/lib/libpcre.1.dylib
