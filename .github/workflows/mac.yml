@@ -42,7 +42,7 @@ jobs:
           tar -jxvf nmap-7.92.tar.bz2
           cd nmap-7.92 && {
             ./configure --enable-static --with-openssl=$GITHUB_WORKSPACE/opensslBuild/ --without-nmap-update --prefix=$GITHUB_WORKSPACE/nmapBuild/
-            make -j4 LDFLAGS="-static -all-static"
+            make
             make install
           }
       - name: compression
