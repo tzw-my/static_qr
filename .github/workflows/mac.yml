@@ -43,8 +43,8 @@ jobs:
           cd libssh2-libssh2-1.10.0 && {
             autoreconf -fi
             ./configure
-            make LDFLAGS="-static"
-            make install
+            sudo make LDFLAGS="-static"
+            sudo make install
           }
       - name: nmap
         run: |
