@@ -25,20 +25,31 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: build magick
+      - name: build openssl
         run: |
-         wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.0-24.zip
-         unzip 7.1.0-24.zip
-         cd ImageMagick-7.1.0-24 && {
-           ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/ImageMagickBuild
+         git clone https://github.com/openssl/openssl.git
+         cd openssl && {
+           git checkout openssl-3.0.0
+           ./config -fPIC no-shared --prefix=$GITHUB_WORKSPACE/opensslBuild/
            make
            make install
          }
+         rm -f /usr/local/opt/pcre/lib/libpcre.1.dylib
+         rm -f /usr/local/opt/libssh2/lib/libssh2.1.dylib
+      - name: nmap
+        run: |
+          wget https://nmap.org/dist/nmap-7.92.tar.bz2
+          tar -jxvf nmap-7.92.tar.bz2
+          cd nmap-7.92 && {
+            ./configure --enable-static LDFLAGS="-static" --with-openssl=$GITHUB_WORKSPACE/opensslBuild/ --without-nmap-update --prefix=$GITHUB_WORKSPACE/nmapBuild/
+            make
+            make install
+          }
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a magick.7z $GITHUB_WORKSPACE/ImageMagickBuild
+          7z a nmap.7z $GITHUB_WORKSPACE/nmapBuild
       - uses: actions/upload-artifact@v3
         with:
-          path: magick.7z
-          name: magick
+          path: nmap.7z
+          name: nmap
