@@ -30,7 +30,7 @@ jobs:
          git clone https://github.com/openssl/openssl.git
          cd openssl && {
            git checkout openssl-3.0.0
-           ./config -fPIC no-shared --prefix=$GITHUB_WORKSPACE/opensslBuild/
+           ./config -fPIC no-shared
            make
            make install
          }
@@ -41,7 +41,7 @@ jobs:
           wget https://nmap.org/dist/nmap-7.92.tar.bz2
           tar -jxvf nmap-7.92.tar.bz2
           cd nmap-7.92 && {
-            ./configure --enable-static --with-openssl=$GITHUB_WORKSPACE/opensslBuild/ --without-nmap-update --prefix=$GITHUB_WORKSPACE/nmapBuild/
+            ./configure --enable-static --with-openssl --without-nmap-update --prefix=$GITHUB_WORKSPACE/nmapBuild/
             make
             make install
           }
