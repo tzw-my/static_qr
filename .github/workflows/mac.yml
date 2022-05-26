@@ -31,8 +31,8 @@ jobs:
          cd openssl && {
            git checkout openssl-3.0.0
            ./config -fPIC no-shared
-           make
-           make install
+           sudo make
+           sudo make install
          }
          rm -f /usr/local/opt/pcre/lib/libpcre.1.dylib
          rm -f /usr/local/opt/libssh2/lib/libssh2.1.dylib
