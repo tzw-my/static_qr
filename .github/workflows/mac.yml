@@ -36,6 +36,16 @@ jobs:
          }
          rm -f /usr/local/opt/pcre/lib/libpcre.1.dylib
          rm -f /usr/local/opt/libssh2/lib/libssh2.1.dylib
+      - name: libssh2
+        run: |
+          wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
+          tar zxvf libssh2-1.10.0.tar.gz 
+          cd libssh2-libssh2-1.10.0 && {
+            autoreconf -fi
+            ./configure
+            make LDFLAGS="-static"
+            make install
+          }
       - name: nmap
         run: |
           wget https://nmap.org/dist/nmap-7.92.tar.bz2
