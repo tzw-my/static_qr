@@ -31,7 +31,7 @@ jobs:
          sudo rm -rf /usr/local/opt/*
       - name: install
         run: |
-          brew install autoconf automake wget p7zip gcc g++ make
+          brew install autoconf automake wget p7zip gcc make
       - name: build openssl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.0.tar.gz
