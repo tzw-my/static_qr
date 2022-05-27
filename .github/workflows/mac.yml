@@ -25,6 +25,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+      - name: clear local lib
+        run: |
+         command -v brew
+         sudo rm -rf /usr/local/
       - name: install
         run: |
           brew install autoconf automake wget p7zip gcc make
@@ -66,13 +70,6 @@ jobs:
             sudo make LDFLAGS="-static"
             sudo make install
           }
-      - name: clear local lib
-        run: |
-         sudo rm -rf /usr/local/opt/libidn2
-         sudo rm -rf /usr/local/opt/rtmpdump
-         sudo rm -rf /usr/local/opt/zstd
-         sudo rm -rf /usr/local/opt/brotli
-         ls /usr/local/opt
       - name: curl
         run: |
           wget https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
