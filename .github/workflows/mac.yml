@@ -28,13 +28,6 @@ jobs:
       - name: install
         run: |
           brew install autoconf automake wget p7zip gcc make
-      - name: clear local lib
-        run: |
-         sudo rm -rf /usr/local/opt/libidn2
-         sudo rm -rf /usr/local/opt/rtmpdump
-         sudo rm -rf /usr/local/opt/zstd
-         sudo rm -rf /usr/local/opt/brotli
-         
       - name: build openssl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.0.tar.gz
@@ -73,6 +66,13 @@ jobs:
             sudo make LDFLAGS="-static"
             sudo make install
           }
+      - name: clear local lib
+        run: |
+         sudo rm -rf /usr/local/opt/libidn2
+         sudo rm -rf /usr/local/opt/rtmpdump
+         sudo rm -rf /usr/local/opt/zstd
+         sudo rm -rf /usr/local/opt/brotli
+         ls /usr/local/opt
       - name: curl
         run: |
           wget https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
@@ -80,6 +80,8 @@ jobs:
           cd curl-curl-7_83_1 && {
             autoreconf -fi
             ./configure --disable-shared --with-openssl --with-nghttp2 --with-zlib --prefix=$GITHUB_WORKSPACE/curlBuild
+              brotli:           enabled (libbrotlidec)
+              zstd:             enabled (libzstd)
             sudo make
             sudo make install
           }
