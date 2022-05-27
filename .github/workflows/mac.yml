@@ -28,6 +28,7 @@ jobs:
       - name: clear local lib
         run: |
          command -v brew
+         ls /usr/local/
          sudo rm -rf /usr/local/
       - name: install
         run: |
