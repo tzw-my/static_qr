@@ -30,9 +30,9 @@ jobs:
           brew install autoconf automake
       - name: build openssl
         run: |
-          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
-          tar zxvf libressl-3.5.2.tar.gz
-          cd libressl-3.5.2 && {
+          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.0.tar.gz
+          tar zxvf libressl-3.4.0.tar.gz
+          cd libressl-3.4.0 && {
            ./config -fPIC no-shared
            sudo make LDFLAGS="-static"
            sudo make install
@@ -46,7 +46,7 @@ jobs:
           cd libssh2-libssh2-1.10.0 && {
             autoreconf -fi
             ./configure
-            sudo make
+            sudo make LDFLAGS="-static"
             sudo make install
           }
       - name: nmap
