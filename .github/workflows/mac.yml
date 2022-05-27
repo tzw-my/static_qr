@@ -25,15 +25,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+      - name: install
+        run: |
+          brew install autoconf automake wget p7zip gcc make
       - name: clear local lib
         run: |
          sudo rm -rf /usr/local/opt/libidn2
          sudo rm -rf /usr/local/opt/rtmpdump
          sudo rm -rf /usr/local/opt/zstd
          sudo rm -rf /usr/local/opt/brotli
-      - name: install
-        run: |
-          brew install autoconf automake wget p7zip gcc make
+         
       - name: build openssl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.0.tar.gz
