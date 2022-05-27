@@ -27,7 +27,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: clear local lib
         run: |
-         sudo rm -rf  /usr/local/*
+         ls /usr/local/opt/
+         sudo rm -rf /usr/local/opt/*
       - name: install
         run: |
           brew install autoconf automake wget p7zip gcc g++ make
