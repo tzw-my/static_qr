@@ -72,7 +72,7 @@ jobs:
           tar zxvf curl-7_83_1.tar.gz
           cd curl-curl-7_83_1 && {
             autoreconf -fi
-            ./configure --disable-shared  --with-openssl --with-nghttp2 --with-zlib --without-librtmp --without-winidn --without-brotli --without-zstd --prefix=$GITHUB_WORKSPACE/curlBuild
+            ./configure --disable-shared  --with-openssl --with-nghttp2 --with-zlib --without-librtmp --without-winidn --without-brotli --without-zstd --without-libidn2 --prefix=$GITHUB_WORKSPACE/curlBuild
             sudo make
             sudo make install
           }
