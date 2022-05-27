@@ -80,8 +80,6 @@ jobs:
           cd curl-curl-7_83_1 && {
             autoreconf -fi
             ./configure --disable-shared --with-openssl --with-nghttp2 --with-zlib --prefix=$GITHUB_WORKSPACE/curlBuild
-              brotli:           enabled (libbrotlidec)
-              zstd:             enabled (libzstd)
             sudo make
             sudo make install
           }
