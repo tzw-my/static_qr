@@ -25,18 +25,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: clear local lib
-        run: |
-         sudo rm -rf /usr/local/Caskroom
-         sudo rm -rf /usr/local/Cellar
-         sudo rm -rf /usr/local/Frameworks
-         sudo rm -rf /usr/local/aws-cli
-         sudo rm -rf /usr/local/include
-         sudo rm -rf /usr/local/microsoft
-         sudo rm -rf /usr/local/miniconda
-         sudo rm -rf /usr/local/opt
-         sudo rm -rf /usr/local/sessionmanagerplugin
-         sudo rm -rf /usr/local/var
       - name: install
         run: |
           brew install autoconf automake wget p7zip gcc make
@@ -84,7 +72,7 @@ jobs:
           tar zxvf curl-7_83_1.tar.gz
           cd curl-curl-7_83_1 && {
             autoreconf -fi
-            ./configure --disable-shared --with-openssl --with-nghttp2 --with-zlib --prefix=$GITHUB_WORKSPACE/curlBuild
+            ./configure --disable-shared  --with-openssl --with-nghttp2 --with-zlib --without-librtmp --without-winidn --without-brotli --without-zstd --prefix=$GITHUB_WORKSPACE/curlBuild
             sudo make
             sudo make install
           }
