@@ -28,7 +28,10 @@ jobs:
       - name: install
         shell: bash
         run: | 
-          choco install wget libtool automake autoconf
+          choco install wget
+          choco install libtool
+          choco install automake
+          choco install autoconf
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
