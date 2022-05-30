@@ -28,7 +28,6 @@ jobs:
       - name: install
         shell: bash
         run: | 
-          choco install p7zip
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
@@ -50,8 +49,8 @@ jobs:
         run: |
           cd  $GITHUB_WORKSPACE
           strip $GITHUB_WORKSPACE/tigBuild/bin/tig
-          7z a tig.7z $GITHUB_WORKSPACE/tigBuild
+          tar zcvf tig.tar.gz $GITHUB_WORKSPACE/tigBuild
       - uses: actions/upload-artifact@v3
         with:
-          path: tig.7z
+          path: tig.tar.gz
           name: tig
