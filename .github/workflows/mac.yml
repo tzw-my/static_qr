@@ -32,7 +32,7 @@ jobs:
       - name: install
         shell: bash
         run: | 
-          msys2 pacman -S automake autoconf
+          msys2.exe pacman -S automake autoconf
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
