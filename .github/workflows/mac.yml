@@ -29,7 +29,7 @@ jobs:
       - name: install
         run: | 
           apk  update
-          apk add gcc g++ make vim curl wget git automake libtool pkgconfig autoconf
+          apk add gcc g++ make vim curl wget git automake libtool pkgconfig autoconf p7zip
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
