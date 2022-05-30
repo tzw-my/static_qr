@@ -50,6 +50,7 @@ jobs:
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
+          strip $GITHUB_WORKSPACE/tigBuild/bin/tig
           7z a tig.7z $GITHUB_WORKSPACE/tigBuild
       - uses: actions/upload-artifact@v3
         with:
