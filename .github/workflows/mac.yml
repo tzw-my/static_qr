@@ -29,15 +29,13 @@ jobs:
         shell: bash
         run: | 
           choco install wget
-          choco install libtool
-          choco install automake
-          choco install autoconf
+          msys2.exe pacman -S automake autoconf
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
             LDFLAGS="-static" ./configure
             make
-            make install
+            sudo make install
           }
           cd .. && {
             wget https://github.com/jonas/tig/archive/refs/tags/tig-2.5.5.tar.gz
@@ -46,7 +44,7 @@ jobs:
               . ./autogen.sh
               LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
               make
-              make install
+              sudo make install
             }
           }
       - name: compression
