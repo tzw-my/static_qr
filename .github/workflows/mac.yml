@@ -21,17 +21,16 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: macos-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - name: install
-        shell: bash
         run: | 
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
-            LDFLAGS="-static" ./configure
+            ./configure
             make
             make install
           }
@@ -40,7 +39,7 @@ jobs:
             tar zxvf tig-2.5.5.tar.gz
             cd tig-tig-2.5.5/ && {
               . ./autogen.sh
-              LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
+              ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
               make
               make install
             }
