@@ -28,7 +28,7 @@ jobs:
       - name: install
         run: | 
           brew install autoconf automake
-          sudo -rf /usr/local/opt/pcre2/lib/libpcre2-posix.3.dylib
+          sudo rm -rf /usr/local/opt/pcre2/lib/libpcre2-posix.3.dylib
           sudo rm -rf /usr/local/opt/pcre2/lib/libpcre2-8.0.dylib
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
