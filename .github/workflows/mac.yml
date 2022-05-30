@@ -27,5 +27,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-      docker run -it alpine 
-      apk add update 
+          docker run -it alpine 
+          apk add update 
