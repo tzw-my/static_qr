@@ -21,19 +21,19 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: windows-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - name: install
+        shell: bash
         run: | 
-          brew install autoconf automake
-          sudo rm -rf /usr/local/opt/pcre2/lib/libpcre2-posix.3.dylib
-          sudo rm -rf /usr/local/opt/pcre2/lib/libpcre2-8.0.dylib
+          choco install wget msys2
+          msys pacman -S automake autoconf
           wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
           tar zxvf ncurses-6.3.tar.gz
           cd ncurses-6.3/ && {
-            ./configure
+            LDFLAGS="-static" ./configure
             make
             sudo make install
           }
@@ -42,7 +42,7 @@ jobs:
             tar zxvf tig-2.5.5.tar.gz
             cd tig-tig-2.5.5/ && {
               . ./autogen.sh
-              ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
+              LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
               make
               sudo make install
             }
