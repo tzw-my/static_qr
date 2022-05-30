@@ -43,9 +43,8 @@ jobs:
             cd tig-tig-2.5.5/ && {
               . ./autogen.sh
               LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
-              echo "------"
-              pwd
-              echo "$GITHUB_WORKSPACE/tigBuild"
+              make
+              make install
             }
           }
       - name: compression
