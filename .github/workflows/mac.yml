@@ -21,66 +21,11 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          brew install autoconf automake wget p7zip gcc make
-      - name: build openssl
-        run: |
-          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.0.tar.gz
-          tar zxvf libressl-3.4.0.tar.gz
-          cd libressl-3.4.0 && {
-           ./config -fPIC no-shared
-           sudo make LDFLAGS="-static"
-           sudo make install
-          }
-      - name: zlib
-        run: |
-          wget https://www.zlib.net/zlib-1.2.12.tar.gz
-          tar zxvf zlib-1.2.12.tar.gz
-          cd zlib-1.2.12 && {
-            ./configure --static
-            sudo make
-            sudo make install
-          }
-      - name: libssh2
-        run: |
-          wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
-          tar zxvf libssh2-1.10.0.tar.gz 
-          cd libssh2-libssh2-1.10.0 && {
-            autoreconf -fi
-            ./configure
-            sudo make LDFLAGS="-static"
-            sudo make install
-          }
-      - name: nghttp2
-        run: |
-          wget https://codeload.github.com/nghttp2/nghttp2/tar.gz/refs/tags/v1.47.0
-          tar zxvf v1.47.0
-          cd nghttp2-1.47.0 && {
-            autoreconf -fi
-            ./configure --enable-static
-            sudo make LDFLAGS="-static"
-            sudo make install
-          }
-      - name: curl
-        run: |
-          wget https://github.com/curl/curl/archive/refs/tags/curl-7_83_1.tar.gz
-          tar zxvf curl-7_83_1.tar.gz
-          cd curl-curl-7_83_1 && {
-            autoreconf -fi
-            ./configure --disable-shared  --with-openssl --with-nghttp2 --with-zlib --without-librtmp --without-winidn --without-brotli --without-zstd --without-libidn2 --prefix=$GITHUB_WORKSPACE/curlBuild
-            sudo make
-            sudo make install
-          }
-      - name: compression
-        run: |
-          cd  $GITHUB_WORKSPACE
-          7z a curl.7z $GITHUB_WORKSPACE/curlBuild
-      - uses: actions/upload-artifact@v3
-        with:
-          path: curl.7z
-          name: curl
+      docker run -it alpine 
+      apk add update
