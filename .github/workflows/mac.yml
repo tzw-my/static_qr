@@ -29,4 +29,27 @@ jobs:
       - name: install
         run: | 
           apk  update
-          gcc -v
+          apk add gcc g++ make vim curl wget git automake libtool pkgconfig autoconf
+          wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
+          tar zxvf ncurses-6.3.tar.gz
+          cd ncurses-6.3/ && {
+            LDFLAGS="-static" ./configure
+            make
+            make install
+          }
+          cd .. && {
+            wget https://github.com/jonas/tig/archive/refs/tags/tig-2.5.5.tar.gz
+            tar zxvf tig-2.5.5.tar.gz
+            cd tig-tig-2.5.5/ && {
+              . ./autogen.sh
+              LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
+            }
+          }
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a tig.7z $GITHUB_WORKSPACE/tigBuild
+      - uses: actions/upload-artifact@v3
+        with:
+          path: tig.7z
+          name: tig
