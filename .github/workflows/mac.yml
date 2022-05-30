@@ -28,4 +28,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: | 
-          apk add update 
+          apk  update 
+          
