@@ -27,35 +27,70 @@ jobs:
       - uses: actions/checkout@v2
       - name: msys
         run: |
-          choco install wget 
-          choco install msys2
-      - name: install
-        shell: bash
-        run: | 
-          msys2.exe pacman -S automake autoconf
-          wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
-          tar zxvf ncurses-6.3.tar.gz
-          cd ncurses-6.3/ && {
-            LDFLAGS="-static" ./configure
-            make
-            sudo make install
-          }
-          cd .. && {
-            wget https://github.com/jonas/tig/archive/refs/tags/tig-2.5.5.tar.gz
-            tar zxvf tig-2.5.5.tar.gz
-            cd tig-tig-2.5.5/ && {
-              . ./autogen.sh
-              LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
-              make
-              make install
-            }
-          }
+          choco install wget p7zip unzip
+          cd $GITHUB_WORKSPACE
+          mkdir aliyun
+          cd aliyun
+          wget https://github.com/aliyun/aliyun-cli/releases/download/v3.0.121/aliyun-cli-windows-3.0.121-amd64.zip
+          unzip aliyun-cli-windows-3.0.121-amd64.zip
+          strip aliyun.exe
+          mv aliyun.exe aliyun.win.x64.exe 
+          7za a -v970k aliyun.win.x64.exe.7z aliyun.win.x64.exe 
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          strip $GITHUB_WORKSPACE/tigBuild/bin/tig
-          tar zcvf tig.tar.gz $GITHUB_WORKSPACE/tigBuild
+          7z a aliyun_win.7z $GITHUB_WORKSPACE/aliyun
       - uses: actions/upload-artifact@v3
         with:
-          path: tig.tar.gz
-          name: tig
+          path: aliyun_win.7z
+          name: aliyun_win
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: msys
+        run: |
+          brew install wget p7zip
+          cd $GITHUB_WORKSPACE
+          mkdir aliyun_mac
+          cd aliyun_mac
+          wget https://github.com/aliyun/aliyun-cli/releases/download/v3.0.121/aliyun-cli-macosx-3.0.121-amd64.tgz
+          tar zxvf aliyun-cli-macosx-3.0.121-amd64.tgz
+          strip aliyun
+          mv aliyun aliyun.darwin.x64 
+          7za a -v970k liyun.darwin.x64.7z liyun.darwin.x64
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a aliyun_mac.7z $GITHUB_WORKSPACE/aliyun_mac
+      - uses: actions/upload-artifact@v3
+        with:
+          path: aliyun_mac.7z
+          name: aliyun_mac
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: msys
+        run: |
+          apt install wget p7zip
+          cd $GITHUB_WORKSPACE
+          mkdir aliyun_linux
+          cd aliyun_linux
+          wget https://github.com/aliyun/aliyun-cli/releases/download/v3.0.121/aliyun-cli-linux-3.0.121-amd64.tgz
+          tar zxvf aliyun-cli-linux-3.0.121-amd64.tgz
+          strip aliyun
+          mv aliyun aliyun.darwin.x64 
+          7za a -v970k liyun.darwin.x64.7z liyun.darwin.x64
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a aliyun_linux.7z $GITHUB_WORKSPACE/aliyun_linux
+      - uses: actions/upload-artifact@v3
+        with:
+          path: aliyun_linux.7z
+          name: aliyun_linux
