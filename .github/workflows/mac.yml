@@ -34,7 +34,7 @@ jobs:
           cd leptonica/ && {
             git checkout v1.74.3
             autoreconf -fi
-            LDFLAGS="-static"  ./configure
+            ./configure
             make
             sudo make install
           }
