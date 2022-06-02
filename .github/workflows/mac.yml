@@ -30,9 +30,9 @@ jobs:
           brew install autoconf automake wget p7zip gcc make
       - name: build leptonica
         run: |
-          git clone https://hub.fastgit.xyz/DanBloomberg/leptonica.git
-          cd leptonica/ && {
-            git checkout v1.74.3
+          wget https://hub.fastgit.xyz/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
+          tar zxvf 1.82.0.tar.gz
+          cd leptonica-1.82.0/ && {
             autoreconf -fi
             ./configure
             make
@@ -51,9 +51,10 @@ jobs:
           cd tesseract/ &&{
             git checkout 5.0.1
             ./autogen.sh
-            autoreconf -i
+            export PKG_CONFIG=pkg-config
+            export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
             ./configure --enable-shared=no --enable-static=yes --prefix=$GITHUB_WORKSPACE/tesseractBuild
-            make
+            make -j LDFLAGS="-static"
             make install
             strip  $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract
             mv $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract.darwin.x64
