@@ -38,14 +38,14 @@ jobs:
             make
             sudo make install
           }
-      sudo rm -rf /usr/local/lib/liblept.5.dylib
-      sudo rm -rf /usr/local/lib/liblept.dylib
-      sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
-      sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
-      sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
-      sudo rm -rf /usr/local/opt/libtiff/lib/libtiff.5.dylib
-      sudo rm -rf /usr/local/opt/webp/lib/libwebp.7.dylib
-      sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
+          sudo rm -rf /usr/local/lib/liblept.5.dylib
+          sudo rm -rf /usr/local/lib/liblept.dylib
+          sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
+          sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
+          sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
+          sudo rm -rf /usr/local/opt/libtiff/lib/libtiff.5.dylib
+          sudo rm -rf /usr/local/opt/webp/lib/libwebp.7.dylib
+          sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
       - name: tesseract
         run: |
           git clone https://github.com/tesseract-ocr/tesseract.git
