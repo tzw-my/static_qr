@@ -30,7 +30,7 @@ jobs:
           brew install autoconf automake wget p7zip gcc make
       - name: build leptonica
         run: |
-          wget https://hub.fastgit.xyz/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
+          wget https://github.com/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
           tar zxvf 1.82.0.tar.gz
           cd leptonica-1.82.0/ && {
             autoreconf -fi
@@ -48,7 +48,7 @@ jobs:
       # sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
       - name: tesseract
         run: |
-          git clone https://hub.fastgit.xyz/tesseract-ocr/tesseract.git
+          git clone https://github.com/tesseract-ocr/tesseract.git
           cd tesseract/ &&{
             git checkout 5.0.1
             ./autogen.sh
