@@ -21,38 +21,50 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    container: alpine
+    runs-on: macos-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - name: install
-        run: | 
-          apk  update
-          apk add gcc g++ make vim curl wget git automake libtool pkgconfig autoconf p7zip
-          wget https://invisible-island.net/archives/ncurses/ncurses-6.3.tar.gz
-          tar zxvf ncurses-6.3.tar.gz
-          cd ncurses-6.3/ && {
-            LDFLAGS="-static" ./configure
+        run: |
+          brew install autoconf automake wget p7zip gcc make
+      - name: build leptonica
+        run: |
+          wget https://github.com/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
+          tar zxvf 1.82.0.tar.gz
+          cd leptonica-1.82.0/ && {
+            autoreconf -fi
+            ./configure
             make
-            make install
+            sudo make install
           }
-          cd .. && {
-            wget https://github.com/jonas/tig/archive/refs/tags/tig-2.5.5.tar.gz
-            tar zxvf tig-2.5.5.tar.gz
-            cd tig-tig-2.5.5/ && {
-              . ./autogen.sh
-              LDFLAGS="-static" ./configure --prefix=$GITHUB_WORKSPACE/tigBuild
-              make
-              make install
-            }
+             sudo rm -rf /usr/local/lib/liblept.5.dylib
+             sudo rm -rf /usr/local/lib/liblept.dylib
+             sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
+             sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
+             sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
+             sudo rm -rf /usr/local/opt/libtiff/lib/libtiff.5.dylib
+             sudo rm -rf /usr/local/opt/webp/lib/libwebp.7.dylib
+             sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
+      - name: tesseract
+        run: |
+          git clone https://github.com/tesseract-ocr/tesseract.git
+          cd tesseract/ &&{
+            git checkout 5.0.1
+            ./autogen.sh
+            export PKG_CONFIG=pkg-config
+            export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
+            ./configure --disable-shared --prefix=$GITHUB_WORKSPACE/tesseractBuild
+            make -j LDFLAGS="-static -all-static"
+            make install
+            strip  $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract
+            mv $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract.darwin.x64
           }
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          strip $GITHUB_WORKSPACE/tigBuild/bin/tig
-          7z a tig.7z $GITHUB_WORKSPACE/tigBuild
+          7z a tesseract.7z $GITHUB_WORKSPACE/tesseractBuild
       - uses: actions/upload-artifact@v3
         with:
-          path: tig.7z
-          name: tig
+          path: tesseract.7z
+          name: tesseract
