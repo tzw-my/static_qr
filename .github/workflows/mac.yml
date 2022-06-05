@@ -38,6 +38,7 @@ jobs:
             make
             sudo make install
           }
+             sudo rm -rf /usr/local/opt/webp/lib/libwebpmux.3.dylib
              sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
              sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
              sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
