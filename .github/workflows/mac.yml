@@ -54,7 +54,7 @@ jobs:
             export PKG_CONFIG=pkg-config
             export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
             ./configure --disable-shared --prefix=$GITHUB_WORKSPACE/tesseractBuild
-            make -j LDFLAGS="-static -all-static"
+            make -j4 LDFLAGS="-static -all-static"
             make install
             strip  $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract
             mv $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract.darwin.x64
