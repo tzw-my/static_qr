@@ -30,9 +30,6 @@ jobs:
         run: |
           bash
           choco install rust
-          echo "------"
-          choco install cargo
-          echo "++++++++++"
           cargo install --debug cargo-make
           echo "============"
           wget https://github.com/zellij-org/zellij/archive/refs/tags/v0.30.0.tar.gz
