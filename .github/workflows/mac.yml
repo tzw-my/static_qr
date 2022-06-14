@@ -21,50 +21,20 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: windows-2022
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: install
+      - name: container
+        shell: bash
         run: |
-          brew install autoconf automake wget p7zip gcc make
-      - name: build leptonica
-        run: |
-          wget https://github.com/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
-          tar zxvf 1.82.0.tar.gz
-          cd leptonica-1.82.0/ && {
-            autoreconf -fi
-            ./configure
-            make
-            sudo make install
+          bash
+          choco install rust
+          choco install cargo
+          cargo install --debug cargo-make
+          wget https://github.com/zellij-org/zellij/archive/refs/tags/v0.30.0.tar.gz
+          tar zxvf v0.30.0.tar.gz 
+          cd zellij-0.30.0 && {
+            cargo make
           }
-             sudo rm -rf /usr/local/lib/liblept.5.dylib
-             sudo rm -rf /usr/local/opt/webp/lib/libwebpmux.3.dylib
-             sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
-             sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
-             sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
-             sudo rm -rf /usr/local/opt/libtiff/lib/libtiff.5.dylib
-             sudo rm -rf /usr/local/opt/webp/lib/libwebp.7.dylib
-             sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
-      - name: tesseract
-        run: |
-          git clone https://github.com/tesseract-ocr/tesseract.git
-          cd tesseract/ &&{
-            git checkout 5.0.1
-            ./autogen.sh
-            export PKG_CONFIG=pkg-config
-            export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
-            ./configure --disable-shared --prefix=$GITHUB_WORKSPACE/tesseractBuild
-            make -j4 LDFLAGS="-static -all-static"
-            make install
-            strip  $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract
-            mv $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract.darwin.x64
-          }
-      - name: compression
-        run: |
-          cd  $GITHUB_WORKSPACE
-          7z a tesseract.7z $GITHUB_WORKSPACE/tesseractBuild
-      - uses: actions/upload-artifact@v3
-        with:
-          path: tesseract.7z
-          name: tesseract
+          
