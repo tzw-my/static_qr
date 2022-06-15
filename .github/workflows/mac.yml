@@ -29,6 +29,7 @@ jobs:
         shell: bash
         run: |
           bash
+          choco install wget
           choco install rust
           cargo install --debug cargo-make
           echo "============"
