@@ -37,5 +37,6 @@ jobs:
           tar zxvf v0.30.0.tar.gz 
           cd zellij-0.30.0 && {
             cargo make
+            rustc --explain E0599
           }
           
