@@ -24,6 +24,7 @@ jobs:
           choco install make
           choco install strawberryperl
           choco install git
+          choco install perl
           git clone https://github.com/openssl/openssl.git
           cd openssl && {
             echo "--------"
