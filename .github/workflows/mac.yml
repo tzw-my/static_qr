@@ -27,7 +27,7 @@ jobs:
           git clone https://github.com/openssl/openssl.git
           cd openssl && {
             echo "--------"
-            ./config no-shared LDFLAGS="-static"
+            ./config mingw64
             echo "========="
             make
             make install
