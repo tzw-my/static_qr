@@ -23,7 +23,8 @@ jobs:
           choco install mingw
           choco install make
           choco install strawberryperl
-          cpan install Switch JSON LWP::UserAgent Config::Simple
+          choco install git
+          echo "--------"
           git clone https://github.com/openssl/openssl.git
           cd openssl && {
             ./config no-shared LDFLAGS="-static"
