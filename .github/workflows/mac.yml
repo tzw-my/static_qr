@@ -20,52 +20,18 @@ jobs:
         run: |
           bash
           choco install wget
-          choco install mingw
-          choco install make
-          choco install strawberryperl
-          choco install git
-          choco install perl
-          git clone https://github.com/openssl/openssl.git
-          cd openssl && {
-            echo "--------"
-            ./config mingw64
-            echo "========="
-            make
-            make install
-            cd ..
+          choco install openssl
+          choco install cmake
+          choco install unzip
+          wget ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
+          unzip pthreads-w32-2-9-1-release.zip
+          wget https://mosquitto.org/files/source/mosquitto-2.0.9.tar.gz
+          tar zxvf mosquitto-2.0.9.tar.gz
+          cd mosquitto-2.0.9 && {
+            mkdir build
+            cd build && {
+              cmake ../
+              make
+              make install
+            }
           }
-          wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
-          tar libevent-2.1.12-stable.tar.gz 
-          cd libevent-2.1.12-stable && {
-            make -fwin32/Makefile.gcc
-            ./configure
-            make
-            make install
-            cd ..
-          }
-          wget https://invisible-island.net/datafiles/release/ncurses.tar.gz
-          tar zxvf ncurses.tar.gz 
-          cd ncurses-6.3 && {
-            ./configure  \
-              --with-default-terminfo-dir=/usr/share/terminfo \
-              --with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo" \
-              --enable-pc-files
-            make
-            make install
-            cd ..
-          }
-          wget https://github.com/tmux/tmux/releases/download/3.2a/tmux-3.2a.tar.gz
-          tar zxvf tmux-3.2a.tar.gz
-          cd tmux-3.2a && {
-            ./configure --enable-static --prefix=$GITHUB_WORKSPACE/tmuxBuild
-
-          }
-      - name: compression
-        run: |
-          cd  $GITHUB_WORKSPACE
-          strip $GITHUB_WORKSPACE/tigBuild/bin/tmux
-          tar zcvf tmux.tar.gz $GITHUB_WORKSPACE/tigBuild
-      - uses: actions/upload-artifact@v3
-        with:
-          path: tmux.tar.gz
-          name: tmux
