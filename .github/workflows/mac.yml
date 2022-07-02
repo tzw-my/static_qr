@@ -9,22 +9,14 @@ on:
     branches: [ main ]
 
   workflow_dispatch:
-
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: container
-        shell: bash
+      - name: install
         run: |
-          bash
-          choco install wget
-          choco install openssl
-          choco install cmake
-          choco install unzip
-          wget ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
-          unzip pthreads-w32-2-9-1-release.zip
+          brew install c-ares libwebsockets openssl docbook-xsl cjson cmake gcc g++
           wget https://mosquitto.org/files/source/mosquitto-2.0.9.tar.gz
           tar zxvf mosquitto-2.0.9.tar.gz
           cd mosquitto-2.0.9 && {
@@ -32,7 +24,6 @@ jobs:
             cd build && {
               cmake ../
               ls
-              echo "----------"
               make
               make install
             }
