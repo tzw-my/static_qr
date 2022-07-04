@@ -13,19 +13,6 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: install
-        run: |
-          brew install aacgain
-          brew install c-ares libwebsockets docbook-xsl openssl  cjson cmake gcc g++ wget
-          wget https://mosquitto.org/files/source/mosquitto-2.0.9.tar.gz
-          tar zxvf mosquitto-2.0.9.tar.gz
-          cd mosquitto-2.0.9 && {
-            mkdir build
-            cd build && {
-              cmake ../
-              ls
-              make
-              make install
-            }
-          }
+      - name: install x-cmd && setup ssh publish
+      - uses: x-cmd/checkout
+        run: echo "---"
