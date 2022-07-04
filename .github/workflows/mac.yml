@@ -10,10 +10,13 @@ on:
 
   workflow_dispatch:
 jobs:
-  build:
+  bot:
     runs-on: ubuntu-latest
     steps:
-      - uses: x-cmd/checkout
       - name: install x-cmd && setup ssh publish
-        run: |
-          echo "213"
+        with:
+          ref: main
+          sshkey: ${{ secrets.SSH_PRIVATE_KEY }}
+          user/email: agent-zero/0@x-cmd.com
+      - uses: x-cmd/checkout
+        run: xws pub0
