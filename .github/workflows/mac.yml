@@ -13,5 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: install x-cmd && setup ssh publish
       - uses: x-cmd/checkout
+      - name: install x-cmd && setup ssh publish
+      run: | 
+        echo "123"
