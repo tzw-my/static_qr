@@ -1,22 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
+name: Use upload artifact
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+  # push:
   workflow_dispatch:
+
 jobs:
-  bot:
+  publisher:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      git_user: agent-zero
+      git_email: 0@x-cmd.com
+      ___X_CMD_CODESORUCE_REPO: dev
+      CONCURRENCY: 10
     steps:
-      - name: install x-cmd && setup ssh publish
+      - name: test
+        run: |
+          x ws art
+      - name: main
+        uses: x-cmd/action@main
         with:
-          ref: main
-          sshkey: ${{ secrets.SSH_PRIVATE_KEY }}
-          user/email: agent-zero/0@x-cmd.com
-        run: xws pub0
-      - uses: x-cmd/checkout
+          # code: x log +yanfa && x ws pub || true
+          code: x ws art || true
+          artifact_name: artifact
+          artifact_path: ~/work/action/action/ws/.artifact
