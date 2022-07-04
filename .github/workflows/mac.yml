@@ -13,6 +13,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        run: |
-          echo "----"
+      - name: install x-cmd && setup ssh publish
+        uses: x-cmd/checkout
