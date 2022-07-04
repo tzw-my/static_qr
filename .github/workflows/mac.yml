@@ -18,5 +18,5 @@ jobs:
           ref: main
           sshkey: ${{ secrets.SSH_PRIVATE_KEY }}
           user/email: agent-zero/0@x-cmd.com
-      - uses: x-cmd/checkout
         run: xws pub0
+      - uses: x-cmd/checkout
