@@ -15,3 +15,5 @@ jobs:
     steps:
       - uses: x-cmd/checkout
       - name: install x-cmd && setup ssh publish
+        run: |
+          echo "213"
