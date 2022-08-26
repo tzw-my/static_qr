@@ -24,7 +24,7 @@ jobs:
           choco install make
           git clone --recursive https://github.com/xmake-io/xmake.git
           cd xmake && {
-            make build LDFLAGS=--static
+            make build
             make install PREFIX=$GITHUB_WORKSPACE/xmake
           }
       - name: compression
