@@ -1,26 +1,38 @@
-name: Use upload artifact
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
 on:
   push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
   workflow_dispatch:
 
 jobs:
-  publisher:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ssh_key: ${{ secrets.SSH_PRIVATE_KEY }}
-      git_user: agent-zero
-      git_email: 0@x-cmd.com
-      ___X_CMD_CODESORUCE_REPO: dev
-      CONCURRENCY: 10
+  build:
+    runs-on: windows-2022
     steps:
-      - name: install
+      - uses: actions/checkout@v2
+      - name: container
+        shell: bash
         run: |
-          eval "$(curl https://get.x-cmd.com/dev)"
-          x ws art
-      - uses: x-cmd/action@main
+          bash
+          choco install wget
+          choco install mingw
+          choco install make
+          git clone --recursive https://github.com/xmake-io/xmake.git
+          cd xmake && {
+            make build LDFLAGS=--static
+            make install PREFIX=$GITHUB_WORKSPACE/xmake
+          }
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          strip $GITHUB_WORKSPACE/xmake/bin/xmake
+          tar zcvf xmake.tar.gz $GITHUB_WORKSPACE/xmake
+      - uses: actions/upload-artifact@v3
         with:
-          # code: x log +yanfa && x ws pub || true
-          code: x ws art || true
-          artifact_name: artifact
-          artifact_path: ~/work/action/action/ws/.artifact
+          path: xmake.tar.gz
+          name: xmake
