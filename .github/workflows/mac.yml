@@ -30,14 +30,23 @@ jobs:
         run: |
           brew update
           brew install autoconf
+          echo "autoconf 完成"
           brew install automake
+          echo "automake 完成"
           brew install libtool
+          echo "libtool 完成"
           brew install pkg-config
+          echo "pkg-config 完成"
           brew install libpng
+          echo "libpng 完成"
           brew install wget
+          echo "wget 完成"
           brew install unzip
+          echo "unzip 完成"
           brew install git
+          echo "git 完成"
           brew install p7zip
+          echo "p7zip 完成"
           mkdir qr
 
       - name: Download libqrencode
