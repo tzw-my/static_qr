@@ -68,3 +68,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: $GITHUB_WORKSPACE/qr.7z
+        run: |
+          pwd
+          ls
