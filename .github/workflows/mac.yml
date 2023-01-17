@@ -39,8 +39,6 @@ jobs:
           echo "pkg-config 完成"
           brew install libpng
           echo "libpng 完成"
-          brew install wget
-          echo "wget 完成"
           brew install unzip
           echo "unzip 完成"
           brew install git
