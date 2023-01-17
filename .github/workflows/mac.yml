@@ -64,10 +64,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           7z a qr.7z $GITHUB_WORKSPACE/qr
+          ls
 
       - uses: actions/upload-artifact@v3
         with:
           path: $GITHUB_WORKSPACE/qr.7z
-        run: |
-          pwd
-          ls
