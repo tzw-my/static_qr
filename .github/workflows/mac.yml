@@ -29,11 +29,11 @@ jobs:
       - name: Download xmake
         run: |
           bash <(curl -fsSL https://xmake.io/shget.text)
-
-      # - name: Download libqrencode
-      #   run: |
-      #     wget https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
-      #     unzip v4.1.1.zip
+          source ~/.xmake/profile
+      - name: repo path
+        run: |
+          cd "${GITHUB_ACTION_PATH}"
+          ls
 
       # - name: Static build
       #   run: |
