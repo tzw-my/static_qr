@@ -29,15 +29,12 @@ jobs:
       - name: Download xmake
         run: |
           bash <(curl -fsSL https://xmake.io/shget.text)
-          source ~/.xmake/profile
-          xmake
-      # - name: repo path
-      #   run: |
-      #     cd "${GITHUB_ACTION_PATH}"
 
-      # - name: Static build
-      #   run: |
-      #     xmake f -p macosx --toolchain=macosx
+      - name: Static build
+        run: |
+          source ~/.xmake/profile
+          cd "${GITHUB_ACTION_PATH}"
+          xmake f -p macosx --toolchain=macosx
 
       # - name: compression
       #   run: |
