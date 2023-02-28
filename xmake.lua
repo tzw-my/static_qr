@@ -2,7 +2,7 @@ add_rules("mode.debug", "mode.release")
 
 -- https://zhuanlan.zhihu.com/p/370008884
 -- I don't know how system = true means not using system package
-add_requires("libsodium", {system = false})
+-- add_requires("libsodium", {system = false})
 
 -- TODO: Every system has muslcc but can't use it?
 -- add_requires("muslcc")
