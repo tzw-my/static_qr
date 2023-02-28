@@ -34,7 +34,7 @@ jobs:
         run: |
           source ~/.xmake/profile
           cd "${GITHUB_ACTION_PATH}"
-          xrepo install -p macosx -a arm64 libsodium
+          xrepo install -p macosx -a arm64 libsodium -y
           xmake f -p macosx -a arm64 -y
           xmake
           7zr a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
