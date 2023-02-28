@@ -35,10 +35,7 @@ jobs:
           source ~/.xmake/profile
           cd "${GITHUB_ACTION_PATH}"
           xmake f -p macosx -y --toolchain=macosx
-          xmake
-          ls -lh
-          cd build
-          ls -lh
+          xmake sodium
           7zr a -r sodium.7z build/
 
       - uses: actions/upload-artifact@v3
