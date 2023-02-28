@@ -34,10 +34,10 @@ jobs:
         run: |
           source ~/.xmake/profile
           cd "${GITHUB_ACTION_PATH}"
-          xmake f -p macosx -a arm64 -y --toolchain=macosx
+          xmake f -p macosx -a arm64 -y
           xmake
           7zr a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
-
+          
       - uses: actions/upload-artifact@v3
         with:
           path: "sodium.7z"
