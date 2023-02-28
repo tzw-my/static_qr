@@ -40,7 +40,7 @@ jobs:
       - name: compression
         run: |
           cd "${GITHUB_ACTION_PATH}"
-          7z a sodium.7z build/
+          7zr a sodium.7z build/
           ls
 
       - uses: actions/upload-artifact@v3
