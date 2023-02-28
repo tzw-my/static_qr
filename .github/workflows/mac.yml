@@ -32,16 +32,11 @@ jobs:
           source ~/.xmake/profile
       - name: repo path
         run: |
-          cd "${GITHUB_ACTION_PATH}"
-          ls
+          cd "${GITHUB_ACTION_PATH}/sodium-cmd"
 
-      # - name: Static build
-      #   run: |
-      #     cd libqrencode-4.1.1
-      #     . ./autogen.sh
-      #     ./configure --prefix="$GITHUB_WORKSPACE/qr"
-      #     make -j4 LDFLAGS="-static -all-static"
-      #     make install
+      - name: Static build
+        run: |
+          xmake f -p macosx --toolchain=macosx
 
       # - name: compression
       #   run: |
