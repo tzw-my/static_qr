@@ -32,7 +32,7 @@ jobs:
           source ~/.xmake/profile
       - name: repo path
         run: |
-          cd "${GITHUB_ACTION_PATH}/sodium-cmd"
+          cd "${GITHUB_ACTION_PATH}"
 
       - name: Static build
         run: |
