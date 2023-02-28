@@ -30,21 +30,21 @@ jobs:
         run: |
           bash <(curl -fsSL https://xmake.io/shget.text)
           source ~/.xmake/profile
-      - name: repo path
-        run: |
-          cd "${GITHUB_ACTION_PATH}"
+          xmake
+      # - name: repo path
+      #   run: |
+      #     cd "${GITHUB_ACTION_PATH}"
 
-      - name: Static build
-        run: |
-          xmake f -p macosx --toolchain=macosx
+      # - name: Static build
+      #   run: |
+      #     xmake f -p macosx --toolchain=macosx
 
       # - name: compression
       #   run: |
-      #     cd $GITHUB_WORKSPACE
-      #     7z a qr.7z $GITHUB_WORKSPACE/qr
-      #     echo $GITHUB_WORKSPACE
+      #     cd "${GITHUB_ACTION_PATH}"
+      #     7z a sodium.7z "${GITHUB_ACTION_PATH}/build"
       #     ls
 
       # - uses: actions/upload-artifact@v3
       #   with:
-      #     path: qr.7z
+      #     path: "${GITHUB_ACTION_PATH}/sodium.7z"
