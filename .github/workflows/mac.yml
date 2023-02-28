@@ -35,14 +35,8 @@ jobs:
           source ~/.xmake/profile
           cd "${GITHUB_ACTION_PATH}"
           xmake f -p macosx -y --toolchain=macosx
-          ls
-
-      - name: compression
-        run: |
-          cd "${GITHUB_ACTION_PATH}"
-          7zr a sodium.7z build/
-          ls
-
+          7zr a -r sodium.7z build/
+          
       - uses: actions/upload-artifact@v3
         with:
           path: "sodium.7z"
