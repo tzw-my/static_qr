@@ -34,14 +34,14 @@ jobs:
         run: |
           source ~/.xmake/profile
           cd "${GITHUB_ACTION_PATH}"
-          xmake f -p macosx --toolchain=macosx
+          xmake f -p macosx -y --toolchain=macosx
 
-      # - name: compression
-      #   run: |
-      #     cd "${GITHUB_ACTION_PATH}"
-      #     7z a sodium.7z "${GITHUB_ACTION_PATH}/build"
-      #     ls
+      - name: compression
+        run: |
+          cd "${GITHUB_ACTION_PATH}"
+          7z a sodium.7z "${GITHUB_ACTION_PATH}/build"
+          ls
 
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     path: "${GITHUB_ACTION_PATH}/sodium.7z"
+      - uses: actions/upload-artifact@v3
+        with:
+          path: "${GITHUB_ACTION_PATH}/sodium.7z"
