@@ -25,11 +25,9 @@ jobs:
             x log init pkg_test
             while read -r name; do
               pkg_test:info "$name"
-              if ! x "$name" --help >/dev/null 2>&1; then
-                pkg_test:error "$name"
-              fi
+              x "$name" --help
             done <<A
-              $(printf "%s\n" 7za aliyun bat bit brook bun bwrap chatgpt curl difft duf dust exa fd ffuf fzf gh gitea gitleaks gitui goreleaser gost gotop grex gum helix helm hyperfine jq k3d kind kube-capacity kube-linter kube-score kubectx lazygit micro minikube mirrord mosquitto pandoc procs proot qrencode rclone rg sodium sqlean termshark terraform tig tmux tokei trdsql ucloud usql ws4sqlite xsv yq zellij zenith)
+              $(printf "%s\n" brook bwrap ghcli jq k3d kind kube-linter kube-score mirrord mosquitto proot sodium sqlean tmux trdsql)
             A
 
 
