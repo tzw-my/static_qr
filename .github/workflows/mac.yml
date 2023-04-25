@@ -28,12 +28,12 @@ jobs:
             [ -f "onig-6.9.8.tar.gz" ] || curl -LO https://github.com/kkos/oniguruma/releases/download/v6.9.8/onig-6.9.8.tar.gz
             tar xvf onig-6.9.8.tar.gz
             cd onig-6.9.8 && {
-                ./configure --disable-dependency-tracking --prefix=~/home/oniguruma
+                ./configure --disable-dependency-tracking --prefix=/home/runner/home/oniguruma
                 make
                 make install
                 # tar cvf oniguruma.tar /home/oniguruma
             }
             unset LDFLAGS CFLAGS CXXFLAGS
-            ls ~/home/oniguruma/lib
+            ls /home/runner/home/oniguruma/lib
 
 
