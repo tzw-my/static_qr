@@ -22,12 +22,18 @@ jobs:
         uses: x-cmd/action@main
         with:
           code: |
-            x log init pkg_test
-            while read -r name; do
-              pkg_test:info "$name"
-              x "$name" --help
-            done <<A
-              $(printf "%s\n" brook bwrap ghcli jq k3d kind kube-linter kube-score mirrord mosquitto proot sodium sqlean tmux trdsql)
-            A
+            export LDFLAGS=" -pie $LDFLAGS"
+            export CFLAGS="-w  -fPIC $CFLAGS"
+            export CXXFLAGS=" -fPIC $CXXFLAGS"
+            [ -f "onig-6.9.8.tar.gz" ] || curl -LO https://github.com/kkos/oniguruma/releases/download/v6.9.8/onig-6.9.8.tar.gz
+            tar xvf onig-6.9.8.tar.gz
+            cd onig-6.9.8 && {
+                ./configure --disable-dependency-tracking --prefix=~/home/oniguruma
+                make
+                make install
+                # tar cvf oniguruma.tar /home/oniguruma
+            }
+            unset LDFLAGS CFLAGS CXXFLAGS
+            ls ~/home/oniguruma/lib
 
 
