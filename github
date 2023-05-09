@@ -1,0 +1,68 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+#   # This workflow contains a single job called "build"
+#  test:
+          
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: |
+          brew install autoconf automake wget p7zip gcc make
+      - name: build leptonica
+        run: |
+          wget https://github.com/DanBloomberg/leptonica/archive/refs/tags/1.82.0.tar.gz
+          tar zxvf 1.82.0.tar.gz
+          cd leptonica-1.82.0/ && {
+            autoreconf -fi
+            ./configure
+            make
+            sudo make install
+          }
+             sudo rm -rf /usr/local/opt/libpng/lib/libpng16.16.dylib 
+             sudo rm -rf /usr/local/opt/jpeg/lib/libjpeg.9.dylib
+             sudo rm -rf /usr/local/opt/giflib/lib/libgif.dylib
+             sudo rm -rf /usr/local/opt/libtiff/lib/libtiff.5.dylib
+             sudo rm -rf /usr/local/opt/webp/lib/libwebp.7.dylib
+             sudo rm -rf /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib
+      - name: tesseract
+        run: |
+          git clone https://github.com/tesseract-ocr/tesseract.git
+          cd tesseract/ &&{
+            git checkout 5.0.1
+            ./autogen.sh
+            export PKG_CONFIG=pkg-config
+            export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
+            ./configure --disable-shared --prefix=$GITHUB_WORKSPACE/tesseractBuild
+            make -j LDFLAGS="-static -all-static"
+            make install
+            strip  $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract
+            mv $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract $GITHUB_WORKSPACE/tesseractBuild/bin/tesseract.darwin.x64
+          }
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a tesseract.7z $GITHUB_WORKSPACE/tesseractBuild
+      - uses: actions/upload-artifact@v3
+        with:
+          path: tesseract.7z
+          name: tesseract

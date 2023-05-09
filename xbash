@@ -1,0 +1,39 @@
+name: x pkg build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      github_token: ${{ secrets.MINIMUM_PRIVILEGE_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      repo_name: bit
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: |
+            export LDFLAGS=" -pie $LDFLAGS"
+            export CFLAGS="-w  -fPIC $CFLAGS"
+            export CXXFLAGS=" -fPIC $CXXFLAGS"
+            [ -f "onig-6.9.8.tar.gz" ] || curl -LO https://github.com/kkos/oniguruma/releases/download/v6.9.8/onig-6.9.8.tar.gz
+            tar xvf onig-6.9.8.tar.gz
+            cd onig-6.9.8 && {
+                ./configure --disable-dependency-tracking --prefix=/home/runner/home/oniguruma
+                make
+                make install
+                # tar cvf oniguruma.tar /home/oniguruma
+            }
+            unset LDFLAGS CFLAGS CXXFLAGS
+            ls /home/runner/home/oniguruma/lib
+
+

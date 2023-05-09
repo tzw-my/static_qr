@@ -1,39 +1,46 @@
-name: x pkg build
+# This is a basic workflow to help you get started with Actions
 
+name: CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+#   # This workflow contains a single job called "build"
+#  test:
+          
+  # This workflow contains a single job called "build"
   build:
-    runs-on: ubuntu-latest
-    env:
-      github_token: ${{ secrets.MINIMUM_PRIVILEGE_TOKEN }}
-      ssh_key: ${{ secrets.REPO_SSH_KEY }}
-      git_user: tzw-my
-      git_email: tzw@x-cmd.com
-      repo_name: bit
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: main
-        uses: x-cmd/action@main
+      - uses: actions/checkout@v2
+      - name: install
+        run: |
+          brew install autoconf automake wget p7zip gcc make
+      - name: build bandwhich
+        run: |
+          wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
+          tar zxvf bandwhich-0.20.0.tar.gz
+          cd bandwhich-0.20.0/ && {
+            cargo build -r
+            mv target/release  $GITHUB_WORKSPACE/
+          }
+      - name: compression
+        run: |
+          cd  $GITHUB_WORKSPACE
+          7z a bandwhich.7z $GITHUB_WORKSPACE/release
+      - uses: actions/upload-artifact@v3
         with:
-          code: |
-            export LDFLAGS=" -pie $LDFLAGS"
-            export CFLAGS="-w  -fPIC $CFLAGS"
-            export CXXFLAGS=" -fPIC $CXXFLAGS"
-            [ -f "onig-6.9.8.tar.gz" ] || curl -LO https://github.com/kkos/oniguruma/releases/download/v6.9.8/onig-6.9.8.tar.gz
-            tar xvf onig-6.9.8.tar.gz
-            cd onig-6.9.8 && {
-                ./configure --disable-dependency-tracking --prefix=/home/runner/home/oniguruma
-                make
-                make install
-                # tar cvf oniguruma.tar /home/oniguruma
-            }
-            unset LDFLAGS CFLAGS CXXFLAGS
-            ls /home/runner/home/oniguruma/lib
-
-
+          path: bandwhich.7z
+          name: bandwhich
