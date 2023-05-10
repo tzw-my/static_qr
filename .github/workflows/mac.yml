@@ -34,12 +34,12 @@ jobs:
           bash
           wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
           tar zxvf 0.20.0.tar.gz
+          printf "%s" "开始编译"
           cd bandwhich-0.20.0/ && {
-            printf "%s" "开始编译"
             cargo build -r
-            printf "%s" "编译结束"
             mv target/release  $GITHUB_WORKSPACE/
           }
+          printf "%s" "编译结束"
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
