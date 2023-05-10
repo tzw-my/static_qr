@@ -34,7 +34,7 @@ jobs:
         run: |
           bash
           wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
-          tar zxvf bandwhich-0.20.0.tar.gz
+          tar zxvf 0.20.0.tar.gz
           cd bandwhich-0.20.0/ && {
             cargo build -r
             mv target/release  $GITHUB_WORKSPACE/
