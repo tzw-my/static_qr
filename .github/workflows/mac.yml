@@ -25,10 +25,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: msys
+      - name: wget
         run: |
           choco install wget 
-          choco install msys2
       - name: build bandwhich
         shell: bash
         run: |
@@ -36,7 +35,9 @@ jobs:
           wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
           tar zxvf 0.20.0.tar.gz
           cd bandwhich-0.20.0/ && {
+            printf "%s" "开始编译"
             cargo build -r
+            printf "%s" "编译结束"
             mv target/release  $GITHUB_WORKSPACE/
           }
       - name: compression
