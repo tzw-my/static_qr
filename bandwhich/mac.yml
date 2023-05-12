@@ -21,28 +21,33 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: windows-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: install
+      - name: wget
         run: |
-          brew install autoconf automake wget p7zip gcc make
-      - name: download
+          choco install wget 
+      - name: build bandwhich
+        shell: bash
         run: |
-          wget https://github.com/facebook/zstd/archive/refs/tags/v1.5.5.tar.gz
-      - name: build zstd
-        run: |
-        tar xvf v1.5.5.tar.gz
-        cd zstd-1.5.5 && {
-          make install 
-        }
-        mv programs/ $GITHUB_WORKSPACE/programs
+          bash
+          wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
+          tar zxvf 0.20.0.tar.gz
+          printf "%s\n" "开始编译"
+          cd bandwhich-0.20.0/ && {
+            cargo update
+            rustc --explain E0512
+            rustc --explain E0793
+            cargo build -r
+            mv target/release  $GITHUB_WORKSPACE/
+          }
+          printf "%s\n" "编译结束"
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a zstd.7z $GITHUB_WORKSPACE/release
+          7z a bandwhich.7z $GITHUB_WORKSPACE/release
       - uses: actions/upload-artifact@v3
         with:
-          path: zstd.7z
-          name: zstd
+          path: bandwhich.7z
+          name: bandwhich
