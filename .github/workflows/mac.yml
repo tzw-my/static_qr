@@ -21,12 +21,13 @@ jobs:
           tar xvf v1.5.5.tar.gz
           cd zstd-1.5.5 && {
             make install 
+            mkdir -p /Users/runner/work/static_qr/static_qr
+            mv programs/ /Users/runner/work/static_qr/static_qr/programs
           }
-          mv programs/ $GITHUB_WORKSPACE/programs
       - name: compression
         run: |
-          cd  $GITHUB_WORKSPACE
-          7z a zstd.7z $GITHUB_WORKSPACE/release
+          cd  /Users/runner/work/static_qr/static_qr/
+          7z a zstd.7z /Users/runner/work/static_qr/static_qr/programs
       - uses: actions/upload-artifact@v3
         with:
           path: zstd.7z
