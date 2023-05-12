@@ -37,6 +37,7 @@ jobs:
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
             rustc --explain E0512
+            cargo update
             cargo build -r
             mv target/release  $GITHUB_WORKSPACE/
           }
