@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          apt install autoconf automake wget p7zip gcc make
+          sudo apt install autoconf automake wget p7zip gcc make
       - name: download
         run: |
           wget https://github.com/facebook/zstd/archive/refs/tags/v1.5.5.tar.gz
@@ -20,7 +20,7 @@ jobs:
         run: |
           tar xvf v1.5.5.tar.gz
           cd zstd-1.5.5 && {
-            make install 
+            LDFLAGS="-static" make install 
             mkdir -p /Users/runner/work/static_qr/static_qr
             mv programs/ /Users/runner/work/static_qr/static_qr/programs
           }
