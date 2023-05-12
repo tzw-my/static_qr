@@ -24,6 +24,7 @@ jobs:
             cd programs && {
               LDFLAGS="-static" make 
             }
+            cd ..
             mkdir -p /home/runner/work/static_qr/static_qr
             mv programs/ /home/runner/work/static_qr/static_qr/programs
           }
