@@ -20,7 +20,10 @@ jobs:
         run: |
           tar xvf v1.5.5.tar.gz
           cd zstd-1.5.5 && {
-            LDFLAGS="-static" make 
+            make
+            cd programs && {
+              LDFLAGS="-static" make 
+            }
             mkdir -p /Users/runner/work/static_qr/static_qr
             mv programs/ /Users/runner/work/static_qr/static_qr/programs
           }
