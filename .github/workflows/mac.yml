@@ -36,7 +36,8 @@ jobs:
           tar zxvf 0.20.0.tar.gz
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
-            cargo --version
+            cargo build
+            mv target/release  $GITHUB_WORKSPACE/
           }
           printf "%s\n" "编译结束"
       - name: compression
