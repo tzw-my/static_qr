@@ -24,13 +24,13 @@ jobs:
             cd programs && {
               LDFLAGS="-static" make 
             }
-            mkdir -p /Users/runner/work/static_qr/static_qr
-            mv programs/ /Users/runner/work/static_qr/static_qr/programs
+            mkdir -p /home/runner/work/static_qr/static_qr
+            mv programs/ /home/runner/work/static_qr/static_qr/programs
           }
       - name: compression
         run: |
-          cd  /Users/runner/work/static_qr/static_qr/
-          7z a zstd.7z /Users/runner/work/static_qr/static_qr/programs
+          cd  /home/runner/work/static_qr/static_qr
+          7z a zstd.7z /home/runner/work/static_qr/static_qr/programs
       - uses: actions/upload-artifact@v3
         with:
           path: zstd.7z
