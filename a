@@ -1,6 +1,0 @@
-# shellcheck shell=bash disable=SC3043
-gp(){
-    git add .
-    git commit -m "test"
-    git push
-}
