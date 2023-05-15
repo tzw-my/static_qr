@@ -7,12 +7,12 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          sudo apt install lz4 liblzma5 pkg-config
+          brew install autoconf automake wget p7zip gcc make
       - name: download
         run: |
           wget https://github.com/facebook/zstd/archive/refs/tags/v1.5.5.tar.gz
@@ -20,18 +20,24 @@ jobs:
         run: |
           tar xvf v1.5.5.tar.gz
           cd zstd-1.5.5 && {
-            make
-            cd programs && {
-              LDFLAGS="-static" make 
-            }
-            cd ..
-            mkdir -p /home/runner/work/static_qr/static_qr
-            mv programs/ /home/runner/work/static_qr/static_qr/programs
+            make install 
+            mkdir -p /Users/runner/work/static_qr/static_qr
+            mv programs/ /Users/runner/work/static_qr/static_qr/programs
+            cp /usr/lib/libz.1.dylib /Users/runner/work/static_qr/static_qr/programs
+            cp /usr/local/opt/xz/lib/liblzma.5.dylib /Users/runner/work/static_qr/static_qr/programs
+            cp /usr/local/opt/lz4/lib/liblz4.1.dylib /Users/runner/work/static_qr/static_qr/programs
+          }
+      - name: change lib path
+        run: |
+          cd /Users/runner/work/static_qr/static_qr/programs && {
+            install_name_tool -change /usr/lib/libz.1.dylib @executable_path/libz.1.dylib zstd
+            install_name_tool -change /usr/local/opt/xz/lib/liblzma.5.dylib @executable_path/liblzma.5.dylib zstd
+            install_name_tool -change /usr/local/opt/lz4/lib/liblz4.1.dylib @executable_path/liblz4.1.dylib zstd
           }
       - name: compression
         run: |
-          cd  /home/runner/work/static_qr/static_qr
-          7z a zstd.7z /home/runner/work/static_qr/static_qr/programs
+          cd  /Users/runner/work/static_qr/static_qr/
+          7z a zstd.7z /Users/runner/work/static_qr/static_qr/programs
       - uses: actions/upload-artifact@v3
         with:
           path: zstd.7z
