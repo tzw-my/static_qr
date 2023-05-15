@@ -24,9 +24,9 @@ jobs:
             otool -L programs/zstd
             mkdir -p /Users/runner/work/static_qr/static_qr
             mv programs/ /Users/runner/work/static_qr/static_qr/programs
-            cp /usr/lib/libz.1.dylib /Users/runner/work/static_qr/static_qr/programs
-            cp /usr/local/opt/xz/lib/liblzma.5.dylib /Users/runner/work/static_qr/static_qr/programs
-            cp /usr/local/opt/lz4/lib/liblz4.1.dylib /Users/runner/work/static_qr/static_qr/programs
+            cp /usr/lib/libz.1.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name libz.1.dylib
+            cp /usr/local/opt/xz/lib/liblzma.5.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name liblzma.5.dylib
+            cp /usr/local/opt/lz4/lib/liblz4.1.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name liblz4.1.dylib
           }
       - name: change lib path
         run: |
