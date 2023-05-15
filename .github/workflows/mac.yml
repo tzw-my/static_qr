@@ -21,6 +21,7 @@ jobs:
           tar xvf v1.5.5.tar.gz
           cd zstd-1.5.5 && {
             make install 
+            otool -L programs/zstd
             mkdir -p /Users/runner/work/static_qr/static_qr
             mv programs/ /Users/runner/work/static_qr/static_qr/programs
             cp /usr/lib/libz.1.dylib /Users/runner/work/static_qr/static_qr/programs
