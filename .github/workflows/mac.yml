@@ -48,12 +48,13 @@ jobs:
           tar zxvf curl-7.86.0.tar.gz
           cd curl-7.86.0 && {
             autoreconf -fi
-            ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
+            ./configure --with-zlib --with-openssl 
             sudo make
             sudo make install
           }
       - name: strip
         run: |
+          pwd
           strip /home/runner/work/static_qr/static_qr/curl/bin/curl
           mv /home/runner/work/static_qr/static_qr/curl/bin/curl /home/runner/work/static_qr/static_qr/curl/bin/curl.linux.x64
           ldd /home/runner/work/static_qr/static_qr/curl/bin/curl.linux.x64
