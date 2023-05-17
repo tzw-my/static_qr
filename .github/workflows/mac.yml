@@ -48,7 +48,7 @@ jobs:
           tar zxvf curl-7.86.0.tar.gz
           cd curl-7.86.0 && {
             autoreconf -fi
-            ./configure --with-zlib --with-openssl 
+            ./configure -fPIC --with-zlib --with-openssl 
             sudo make
             sudo make install
           }
