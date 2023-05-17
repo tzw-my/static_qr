@@ -7,39 +7,61 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          brew install autoconf automake wget p7zip gcc make
-      - name: download
+          sudo apt install  pkg-config zlib1g-dev
+          sudo apt remove libssl-dev openssl
+      - name: build libressl
         run: |
-          wget https://github.com/facebook/zstd/archive/refs/tags/v1.5.5.tar.gz
-      - name: build zstd
-        run: |
-          tar xvf v1.5.5.tar.gz
-          cd zstd-1.5.5 && {
-            make install 
-            otool -L programs/zstd
-            mkdir -p /Users/runner/work/static_qr/static_qr
-            mv programs/ /Users/runner/work/static_qr/static_qr/programs
-            cp /usr/local/Cellar/zlib/1.2.13/lib/libz.1.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name libz.1.dylib
-            cp /usr/local/opt/xz/lib/liblzma.5.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name liblzma.5.dylib
-            cp /usr/local/opt/lz4/lib/liblz4.1.dylib /Users/runner/work/static_qr/static_qr/programs || find /usr -name liblz4.1.dylib
+          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
+          tar zxvf libressl-3.5.2.tar.gz
+          cd libressl-3.5.2 && {
+            ./config no-shared LDFLAGS="-static"
+            make
+            make install
+            cd ..
           }
-      - name: change lib path
+      - name: build zlib
         run: |
-          cd /Users/runner/work/static_qr/static_qr/programs && {
-            install_name_tool -change /usr/lib/libz.1.dylib @executable_path/libz.1.dylib zstd
-            install_name_tool -change /usr/local/opt/xz/lib/liblzma.5.dylib @executable_path/liblzma.5.dylib zstd
-            install_name_tool -change /usr/local/opt/lz4/lib/liblz4.1.dylib @executable_path/liblz4.1.dylib zstd
+          wget -O zlib-1.2.12.tar.gz https://github.com/madler/zlib/archive/refs/tags/v1.2.12.tar.gz
+          tar zxvf zlib-1.2.12.tar.gz
+          cd zlib-1.2.12 && {
+            ./configure --static
+            make
+            make install
           }
+      - name: build ssh2
+        run: |
+          wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
+          tar zxvf libssh2-1.10.0.tar.gz
+          cd libssh2-libssh2-1.10.0 && {
+            autoreconf -fi
+            LDFLAGS="-static" CFLAGS="-DHAVE_OPAQUE_STRUCTS=1 "   ./configure
+            make
+            make install
+          }
+      - name: build curl
+        run: |
+          wget https://curl.se/download/curl-7.86.0.tar.gz
+          tar zxvf curl-7.86.0.tar.gz
+          cd curl-7.86.0 && {
+            autoreconf -fi
+            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
+            make -j4 LDFLAGS="-static -all-static"
+            make install
+          }
+      - name: strip
+        run: |
+          strip /home/runner/work/static_qr/static_qr/curl/bin/curl
+          mv /home/runner/work/static_qr/static_qr/curl/bin/curl /home/runner/work/static_qr/static_qr/curl/bin/curl.linux.x64
+          ldd /home/runner/work/static_qr/static_qr/curl/bin/curl.linux.x64
       - name: compression
         run: |
-          cd  /Users/runner/work/static_qr/static_qr/
-          7z a zstd.7z /Users/runner/work/static_qr/static_qr/programs
+          7z a curl.linux.x64.7z /home/runner/work/static_qr/static_qr/curl/bin/curl.linux.x64
       - uses: actions/upload-artifact@v3
         with:
-          path: zstd.7z
-          name: zstd
+          path: curl.linux.x64.7z
+          name: curl
