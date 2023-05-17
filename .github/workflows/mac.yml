@@ -48,7 +48,7 @@ jobs:
           tar zxvf curl-7.86.0.tar.gz
           cd curl-7.86.0 && {
             autoreconf -fi
-            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
+            LDFLAGS="-static" ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
             sudo make 
             sudo make install
           }
