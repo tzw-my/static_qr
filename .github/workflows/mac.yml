@@ -16,8 +16,8 @@ jobs:
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 && {
             ./config no-shared LDFLAGS="-static"
-            make
-            make install
+            sudo make
+            sudo make install
             cd ..
           }
       - name: build zlib
@@ -26,8 +26,8 @@ jobs:
           tar zxvf zlib-1.2.12.tar.gz
           cd zlib-1.2.12 && {
             ./configure --static
-            make
-            make install
+            sudo make
+            sudo make install
           }
       - name: build ssh2
         run: |
@@ -36,8 +36,8 @@ jobs:
           cd libssh2-libssh2-1.10.0 && {
             autoreconf -fi
             LDFLAGS="-static" CFLAGS="-DHAVE_OPAQUE_STRUCTS=1 "   ./configure
-            make
-            make install
+            sudo make
+            sudo make install
           }
       - name: build curl
         run: |
@@ -46,8 +46,8 @@ jobs:
           cd curl-7.86.0 && {
             autoreconf -fi
             LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
-            make -j4 LDFLAGS="-static -all-static"
-            make install
+            sudo make -j4 LDFLAGS="-static -all-static"
+            sudo make install
           }
       - name: strip
         run: |
