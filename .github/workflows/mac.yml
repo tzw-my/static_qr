@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: install
-        run: |
-          sudo apt install  pkg-config zlib1g-dev
-          sudo apt remove libssl-dev openssl
       - name: build libressl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
