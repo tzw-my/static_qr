@@ -49,7 +49,7 @@ jobs:
           cd curl-7.86.0 && {
             autoreconf -fi
             ./configure --with-zlib --with-openssl --prefix=/home/runner/work/static_qr/static_qr/curl
-            sudo make LDFLAGS="-static"
+            sudo make
             sudo make install
           }
       - name: strip
