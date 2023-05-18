@@ -25,6 +25,7 @@ jobs:
             x pkg
             ls pkg/src/osman | for pkg_bin in $(cat); do
               url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
+              pkg_test:info "========================${pkg_bin}===================="
               curl -LO "$url"
               bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "xbin" )"
               bin_path="$(find ./ -name "${bin_name}")"
