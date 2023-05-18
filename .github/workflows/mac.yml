@@ -8,14 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu:latest
+    container: alipne:latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          apt-get update
-          apt-get install -y gcc g++ make autoconf automake libtool pkg-config wget p7zip-full
-          apt remove -y openssl libssl-dev
+          apk update
+          apk add -y gcc g++ make autoconf automake libtool pkg-config wget p7zip-full
+          apt del -y openssl libssl-dev
       - name: build libressl
         run: |
           wget --no-check-certificate https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
