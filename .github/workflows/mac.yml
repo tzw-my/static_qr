@@ -14,7 +14,7 @@ jobs:
       - name: install
         run: |
           apt-get update
-          apt-get install -y gcc g++ make autoconf automake libtool pkg-config wget
+          apt-get install -y gcc g++ make autoconf automake libtool pkg-config wget p7zip-full
       - name: build libressl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
