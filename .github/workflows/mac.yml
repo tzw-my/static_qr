@@ -18,7 +18,7 @@ jobs:
           apt remove -y openssl libssl-dev
       - name: build libressl
         run: |
-          wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
+          wget --no-check-certificate https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
           tar zxvf libressl-3.5.2.tar.gz
           cd libressl-3.5.2 && {
             ./config no-shared LDFLAGS="-static"
@@ -28,7 +28,7 @@ jobs:
           }
       - name: build zlib
         run: |
-          wget -O zlib-1.2.12.tar.gz https://github.com/madler/zlib/archive/refs/tags/v1.2.12.tar.gz
+          wget --no-check-certificate -O zlib-1.2.12.tar.gz https://github.com/madler/zlib/archive/refs/tags/v1.2.12.tar.gz
           tar zxvf zlib-1.2.12.tar.gz
           cd zlib-1.2.12 && {
             ./configure --static
@@ -37,7 +37,7 @@ jobs:
           }
       - name: build ssh2
         run: |
-          wget https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
+          wget --no-check-certificate https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
           tar zxvf libssh2-1.10.0.tar.gz
           cd libssh2-libssh2-1.10.0 && {
             autoreconf -fi
@@ -47,7 +47,7 @@ jobs:
           }
       - name: build curl
         run: |
-          wget https://curl.se/download/curl-7.86.0.tar.gz
+          wget --no-check-certificate https://curl.se/download/curl-7.86.0.tar.gz
           tar zxvf curl-7.86.0.tar.gz
           cd curl-7.86.0 && {
             autoreconf -fi
