@@ -29,7 +29,7 @@ jobs:
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
               x uz "${url##*/}"
-              bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "xbin" )"
+              ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
                 pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
@@ -58,7 +58,7 @@ jobs:
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
               x uz "${url##*/}"
-              bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" )"
+              ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
                 pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
@@ -87,7 +87,7 @@ jobs:
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
               x uz "${url##*/}"
-              bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "xbin" )"
+              ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
                 pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
