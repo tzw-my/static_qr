@@ -8,11 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: ubuntu:latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          sudo apt-get install libbrotli-dev
+          apt-get install -y gcc g++ make autoconf automake libtool pkg-config
       - name: build libressl
         run: |
           wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
