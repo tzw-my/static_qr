@@ -28,7 +28,7 @@ jobs:
             curl -L "$url" -o "./7za/${url##*/}"
             x uz "7za/${url##*/}"
             ___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
-            find ./7za/* -name "${bin_name}"
+            find ./ -name "${bin_name}"
 #             pkg_test:info "------------------------${bin_path}--------------------"
 #             $bin_path --help || {
 #               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
