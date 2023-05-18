@@ -20,6 +20,7 @@ jobs:
         uses: x-cmd/action@main
         with:
           code: |
+            x pkg --help
             x pkg ll
 
   # x pkg ll | for pkg_bin in $(cat); do
