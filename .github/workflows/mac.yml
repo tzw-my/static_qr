@@ -23,11 +23,12 @@ jobs:
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
             x pkg update
-              ls pkg/src/osman | for pkg_bin in $(cat); do
+            ls pkg/src/osman | for pkg_bin in $(cat); do
               pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
               url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
+              x uz "${url##*/}"
               bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "xbin" )"
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
@@ -37,7 +38,7 @@ jobs:
             done
             cat ./linux_x64.md
   mac_x64:
-    runs-on: mac-latest
+    runs-on: macos-latest
     env:
       github_token: ${{ secrets.GITHUB_TOKEN }}
       ssh_key: ${{ secrets.REPO_SSH_KEY }}
@@ -51,11 +52,12 @@ jobs:
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
             x pkg update
-              ls pkg/src/osman | for pkg_bin in $(cat); do
+            ls pkg/src/osman | for pkg_bin in $(cat); do
               pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "url.internet" )"
               url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "url.internet" )"
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
+              x uz "${url##*/}"
               bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" )"
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
@@ -79,11 +81,12 @@ jobs:
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
             x pkg update
-              ls pkg/src/osman | for pkg_bin in $(cat); do
+            ls pkg/src/osman | for pkg_bin in $(cat); do
               pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "url.internet" )"
               url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "url.internet" )"
               pkg_test:info "========================${pkg_bin}====================${url}------------------"
               curl -LO "$url"
+              x uz "${url##*/}"
               bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "xbin" )"
               bin_path="$(find ./ -name "${bin_name}")"
               $bin_path --help || {
