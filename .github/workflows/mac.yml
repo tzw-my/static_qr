@@ -21,9 +21,7 @@ jobs:
         with:
           code: |
             x log init pkg_test
-            git clone https://github.com/x-cmd/pkg.git
             x pkg update
-            pkg_test:info "$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
             url="$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
             pkg_test:info "========================7za===================="
             curl -LO "$url"
