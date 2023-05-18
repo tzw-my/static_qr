@@ -22,11 +22,12 @@ jobs:
           code: |
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
-            xrc pkg
-            ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet"
+            x pkg
+            ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" >a
+            cat a
 
 
-# ls pkg/src/osman | for pkg_bin in $(cat); do
+          # ls pkg/src/osman | for pkg_bin in $(cat); do
             #   pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
             #   url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
             #   pkg_test:info "========================${pkg_bin}====================${url}------------------"
