@@ -24,10 +24,9 @@ jobs:
             x pkg update
             url="$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
             pkg_test:info "========================7za===================="
-            mkdir -p ./7za
             curl -L "$url" -o "${url##*/}"
             x uz "${url##*/}" ./7za
-            bin_name="$(___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin.7za")"
+            bin_name="$(___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "xbin.7za")"
             find ./7za -name "${bin_name}"
 # pkg_test:info "------------------------${bin_path}--------------------"
 #             $bin_path --help || {
