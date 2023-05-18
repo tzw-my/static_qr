@@ -22,7 +22,7 @@ jobs:
           code: |
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
-            x pkg
+            x 7za
             ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" >a
             cat a
 
