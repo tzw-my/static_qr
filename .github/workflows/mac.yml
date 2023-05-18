@@ -1,69 +1,76 @@
-name: CI
+name: x pkg test bin
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
   workflow_dispatch:
+
 jobs:
-  build:
+  linux_x64:
     runs-on: ubuntu-latest
-    container: alpine:latest
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      ___X_CMD_GHACTION_X: x7
     steps:
-      - uses: actions/checkout@v2
-      - name: install
-        run: |
-          apk update
-          apk add gcc g++ make autoconf automake libtool pkgconfig wget p7zip
-          apk del openssl
-      - name: build libressl
-        run: |
-          wget --no-check-certificate https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
-          tar zxvf libressl-3.5.2.tar.gz
-          cd libressl-3.5.2 && {
-            ./config no-shared LDFLAGS="-static"
-            make
-            make install
-            cd ..
-          }
-      - name: build zlib
-        run: |
-          wget --no-check-certificate -O zlib-1.2.12.tar.gz https://github.com/madler/zlib/archive/refs/tags/v1.2.12.tar.gz
-          tar zxvf zlib-1.2.12.tar.gz
-          cd zlib-1.2.12 && {
-            ./configure --static
-            make
-            make install
-          }
-      - name: build ssh2
-        run: |
-          wget --no-check-certificate https://github.com/libssh2/libssh2/archive/refs/tags/libssh2-1.10.0.tar.gz
-          tar zxvf libssh2-1.10.0.tar.gz
-          cd libssh2-libssh2-1.10.0 && {
-            autoreconf -fi
-            LDFLAGS="-static" CFLAGS="-DHAVE_OPAQUE_STRUCTS=1 "   ./configure
-            make
-            make install
-          }
-      - name: build curl
-        run: |
-          wget --no-check-certificate https://curl.se/download/curl-7.86.0.tar.gz
-          tar zxvf curl-7.86.0.tar.gz
-          cd curl-7.86.0 && {
-            autoreconf -fi
-            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-libssh2 --with-zlib --with-openssl --prefix=/home/build/curl
-            make -j4 LDFLAGS="-static -all-static"
-            make install
-          }
-      - name: strip
-        run: |
-          pwd
-          strip /home/build/curl/bin/curl
-          mv /home/build/curl/bin/curl /home/build/curl/bin/curl.linux.x64
-      - name: compression
-        run: |
-          7z a curl.linux.x64.7z /home/build/curl/bin/curl.linux.x64
-      - uses: actions/upload-artifact@v3
+      - name: main
+        uses: x-cmd/action@main
         with:
-          path: curl.linux.x64.7z
-          name: curl
+          code: |
+            x pkg ll | for pkg_bin in $(cat); do
+              url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "linux/x64" "url.cn" )"
+              app_name="${url##*/}"
+              mkdir -p "./${app}"
+              curl -L "$url" -o "./${app}/${app_name}"
+              bin_name="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "linux/x64" "xbin" )"
+              bin_path="$(find ./ -name "${bin_name}")"
+              $bin_path --help
+            done
+  mac_x64:
+    runs-on: mac-latest
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      ___X_CMD_GHACTION_X: x7
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: |
+            x pkg ll | for pkg_bin in $(cat); do
+              url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "darwin/x64" "url.cn" )"
+              app_name="${url##*/}"
+              mkdir -p "./${app}"
+              curl -L "$url" -o "./${app}/${app_name}"
+              bin_name="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "darwin/x64" "xbin" )"
+              bin_path="$(find ./ -name "${bin_name}")"
+              $bin_path --help
+            done
+  windows_x64:
+    runs-on: windows-latest
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      ___X_CMD_GHACTION_X: x7
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: |
+            x pkg ll | for pkg_bin in $(cat); do
+              url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "win/x64" "url.cn" )"
+              app_name="${url##*/}"
+              mkdir -p "./${app}"
+              curl -L "$url" -o "./${app}/${app_name}"
+              bin_name="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "win/x64" "xbin" )"
+              bin_path="$(find ./ -name "${bin_name}")"
+              $bin_path --help
+            done
