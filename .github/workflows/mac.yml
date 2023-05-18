@@ -26,7 +26,7 @@ jobs:
             pkg_test:info "========================7za===================="
             mkdir -p ./7za
             curl -L "$url" -o "./7za/${url##*/}"
-            x uz "${url##*/}"
+            x uz "7za/${url##*/}"
             ___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
 # bin_path="$(find ./7za/* -name "${bin_name}")"
 #             pkg_test:info "------------------------${bin_path}--------------------"
