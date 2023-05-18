@@ -23,20 +23,18 @@ jobs:
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
             x pkg update
-            printf "%s" "7za" | for pkg_bin in $(cat); do
-              pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
-              url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
-              pkg_test:info "========================${pkg_bin}===================="
+              pkg_test:info "$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
+              url="$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
+              pkg_test:info "========================7za===================="
               curl -LO "$url"
               x uz "${url##*/}"
-              ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
+              ___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
               bin_path="$(find .* -name "${bin_name}")"
               pkg_test:info "------------------------${bin_path}--------------------"
               $bin_path --help || {
                 pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
                 printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
               }
-            done
             cat ./linux_x64.md
   # mac_x64:
   #   runs-on: macos-latest
