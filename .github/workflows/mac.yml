@@ -20,9 +20,9 @@ jobs:
         uses: x-cmd/action@main
         with:
           code: |
-            printf "%s" "不运行？"
-            x pkg --help
-            x pkg ll
+            x pkg ll>a
+            printf "%s\n" "输出到文件可以吧"
+            cat a
 
   # x pkg ll | for pkg_bin in $(cat); do
   #   [ "${pkg_bin}" = "${pkg_bin%%sdkman*}" ] || continue
