@@ -24,10 +24,10 @@ jobs:
             x pkg update
             url="$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
             pkg_test:info "========================7za===================="
-            curl -LO "$url"
+            curl -L "$url" -o ./7za
             x uz "${url##*/}"
             ___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
-            bin_path="$(find .* -name "${bin_name}")"
+            bin_path="$(find ./7za -name "${bin_name}")"
             pkg_test:info "------------------------${bin_path}--------------------"
             $bin_path --help || {
               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
