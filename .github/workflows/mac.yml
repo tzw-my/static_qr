@@ -15,14 +15,16 @@ jobs:
       ssh_key: ${{ secrets.REPO_SSH_KEY }}
       git_user: tzw-my
       git_email: tzw@x-cmd.com
-      ___X_CMD_GHACTION_X: x7
     steps:
       - name: main
         uses: x-cmd/action@main
         with:
           code: |
             x pkg ll | for pkg_bin in $(cat); do
-              url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "linux/x64" "url.cn" )"
+              [ "${pkg_bin}" = "${pkg_bin%%sdkman*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%lang*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%plugin*}" ] || continue
+              url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "linux/x64" "url.internet" )"
               app_name="${url##*/}"
               mkdir -p "./${app}"
               curl -L "$url" -o "./${app}/${app_name}"
@@ -44,6 +46,9 @@ jobs:
         with:
           code: |
             x pkg ll | for pkg_bin in $(cat); do
+              [ "${pkg_bin}" = "${pkg_bin%%sdkman*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%lang*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%plugin*}" ] || continue
               url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "darwin/x64" "url.cn" )"
               app_name="${url##*/}"
               mkdir -p "./${app}"
@@ -66,6 +71,9 @@ jobs:
         with:
           code: |
             x pkg ll | for pkg_bin in $(cat); do
+              [ "${pkg_bin}" = "${pkg_bin%%sdkman*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%lang*}" ] || continue
+              [ "${pkg_bin}" = "${pkg_bin%%plugin*}" ] || continue
               url="$( ___x_cmd_pkg___list "${app}" "v0.0.0" "win/x64" "url.cn" )"
               app_name="${url##*/}"
               mkdir -p "./${app}"
