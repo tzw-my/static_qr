@@ -15,80 +15,42 @@ jobs:
       ssh_key: ${{ secrets.REPO_SSH_KEY }}
       git_user: tzw-my
       git_email: tzw@x-cmd.com
+      os_name: linux/x64
     steps:
       - name: main
         uses: x-cmd/action@main
         with:
           code: |
-            x log init pkg_test
-            x pkg update
-            url="$( ___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "url.internet" )"
-            pkg_test:info "========================7za===================="
-            curl -L "$url" -o "${url##*/}"
-            x uz "${url##*/}" ./7za
-            bin_name="$(___x_cmd_pkg___list "7za" "v0.0.0" "linux/x64" "xbin.7za")"
-            find ./7za -name "${bin_name}"
-# pkg_test:info "------------------------${bin_path}--------------------"
-#             $bin_path --help || {
-#               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
-#               printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
-#             }
-#             cat ./linux_x64.md
-  # mac_x64:
-  #   runs-on: macos-latest
-  #   env:
-  #     github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     ssh_key: ${{ secrets.REPO_SSH_KEY }}
-  #     git_user: tzw-my
-  #     git_email: tzw@x-cmd.com
-  #   steps:
-  #     - name: main
-  #       uses: x-cmd/action@main
-  #       with:
-  #         code: |
-  #           x log init pkg_test
-  #           git clone https://github.com/x-cmd/pkg.git
-  #           x pkg update
-  #           ls pkg/src/osman | for pkg_bin in $(cat); do
-  #             pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "url.internet" )"
-  #             url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "url.internet" )"
-  #             pkg_test:info "========================${pkg_bin}====================${url}------------------"
-  #             curl -LO "$url"
-  #             x uz "${url##*/}"
-  #             ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
-  #             bin_path="$(find ./ -name "${bin_name}")"
-  #             $bin_path --help || {
-  #               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
-  #               printf "%s\n" "| ${bin_name} | ❌ |" >> ./darwin_x64.md
-  #             }
-  #           done
-  #           cat ./darwin_x64.md
-  # windows_x64:
-  #   runs-on: windows-latest
-  #   env:
-  #     github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     ssh_key: ${{ secrets.REPO_SSH_KEY }}
-  #     git_user: tzw-my
-  #     git_email: tzw@x-cmd.com
-  #   steps:
-  #     - name: main
-  #       uses: x-cmd/action@main
-  #       with:
-  #         code: |
-  #           x log init pkg_test
-  #           git clone https://github.com/x-cmd/pkg.git
-  #           x pkg update
-  #           ls pkg/src/osman | for pkg_bin in $(cat); do
-  #             pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "url.internet" )"
-  #             url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "win/x64" "url.internet" )"
-  #             pkg_test:info "========================${pkg_bin}====================${url}------------------"
-  #             curl -LO "$url"
-  #             x uz "${url##*/}"
-  #             ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "darwin/x64" "xbin" | read -r bin_name
-  #             bin_path="$(find ./ -name "${bin_name}")"
-  #             $bin_path --help || {
-  #               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
-  #               printf "%s\n" "| ${bin_name} | ❌ |" >> ./win_x64.md
-  #             }
-  #           done
-  #           cat ./win_x64.md
+            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
+            . ./test.sh
+  mac_x64:
+    runs-on: ubuntu-latest
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      os_name: darwin/x64
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: |
+            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
+            . ./test.sh
+  windows_x64:
+    runs-on: ubuntu-latest
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.REPO_SSH_KEY }}
+      git_user: tzw-my
+      git_email: tzw@x-cmd.com
+      os_name: win/x64
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: |
+            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
+            . ./test.sh
+  
