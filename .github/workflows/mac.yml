@@ -50,7 +50,7 @@ jobs:
           tar zxvf curl-7.86.0.tar.gz
           cd curl-7.86.0 && {
             autoreconf -fi
-            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-zlib --with-openssl --prefix=/home/build/curl
+            LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --with-libssh2 --with-zlib --with-openssl --prefix=/home/build/curl
             make -j4 LDFLAGS="-static -all-static"
             make install
           }
@@ -59,7 +59,6 @@ jobs:
           pwd
           strip /home/build/curl/bin/curl
           mv /home/build/curl/bin/curl /home/build/curl/bin/curl.linux.x64
-          ldd /home/build/curl/bin/curl.linux.x64
       - name: compression
         run: |
           7z a curl.linux.x64.7z /home/build/curl/bin/curl.linux.x64
