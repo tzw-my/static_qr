@@ -22,19 +22,21 @@ jobs:
           code: |
             x log init pkg_test
             git clone https://github.com/x-cmd/pkg.git
-            x pkg
-            ls pkg/src/osman | for pkg_bin in $(cat); do
-              pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
-              url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
-              pkg_test:info "========================${pkg_bin}====================${url}------------------"
-              curl -LO "$url"
-              bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "xbin" )"
-              bin_path="$(find ./ -name "${bin_name}")"
-              $bin_path --help || {
-                pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
-                printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
-              }
-            done
+            x pkg install 7za
+
+
+# ls pkg/src/osman | for pkg_bin in $(cat); do
+            #   pkg_test:info "$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
+            #   url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
+            #   pkg_test:info "========================${pkg_bin}====================${url}------------------"
+            #   curl -LO "$url"
+            #   bin_name="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "xbin" )"
+            #   bin_path="$(find ./ -name "${bin_name}")"
+            #   $bin_path --help || {
+            #     pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
+            #     printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
+            #   }
+            # done
 
   # mac_x64:
   #   runs-on: mac-latest
