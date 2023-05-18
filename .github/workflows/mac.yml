@@ -28,15 +28,13 @@ jobs:
             curl -L "$url" -o "./7za/${url##*/}"
             x uz "7za/${url##*/}"
             bin_name="$(___x_cmd_pkg___list "7za" "v0.0.0" "darwin/x64" "xbin.7za")"
-            pkg_test:info "========================${bin_name}===================="
-
-# find ./ -name "${bin_name}"
-#             pkg_test:info "------------------------${bin_path}--------------------"
-#             $bin_path --help || {
-#               pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
-#               printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
-#             }
-#             cat ./linux_x64.md
+            find ./ -name "${bin_name}"
+            pkg_test:info "------------------------${bin_path}--------------------"
+            $bin_path --help || {
+              pkg_test:error "bin test failed: ${bin_name},path : $bin_path"
+              printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
+            }
+            cat ./linux_x64.md
   # mac_x64:
   #   runs-on: macos-latest
   #   env:
