@@ -15,7 +15,7 @@ jobs:
         run: |
           apk update
           apk add gcc g++ make autoconf automake libtool pkgconfig wget p7zip
-          apt del openssl libssl-dev
+          apk del openssl libssl-dev
       - name: build libressl
         run: |
           wget --no-check-certificate https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.2.tar.gz
