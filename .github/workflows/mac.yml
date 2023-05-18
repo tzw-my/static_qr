@@ -35,10 +35,7 @@ jobs:
                 printf "%s\n" "| ${bin_name} | ❌ |" >> ./linux_x64.md
               }
             done
-      - uses: actions/upload-artifact@v3
-          with:
-            path: linux_x64.md
-            name: linux_x64
+            cat ./linux_x64.md
   mac_x64:
     runs-on: mac-latest
     env:
@@ -66,10 +63,7 @@ jobs:
                 printf "%s\n" "| ${bin_name} | ❌ |" >> ./darwin_x64.md
               }
             done
-      - uses: actions/upload-artifact@v3
-          with:
-            path: darwin_x64.md
-            name: darwin_x64
+            cat ./darwin_x64.md
   windows_x64:
     runs-on: windows-latest
     env:
@@ -97,7 +91,4 @@ jobs:
                 printf "%s\n" "| ${bin_name} | ❌ |" >> ./win_x64.md
               }
             done
-      - uses: actions/upload-artifact@v3
-          with:
-            path: win_x64.md
-            name: win_x64
+            cat ./win_x64.md
