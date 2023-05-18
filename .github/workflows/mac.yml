@@ -21,7 +21,7 @@ jobs:
         with:
           code: |
             x log init pkg_test
-            git clone git@github.com:x-cmd/pkg.git
+            git clone https://github.com/x-cmd/pkg.git
             ls pkg/src/osman | for pkg_bin in $(cat); do
               url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "linux/x64" "url.internet" )"
               curl -LO "$url"
