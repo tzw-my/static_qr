@@ -1,56 +1,46 @@
-name: x pkg test bin
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  linux_x64:
-    runs-on: ubuntu-latest
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: linux-latest
     env:
       github_token: ${{ secrets.GITHUB_TOKEN }}
-      ssh_key: ${{ secrets.REPO_SSH_KEY }}
-      git_user: tzw-my
-      git_email: tzw@x-cmd.com
-      os_name: linux/x64
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: main
-        uses: x-cmd/action@main
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Download xmake
+        run: |
+          bash <(curl -fsSL https://xmake.io/shget.text)
+
+      - name: Static build
+        run: |
+          source ~/.xmake/profile
+          git clone https://${github_token}@github.com/sodium-cmd/sodium-cmd.git
+          cd sodium-cmd
+          xrepo install -p linux -a x64 -y libsodium
+          ls ~/.xmake/packages/l/libsodium/1.0.18
+          xmake f -p linux -a x64 -y
+          7z a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
+
+      - uses: actions/upload-artifact@v3
         with:
-          code: |
-            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
-            . ./test.sh
-  mac_x64:
-    runs-on: macos-latest
-    env:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      ssh_key: ${{ secrets.REPO_SSH_KEY }}
-      git_user: tzw-my
-      git_email: tzw@x-cmd.com
-      os_name: darwin/x64
-    steps:
-      - name: main
-        uses: x-cmd/action@main
-        with:
-          code: |
-            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
-            . ./test.sh
-  windows_x64:
-    runs-on: windows-latest
-    env:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      ssh_key: ${{ secrets.REPO_SSH_KEY }}
-      git_user: tzw-my
-      git_email: tzw@x-cmd.com
-      os_name: win/x64
-    steps:
-      - name: main
-        uses: x-cmd/action@main
-        with:
-          code: |
-            curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
-            . ./test.sh
-  
+          path: "sodium.7z"
