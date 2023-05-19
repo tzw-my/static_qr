@@ -3,6 +3,7 @@ x log init pkg_test
 git clone https://github.com/x-cmd/pkg.git
 x pkg update
 printf "%s\n" "| 软件名 | 软件运行path | 异常 | 错误信息 |" >> ./ret.md
+printf "%s\n" "| :----: | :----: | :----: | :----: |" >> ./ret.md
 ls pkg/src/osman | for pkg_bin in $(cat); do
   url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "url.internet" )"
   pkg_test:info "========================${pkg_bin}===================="
