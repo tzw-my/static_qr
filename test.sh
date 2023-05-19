@@ -13,10 +13,42 @@ ls pkg/src/osman | for pkg_bin in $(cat); do
   [ -z "$bin_name" ] && bin_name="$(___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "xbin.${pkg_bin}")"
   bin_path="$(find ./${pkg_bin}_dir -name "${bin_name##*/}" -type f )"
   chmod +x "$bin_path"
+
+  [ "$pkg_bin" = "tmux" ] && {
+    $bin_path -V 1>/dev/null 2>log || {
+      pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
+      printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
+    }
+    continue
+  }
+  
+  [ "$pkg_bin" = "trdsql" ] && {
+    $bin_path -version 1>/dev/null 2>log || {
+      pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
+      printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
+    }
+    continue
+  }
+
+    [ "$pkg_bin" = "sodium" ] && {
+    $bin_path base64encode hi 1>/dev/null 2>log || {
+      pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
+      printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
+    }
+    continue
+  }
+
+  [ "$pkg_bin" = "kube-score" ] && {
+    $bin_path version 1>/dev/null 2>log || {
+      pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
+      printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
+    }
+    continue
+  }
+
   $bin_path --help 1>/dev/null 2>log || {
     pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
     printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
   }
 done
 cat ./ret.md
-fd
