@@ -9,9 +9,8 @@ ls pkg/src/osman | for pkg_bin in $(cat); do
   pkg_test:info "========================${pkg_bin}===================="
   curl -LO "$url"
   x uz "${url##*/}" "./${pkg_bin}_dir/"
-
-  bin_name="$(___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "xbin.${pkg_bin}")"
-  [ -z "$bin_name" ] && bin_name="$(___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "xbin" | { read -r line ; printf "%s\n" "$line" ;} )"
+  bin_name="$(___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "xbin" | { read -r line ; printf "%s\n" "$line" ;} )"
+  [ -z "$bin_name" ] && bin_name="$(___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "xbin.${pkg_bin}")"
   bin_path="$(find ./${pkg_bin}_dir -name "${bin_name##*/}" -type f )"
   chmod +x "$bin_path"
   $bin_path --help 1>/dev/null 2>log || {
@@ -20,3 +19,4 @@ ls pkg/src/osman | for pkg_bin in $(cat); do
   }
 done
 cat ./ret.md
+fd
