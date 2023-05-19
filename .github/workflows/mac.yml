@@ -24,7 +24,7 @@ jobs:
             curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
             . ./test.sh
   mac_x64:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       github_token: ${{ secrets.GITHUB_TOKEN }}
       ssh_key: ${{ secrets.REPO_SSH_KEY }}
@@ -39,7 +39,7 @@ jobs:
             curl -LO https://github.com/tzw-my/static_qr/raw/main/test.sh
             . ./test.sh
   windows_x64:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       github_token: ${{ secrets.GITHUB_TOKEN }}
       ssh_key: ${{ secrets.REPO_SSH_KEY }}
