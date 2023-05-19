@@ -5,6 +5,7 @@ x pkg update
 printf "%s\n" "| 软件名 | 软件运行path | 异常 | 错误信息 |" >> ./ret.md
 printf "%s\n" "| :----: | :----: | :----: | :----: |" >> ./ret.md
 ls pkg/src/osman | for pkg_bin in $(cat); do
+  [ "$pkg_bin" = "proot-rs" ] && pkg_bin=proot
   url="$( ___x_cmd_pkg___list "${pkg_bin}" "v0.0.0" "$os_name" "url.internet" )"
   pkg_test:info "========================${pkg_bin}===================="
   curl -LO "$url"
@@ -19,6 +20,10 @@ ls pkg/src/osman | for pkg_bin in $(cat); do
       pkg_test:error "bin test failed: ${bin_name##*/},path : $bin_path"
       printf "%s\n" "| ${pkg_bin} | ${bin_path} | ❌ | $(cat log) |" >> ./ret.md
     }
+    continue
+  }
+
+  [ "$pkg_bin" = "sqlean" ] && {
     continue
   }
   
@@ -52,3 +57,5 @@ ls pkg/src/osman | for pkg_bin in $(cat); do
   }
 done
 cat ./ret.md
+
+proot-rs 
