@@ -34,7 +34,7 @@ jobs:
       - name: Static build
         run: |
           source ~/.xmake/profile
-          git clone https://${github_token}@github.com/sodium-cmd/sodium-cmd.git
+          git clone "https://${github_token}@github.com/sodium-cmd/sodium-cmd.git"
           cd sodium-cmd
           xrepo install -p linux -a x64 -y libsodium
           ls ~/.xmake/packages/l/libsodium/1.0.18
