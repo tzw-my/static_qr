@@ -35,7 +35,7 @@ jobs:
             ls -lh "${dir}/"
             mv "${dir}/"  ../
           }
-          7za a bwrap.7z linux_x64_build
+          7za a bwrap.7z ./bubblewrap-0.8.0/linux_x64_build/
       - uses: actions/upload-artifact@v3
         with:
           path: "bwrap.7z"
