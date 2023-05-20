@@ -33,7 +33,6 @@ jobs:
             make
             make install
             ls -lh "${dir}/"
-            mv "${dir}/"  ../
           }
           7za a bwrap.7z ./bubblewrap-0.8.0/linux_x64_build/
       - uses: actions/upload-artifact@v3
