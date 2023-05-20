@@ -14,26 +14,29 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: macos-latest
-    env:
-      github_token: ${{ secrets.TOKEN }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download xmake
-        run: |
-          bash <(curl -fsSL https://xmake.io/shget.text)
 
-      - name: Static build
+      - name: install
         run: |
-          source ~/.xmake/profile
-          git clone "https://${github_token}@github.com/sodium-cmd/sodium-cmd.git"
-          cd sodium-cmd || exit 1
-          xrepo install -p macosx -y libsodium
-          ls ~/.xmake/packages/l/libsodium/1.0.18
-          xmake f -p macosx --toolchain=macosx -y
-          xmake build
-          7z a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
-          mv sodium.7z ../
+          apt-get update
+          apt-get install -y gcc g++ make autoconf automake libtool pkg-config wget p7zip-full
+
+      - name: static build
+        run: |
+          wget https://github.com/containers/bubblewrap/releases/download/v0.8.0/bubblewrap-0.8.0.tar.xz
+          tar xvf bubblewrap-0.8.0.tar.xz
+          cd bubblewrap-0.8.0 && {
+            ./autogen.sh
+            dir="$(pwd)/linux_x64_build"
+            LDFLAGS="-static" PERFIX="${dir}" make
+            make install
+            ls -lh "${dir}/linux_x64_build"
+            mv "${dir}/linux_x64_build"  ../
+          }
+          7za a bwrap.7z linux_x64_build
       - uses: actions/upload-artifact@v3
         with:
-          path: "sodium.7z"
+          path: "bwrap.7z"
+          name: "bwrap"
