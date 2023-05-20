@@ -32,8 +32,8 @@ jobs:
             LDFLAGS="-static" ./configure --prefix="${dir}"
             make
             make install
-            ls -lh "${dir}/linux_x64_build"
-            mv "${dir}/linux_x64_build"  ../
+            ls -lh "${dir}/"
+            mv "${dir}/"  ../
           }
           7za a bwrap.7z linux_x64_build
       - uses: actions/upload-artifact@v3
