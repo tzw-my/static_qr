@@ -34,6 +34,7 @@ jobs:
             make install
             ls -lh "${dir}/"
           }
+          pwd
           7za a bwrap.7z "${dir}"
       - uses: actions/upload-artifact@v3
         with:
