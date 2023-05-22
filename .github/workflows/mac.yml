@@ -27,14 +27,14 @@ jobs:
         run: |
           wget https://github.com/containers/bubblewrap/releases/download/v0.8.0/bubblewrap-0.8.0.tar.xz
           tar xvf bubblewrap-0.8.0.tar.xz
+          dir="$(pwd)/linux_x64_build"
           cd bubblewrap-0.8.0 && {
-            dir="$(pwd)/linux_x64_build"
             LDFLAGS="-static" ./configure --prefix="${dir}"
             make
             make install
             ls -lh "${dir}/"
           }
-          7za a bwrap.7z ./bubblewrap-0.8.0/linux_x64_build/
+          7za a bwrap.7z "${dir}"
       - uses: actions/upload-artifact@v3
         with:
           path: "bwrap.7z"
