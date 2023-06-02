@@ -34,13 +34,13 @@ jobs:
                 LDFLAGS="-static" ./configure ARIA2_STATIC=yes --prefix="${dir}"
                 make
                 make install
+                strip "${dir}/bin/aria2c"
                 ls -lh "${dir}/bin/"
                 ldd "${dir}/bin/aria2c"
-                strip "${dir}/bin/aria2c"
             }
           )
-          tar cJvf aria_linux_x64.tar.xz "${dir}"
+          tar czvf aria_linux_x64.tar.gz "${dir}"
       - uses: actions/upload-artifact@v3
         with:
-          path: "aria_linux_x64.tar.xz"
+          path: "aria_linux_x64.tar.gz"
           name: "aria_linux_x64"
