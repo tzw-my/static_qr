@@ -28,15 +28,17 @@ jobs:
           curl -LO https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.xz
           tar xvf aria2-1.36.0.tar.xz
           dir="$(pwd)/aria_linux_x64"
-          cd aria2-1.36.0 && {
-              autoreconf -i
-              LDFLAGS="-static" ./configure ARIA2_STATIC=yes --prefix="${dir}"
-              make
-              make install
-              ls -lh "${dir}/bin/"
-              ldd "${dir}/bin/aria2c"
-          }
-          cd ..
+          (
+            cd aria2-1.36.0 && {
+                autoreconf -i
+                LDFLAGS="-static" ./configure ARIA2_STATIC=yes --prefix="${dir}"
+                make
+                make install
+                ls -lh "${dir}/bin/"
+                ldd "${dir}/bin/aria2c"
+                strip "${dir}/bin/aria2c"
+            }
+          )
           tar cJvf aria_linux_x64.tar.xz "${dir}"
       - uses: actions/upload-artifact@v3
         with:
