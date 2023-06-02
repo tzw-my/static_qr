@@ -21,22 +21,24 @@ jobs:
       - name: install
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc g++ make autoconf automake libtool libcap-dev pkg-config wget p7zip-full
+          sudo apt-get install -y libssl-dev libssh2-1-dev libc-ares-dev libxml2-dev zlib1g-dev libsqlite3-dev pkg-config libcppunit-dev autoconf automake autotools-dev autopoint libtool liblzma-dev libgpg-error-dev  python3-sphinx 
 
       - name: static build
         run: |
-          wget https://github.com/containers/bubblewrap/releases/download/v0.8.0/bubblewrap-0.8.0.tar.xz
-          tar xvf bubblewrap-0.8.0.tar.xz
-          dir="$(pwd)/linux_x64_build"
-          cd bubblewrap-0.8.0 && {
-            LDFLAGS="-static" ./configure --prefix="${dir}"
-            make
-            make install
-            ls -lh "${dir}/"
+          curl -LO https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.xz
+          tar xvf aria2-1.36.0.tar.xz
+          dir="$(pwd)/aria_linux_x64"
+          cd aria2-1.36.0 && {
+              autoreconf -i
+              LDFLAGS="-static" ./configure ARIA2_STATIC=yes --prefix="${dir}"
+              make
+              make install
+              ls -lh "${dir}/bin/"
+              ldd "${dir}/bin/aria2c"
           }
           cd ..
-          7za a bwrap.7z "${dir}"
+          tar cJvf aria_linux_x64.tar.xz "${dir}"
       - uses: actions/upload-artifact@v3
         with:
-          path: "bwrap.7z"
-          name: "bwrap"
+          path: "aria_linux_x64.tar.xz"
+          name: "aria_linux_x64"
