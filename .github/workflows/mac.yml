@@ -35,7 +35,6 @@ jobs:
                 make
                 make install
                 strip "${dir}/bin/aria2c"
-                ldd "${dir}/bin/aria2c"
                 ls -lh "${dir}/bin/"
             }
           )
