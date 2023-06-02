@@ -21,7 +21,7 @@ jobs:
       - name: install
         run: |
           sudo apt-get update
-          sudo apt-get install -y libssl-dev libssh2-1-dev libc-ares-dev libxml2-dev zlib1g-dev libsqlite3-dev pkg-config libcppunit-dev autoconf automake autotools-dev autopoint libtool liblzma-dev libgpg-error-dev  python3-sphinx 
+          sudo apt-get install -y libssl-dev libssh2-1-dev libc-ares-dev libxml2-dev zlib1g-dev libsqlite3-dev pkg-config libcppunit-dev autoconf automake autotools-dev autopoint libtool liblzma-dev libgpg-error-dev  python3-sphinx p7zip-full
 
       - name: static build
         run: |
@@ -39,7 +39,7 @@ jobs:
                 ldd "${dir}/bin/aria2c"
             }
           )
-          tar czvf aria_linux_x64.tar.gz "${dir}"
+          7z a aria_linux_x64.7z "${dir}"
       - uses: actions/upload-artifact@v3
         with:
           path: "aria_linux_x64.tar.gz"
