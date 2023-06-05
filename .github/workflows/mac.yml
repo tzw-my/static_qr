@@ -42,14 +42,15 @@ jobs:
                 LDFLAGS="-static" ./configure  --prefix="${dir}/qrencode_linux_x64"
                 make -j4 LDFLAGS="-static -all-static"
                 make install
-                strip "${dir}/bin/qrencode"
-                ldd "${dir}/bin/qrencode" || echo "------"
-                ls -lh "${dir}/bin/"
+                strip "${dir}/qrencode_linux_x64/bin/qrencode"
+                ldd "${dir}/qrencode_linux_x64/bin/qrencode" || echo "------"
+                ls -lh "${dir}/qrencode_linux_x64/bin/"
             }
           )
           (
             cd "${dir}" && {
               tar cJvf qrencode_linux_x64.tar.xz qrencode_linux_x64
+              mv qrencode_linux_x64.tar.xz "${dir}"
             }
           )
       - uses: actions/upload-artifact@v3
