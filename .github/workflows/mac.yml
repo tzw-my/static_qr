@@ -20,8 +20,10 @@ jobs:
 
       - name: install
         run: |
+          sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt install -y gcc g++ libc6-dev libgcc-11-dev  wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils
+          sudo apt install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils aptitude
+          sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1
       - name: static build
         run: |
           dir="$(pwd)"
@@ -37,7 +39,7 @@ jobs:
           (
             git clone  https://gcc.gnu.org/git/gcc.git 
             cd gcc/ && {
-                LDFLAGS="-static" ./configure  --prefix="${dir}/gcc"
+                LDFLAGS="-static" ./configure --enable-multilib  --prefix="${dir}/gcc"
                 make -j4
                 sudo make install
                 ls -lh "${dir}/gcc/bin/" || echo "---------"
