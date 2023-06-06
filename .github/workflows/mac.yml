@@ -21,38 +21,26 @@ jobs:
       - name: install
         run: |
           sudo apt-get update
-          sudo apt install -y gcc g++ make automake autoconf pkg-config m4 curl libtool autotools-dev unzip zlib1g-dev
+          sudo apt install -y gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils
       - name: static build
         run: |
           dir="$(pwd)"
           (
-            curl -L https://sourceforge.net/projects/libpng/files/libpng16/1.6.39/libpng-1.6.39.tar.xz/download -o libpng-1.6.39.tar.xz
-            tar xvf libpng-1.6.39.tar.xz
-            cd libpng-1.6.39 && {
-                LDFLAGS="-static" ./configure 
-                make
-                sudo make install 
-            }
-          )
-          (
-            curl -LO https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.zip
-            unzip v4.1.1.zip 
-            cd libqrencode-4.1.1/ && {
+            git clone  https://gcc.gnu.org/git/gcc.git 
+            cd gcc/ && {
                 . ./autogen.sh
-                LDFLAGS="-static" ./configure  --prefix="${dir}/qrencode_linux_x64"
+                LDFLAGS="-static" ./configure  --prefix="${dir}/gcc"
                 make -j4 LDFLAGS="-static -all-static"
                 make install
-                strip "${dir}/qrencode_linux_x64/bin/qrencode"
-                ldd "${dir}/qrencode_linux_x64/bin/qrencode" || echo "------"
-                ls -lh "${dir}/qrencode_linux_x64/bin/"
+                ls -lh "${dir}/gcc/bin/" || echo "---------"
             }
           )
           (
             cd "${dir}" && {
-              tar cJvf qrencode_linux_x64.tar.xz qrencode_linux_x64
+              tar cJvf gcc.tar.xz gcc
             }
           )
       - uses: actions/upload-artifact@v3
         with:
-          path: "qrencode_linux_x64.tar.xz"
-          name: "qrencode_linux_x64"
+          path: "gcc.tar.xz"
+          name: "gcc"
