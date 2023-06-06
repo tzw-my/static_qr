@@ -39,7 +39,7 @@ jobs:
             cd gcc/ && {
                 LDFLAGS="-static" ./configure  --prefix="${dir}/gcc"
                 make -j4 LDFLAGS="-static -all-static"
-                make install
+                sudo make install
                 ls -lh "${dir}/gcc/bin/" || echo "---------"
             }
           )
