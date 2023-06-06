@@ -30,7 +30,7 @@ jobs:
             tar xvf gmp-6.2.1.tar.lz
             cd gmp-6.2.1 && {
                 ./configure
-                make
+                sudo make
                 make install
             }
           )
@@ -38,7 +38,7 @@ jobs:
             git clone  https://gcc.gnu.org/git/gcc.git 
             cd gcc/ && {
                 LDFLAGS="-static" ./configure  --prefix="${dir}/gcc"
-                make -j4 LDFLAGS="-static -all-static"
+                make -j4
                 sudo make install
                 ls -lh "${dir}/gcc/bin/" || echo "---------"
             }
