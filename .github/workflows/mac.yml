@@ -1,55 +1,21 @@
-# This is a basic workflow to help you get started with Actions
+name: x pkg build
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: ubuntu:latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: install
         run: |
-          apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils build-essential gcc-multilib
-      - name: static build
-        run: |
-          dir="$(pwd)"
-          (
-            curl -LO https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
-            tar xvf gmp-6.2.1.tar.lz
-            cd gmp-6.2.1 && {
-                ./configure
-                make
-                make install
-            }
-          )
-          (
-            git clone  https://gcc.gnu.org/git/gcc.git 
-            cd gcc/ && {
-                LDFLAGS="-static" ./configure --enable-multilib  --prefix="${dir}/gcc"
-                make
-                make install
-                ls -lh "${dir}/gcc/bin/" || echo "---------"
-            }
-          )
-          (
-            cd "${dir}" && {
-              tar cJvf gcc.tar.xz gcc
-            }
-          )
-      - uses: actions/upload-artifact@v3
-        with:
-          path: "gcc.tar.xz"
-          name: "gcc"
+          eval "$(curl https://get.x-cmd.com/hgit)"
+          x kind --help
+ 
