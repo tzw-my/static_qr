@@ -21,7 +21,7 @@ jobs:
       - name: install
         run: |
           sudo apt-get update
-          sudo apt install -y gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils
+          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils
       - name: static build
         run: |
           dir="$(pwd)"
