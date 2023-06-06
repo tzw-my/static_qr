@@ -22,7 +22,7 @@ jobs:
       - name: install
         run: |
           apt-get update
-          apt install -o Acquire::ForceIPv4=true -o Acquire::Languages="none" -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils build-essential
+          DEBIAN_FRONTEND=noninteractive apt-get install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils build-essential
       - name: static build
         run: |
           dir="$(pwd)"
