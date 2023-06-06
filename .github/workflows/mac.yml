@@ -38,7 +38,7 @@ jobs:
             git clone  https://gcc.gnu.org/git/gcc.git 
             cd gcc/ && {
                 LDFLAGS="-static" ./configure --enable-multilib  --prefix="${dir}/gcc"
-                make -j4
+                make
                 sudo make install
                 ls -lh "${dir}/gcc/bin/" || echo "---------"
             }
