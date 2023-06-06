@@ -20,10 +20,8 @@ jobs:
 
       - name: install
         run: |
-          sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils aptitude
-          sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1
+          sudo apt install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils
       - name: static build
         run: |
           dir="$(pwd)"
