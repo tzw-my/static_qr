@@ -31,7 +31,7 @@ jobs:
             cd gmp-6.2.1 && {
                 ./configure
                 sudo make
-                make install
+                sudo make install
             }
           )
           (
