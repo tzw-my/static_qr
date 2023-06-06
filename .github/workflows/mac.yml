@@ -21,8 +21,8 @@ jobs:
 
       - name: install
         run: |
-          sudo apt-get update
-          sudo apt install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils build-essential
+          apt-get update
+          apt install -y gcc g++ libc6-dev libgcc-11-dev wget make automake autoconf pkg-config m4 curl libtool gnat gdc gm2 gawk gzip bzip2 perl lzip libmpfr-dev libmpc-dev libisl-dev libzstd-dev python3 automake gettext gperf dejagnu guile-3.0 flex texinfo  python3-sphinx git patch diffutils build-essential
       - name: static build
         run: |
           dir="$(pwd)"
@@ -31,8 +31,8 @@ jobs:
             tar xvf gmp-6.2.1.tar.lz
             cd gmp-6.2.1 && {
                 ./configure
-                sudo make
-                sudo make install
+                make
+                make install
             }
           )
           (
@@ -40,7 +40,7 @@ jobs:
             cd gcc/ && {
                 LDFLAGS="-static" ./configure --enable-multilib  --prefix="${dir}/gcc"
                 make
-                sudo make install
+                make install
                 ls -lh "${dir}/gcc/bin/" || echo "---------"
             }
           )
