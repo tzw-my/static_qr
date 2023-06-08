@@ -45,9 +45,9 @@ jobs:
           dir="$(pwd)"
           (
               cd openssl-3.1.1 && {
-                  ./config
+                  ./config --prefix="$dir"/openssl
                   make
-                  make install --prefix="$dir"/openssl
+                  make install 
               }
           )
       - name: build socat
