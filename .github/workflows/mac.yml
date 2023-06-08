@@ -42,11 +42,12 @@ jobs:
         run: |
           curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
           tar zxvf openssl-3.1.1.tar.gz
+          dir="$(pwd)"
           (
               cd openssl-3.1.1 && {
                   ./config
-                  sudo make
-                  sudo make install
+                  make
+                  make install --prefix="$dir"/openssl
               }
           )
       - name: build socat
@@ -55,6 +56,10 @@ jobs:
           tar xvf socat-1.7.4.4.tar.gz
           dir="$(pwd)"
           (
+              export LD_LIBRARY_PATH="${dir}"/openssl/lib 
+              export LIBRARY_PATH="${dir}"/openssl/lib
+              export PKG_CONFIG_PATH="${dir}"/openssl/lib/pkgconfig
+              export CPATH="${dir}"/openssl/include/openssl/
               cd socat-1.7.4.4 && {
                   ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_darwin_x64
                   make  LDFLAGS="-static"
