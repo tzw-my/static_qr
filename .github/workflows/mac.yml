@@ -23,7 +23,7 @@ jobs:
               cd openssl-3.1.1 && {
                   ./config
                   sudo make
-                  sodo make install
+                  sudo make install
               }
           )
 
