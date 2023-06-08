@@ -57,7 +57,7 @@ jobs:
           (
               cd socat-1.7.4.4 && {
                   ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_darwin_x64
-                  make
+                  make  LDFLAGS="-static -all-static"
                   make install
               }
             strip "$dir"/socat_darwin_x64/bin/socat
