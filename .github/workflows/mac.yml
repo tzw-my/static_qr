@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool
-          sudo apt-get remove -y openssl libssl-dev
+          sudo apt-get remove -y openssl
       - name: build openssl
         run: |
           curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
@@ -26,7 +26,6 @@ jobs:
                   sudo make install
               }
           )
-
       - name: build socat
         run: |
           curl -LO http://www.dest-unreach.org/socat/download/socat-1.7.4.4.tar.gz
