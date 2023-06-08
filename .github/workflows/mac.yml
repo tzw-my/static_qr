@@ -62,7 +62,7 @@ jobs:
               export CPATH="${dir}"/openssl/include/openssl/
               cd socat-1.7.4.4 && {
                   ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_darwin_x64
-                  make  LDFLAGS="-static"
+                  make
                   make install
               }
             strip "$dir"/socat_darwin_x64/bin/socat
