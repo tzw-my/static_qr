@@ -13,8 +13,8 @@ jobs:
       - name: install
         run: |
           sudo apt-get update
-          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool
-          sudo apt remove -y openssl libssl-dev
+          sudo apt-get install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool
+          sudo apt-get remove -y openssl libssl-dev
       - name: build openssl
         run: |
           curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
