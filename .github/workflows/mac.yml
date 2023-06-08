@@ -1,19 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+
 name: CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
-    runs-on: ubuntu-latest
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: install
+
+      # Runs a set of commands using the runners shell
+      - name: Download dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool
+          brew update
+          brew install autoconf
+          brew install automake
+          brew install libtool
+          brew install pkg-config
+          brew install libpng
+          brew install wget
+          brew install unzip
+          brew install git
+
       - name: build openssl
         run: |
           curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
@@ -32,15 +56,16 @@ jobs:
           dir="$(pwd)"
           (
               cd socat-1.7.4.4 && {
-                  LDFLAGS="-static" ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_linux_x64
+                  ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_darwin_x64
                   make
                   make install
               }
-            strip "$dir"/socat_linux_x64/bin/socat
-            ldd  "$dir"/socat_linux_x64/bin/socat || echo "------"
+            strip "$dir"/socat_darwin_x64/bin/socat
+            ldd  "$dir"/socat_darwin_x64/bin/socat || echo "------"
           )
-          tar cJvf socat_linux_x64.tar.xz socat_linux_x64
+          tar cJvf socat_darwin_x64.tar.xz socat_darwin_x64
       - uses: actions/upload-artifact@v3
         with:
-          path: socat_linux_x64.tar.xz
-          name: socat_linux_x64
+          path: socat_darwin_x64.tar.xz
+          name: socat_darwin_x64
+      
