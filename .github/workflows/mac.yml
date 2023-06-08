@@ -1,21 +1,48 @@
-name: x pkg build
-
+name: CI
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
-
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: install
         run: |
-          eval "$(curl https://get.x-cmd.com/hgit)"
-          x kind --help
- 
+          sudo apt-get update
+          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool
+          sudo apt remove -y openssl libssl-dev
+      - name: build openssl
+        run: |
+          curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
+          tar zxvf openssl-3.1.1.tar.gz
+          (
+              cd openssl-3.1.1 && {
+                  ./config
+                  make
+                  make install
+              }
+          )÷
+
+      - name: build socat
+        run: |
+          curl -LO http://www.dest-unreach.org/socat/download/socat-1.7.4.4.tar.gz
+          tar xvf socat-1.7.4.4.tar.gz
+          dir="$(pwd)"
+          (
+              cd socat-1.7.4.4 && {
+                  LDFLAGS="-static" ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_linux_x64
+                  make
+                  make install
+              }
+            strip "$dir"/socat_linux_x64/bin/socat
+            ldd  "$dir"/socat_linux_x64/bin/socat || echo "------"
+          )
+          tar cJvf socat_linux_x64.tar.xz socat_linux_x64
+      - uses: actions/upload-artifact@v3
+        with:
+          path: socat_linux_x64.tar.xz
+          name: socat_linux_x64
