@@ -16,7 +16,6 @@ jobs:
         run: |
           choco install cygwin
           choco install strawberryperl
-          choco install gnuwin32-coreutils.portable
       - name: install perl
         shell: powershell
         run: |
