@@ -19,10 +19,11 @@ jobs:
         shell: bash
         run: |
           curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
+          dir="$(pwd)"
           tar zxvf openssl-3.1.1.tar.gz
           (
               cd openssl-3.1.1 && {
-                  ./config
+                  ./config --prefix="$dir"/openssl
                   sudo make
                   sudo make install
               }
