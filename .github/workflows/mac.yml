@@ -15,6 +15,8 @@ jobs:
       - name: install
         run: |
           choco install mingw
+          choco install strawberryperl
+          choco install varpanel
       - name: build socat
         shell: bash
         run: |
