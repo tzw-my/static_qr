@@ -14,12 +14,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          choco install mingw
+          choco install cygwin
           choco install strawberryperl
           choco install varpanel
       - name: install perl
-        shell: cpan
         run: |
+          cpan
           install Locale::Maketext::Simple
       - name: build openssl
         shell: bash
