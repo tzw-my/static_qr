@@ -17,6 +17,22 @@ jobs:
           choco install mingw
           choco install strawberryperl
           choco install varpanel
+      - name: install perl
+        shell: cpan
+        run: |
+          install Locale::Maketext::Simple
+      - name: build openssl
+        shell: bash
+        run: |
+          curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
+          tar zxvf openssl-3.1.1.tar.gz
+          (
+              cd openssl-3.1.1 && {
+                  ./config
+                  sudo make
+                  sudo make install
+              }
+          )
       - name: build socat
         shell: bash
         run: |
@@ -25,16 +41,16 @@ jobs:
           dir="$(pwd)"
           (
               cd socat-1.7.4.4 && {
-                  ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_darwin_x64
+                  ./configure --enable-fips --enable-openssl-method --prefix="$dir"/socat_win_x64
                   make
                   make install
               }
-            strip "$dir"/socat_darwin_x64/bin/socat
-            ldd  "$dir"/socat_darwin_x64/bin/socat || echo "------"
+            strip "$dir"/socat_win_x64/bin/socat
+            ldd  "$dir"/socat_win_x64/bin/socat || echo "------"
           )
-          tar cJvf socat_darwin_x64.tar.xz socat_darwin_x64
+          tar cJvf socat_win_x64.tar.xz socat_win_x64
       - uses: actions/upload-artifact@v3
         with:
-          path: socat_darwin_x64.tar.xz
-          name: socat_darwin_x64
+          path: socat_win_x64.tar.xz
+          name: socat_win_x64
       
