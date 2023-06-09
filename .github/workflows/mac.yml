@@ -16,12 +16,12 @@ jobs:
         run: |
           choco install cygwin
           choco install strawberryperl
-          choco install varpanel
+          choco install gnuwin32-coreutils.portable
       - name: install perl
         shell: powershell
         run: |
           cpan
-          cpan install Locale::Maketext::Simple
+          install Locale::Maketext::Simple
       - name: build openssl
         shell: bash
         run: |
