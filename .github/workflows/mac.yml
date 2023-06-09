@@ -18,6 +18,7 @@ jobs:
           choco install strawberryperl
           choco install varpanel
       - name: install perl
+        shell: powershell
         run: |
           cpan
           install Locale::Maketext::Simple
