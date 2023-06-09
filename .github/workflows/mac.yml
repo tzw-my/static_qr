@@ -15,7 +15,8 @@ jobs:
       - name: install
         run: |
           choco install cygwin
-          choco install cygwin
+          choco install wget
+          choco uninstall mingw
           choco install strawberryperl
       # - name: install perl
       #   shell: powershell
@@ -35,15 +36,16 @@ jobs:
       #             sudo make install
       #         }
       #     )
-      - name: install apt-cyg
-        shell: bash
-        run: | 
-          command -v cygwin
-          bin_dir="$(command -v cygwin)"
-          curl -LO https://github.com/transcode-open/apt-cyg/archive/refs/heads/master.zip
-          unzip master.zip
-          mv apt-cyg-master/apt-cyg "${bin_dir%/*}"
-          apt-cyg install gcc-core gcc-fortran gcc-g++ gcc-objc gcc-objc++ libkrb5-devel libkrb5_3 libreadline-devel libssl-devel libwrap-devel make tcp_wrappers
+      
+      # - name: install apt-cyg
+      #   shell: bash
+      #   run: | 
+      #     command -v cygwin
+      #     bin_dir="$(command -v cygwin)"
+      #     curl -LO https://github.com/transcode-open/apt-cyg/archive/refs/heads/master.zip
+      #     unzip master.zip
+      #     mv apt-cyg-master/apt-cyg "${bin_dir%/*}"
+      #     apt-cyg install gcc-core gcc-fortran gcc-g++ gcc-objc gcc-objc++ libkrb5-devel libkrb5_3 libreadline-devel libssl-devel libwrap-devel make tcp_wrappers
       - name: build socat
         shell: bash
         run: |
