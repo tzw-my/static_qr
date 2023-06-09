@@ -38,6 +38,7 @@ jobs:
         shell: bash
         run: |
           cygwin
+          gcc -v
           curl -LO http://www.dest-unreach.org/socat/download/socat-1.7.4.4.tar.gz
           tar xvf socat-1.7.4.4.tar.gz
           dir="$(pwd)"
