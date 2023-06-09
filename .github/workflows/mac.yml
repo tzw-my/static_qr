@@ -15,19 +15,6 @@ jobs:
       - name: install
         run: |
           choco install mingw
-      - name: build openssl
-        shell: bash
-        run: |
-          curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
-          dir="$(pwd)"
-          tar zxvf openssl-3.1.1.tar.gz
-          (
-              cd openssl-3.1.1 && {
-                  ./config --prefix="$dir"/openssl
-                  sudo make
-                  sudo make install
-              }
-          )
       - name: build socat
         shell: bash
         run: |
