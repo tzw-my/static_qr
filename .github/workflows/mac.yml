@@ -21,7 +21,8 @@ jobs:
         shell: powershell
         run: |
           cpan
-          install Locale::Maketext::Simple
+          cpan App::cpanminus
+          cpanm Locale::Maketext::Simple
       - name: build openssl
         shell: bash
         run: |
