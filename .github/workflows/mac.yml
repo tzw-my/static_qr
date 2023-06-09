@@ -23,18 +23,18 @@ jobs:
           cpan
           cpan App::cpanminus
           cpanm Locale::Maketext::Simple
-      - name: build openssl
-        shell: bash
-        run: |
-          curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
-          tar zxvf openssl-3.1.1.tar.gz
-          (
-              cd openssl-3.1.1 && {
-                  ./config
-                  sudo make
-                  sudo make install
-              }
-          )
+      # - name: build openssl
+      #   shell: bash
+      #   run: |
+      #     curl -LO https://github.com/openssl/openssl/releases/download/openssl-3.1.1/openssl-3.1.1.tar.gz
+      #     tar zxvf openssl-3.1.1.tar.gz
+      #     (
+      #         cd openssl-3.1.1 && {
+      #             ./config
+      #             sudo make
+      #             sudo make install
+      #         }
+      #     )
       - name: build socat
         shell: bash
         run: |
