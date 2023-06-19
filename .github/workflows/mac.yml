@@ -21,7 +21,7 @@ jobs:
             yum makecache
           )
 
-          yum install -y gcc gcc-c++ make automake autoconf pkgconfig m4 curl libtool zlib-devel ncurses-devel
+          yum install -y gcc gcc-c++ make automake autoconf pkgconfig m4 curl libtool zlib-devel ncurses-devel 
 
           (
             curl -LO https://github.com/Perl/perl5/archive/refs/tags/v5.36.1.tar.gz
