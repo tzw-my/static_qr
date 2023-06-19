@@ -51,7 +51,7 @@ jobs:
               done <<A
               $(ls /home/perl_linux_arm64/bin/)
           A
-          )
+          ) || echo "-----"
       - name: compression
         run: |
           cd /home
