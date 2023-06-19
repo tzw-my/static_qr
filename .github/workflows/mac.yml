@@ -21,7 +21,7 @@ jobs:
             yum makecache
           )
 
-          yum install gcc gcc-c++ make automake autoconf pkgconfig m4 curl libtool zlib-devel ncurses-devel
+          yum install -y gcc gcc-c++ make automake autoconf pkgconfig m4 curl libtool zlib-devel ncurses-devel patchelf
 
           curl -LO https://github.com/Perl/perl5/archive/refs/tags/v5.36.1.tar.gz
           (
@@ -31,6 +31,26 @@ jobs:
                   make
                   make install 
               }
+          )
+          (
+          while read -r bin_name;do
+              ldd /home/perl_linux_arm64/bin/"${bin_name}" > lib_info
+              while read -r libname;do
+                  libdir="${libname##*"=>"}"
+                  [ "${libname}" != "${libdir}" ] || continue
+                  [ "${libdir}" = "${libdir%%"("*}" ] && {
+                      libdir="$(find / -name "${libname%%"=>"*}")"
+                      [ -z "${libdir}" ] && printf "%s\n" "${libname} fail"
+                      continue
+                  }
+                  libdir="${libdir%%"("*}"
+                  command cp -n ${libdir} /home/perl_linux_arm64/lib
+              done <<A
+              $(cat lib_info)
+          A
+              done <<A
+              $(ls /home/perl_linux_arm64/bin/)
+          A
           )
       - name: compression
         run: |
