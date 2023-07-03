@@ -14,13 +14,13 @@ jobs:
       - name: install
         run: |
           sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool cargo
-          sudo cargo update
       - name: build bandwhich
         run: |
           wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
           tar zxvf 0.20.0.tar.gz
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
+            sudo cargo update
             export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
             export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-static"
             cargo build -r --target x86_64-unknown-linux-gnu
