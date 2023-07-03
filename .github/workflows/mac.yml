@@ -23,7 +23,7 @@ jobs:
             sudo cargo update
             export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
             export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-static"
-            cargo build -r 
+            cargo build -r --target x86_64-unknown-linux-gnu
             mv target/release  $GITHUB_WORKSPACE/
           }
           printf "%s\n" "编译结束"
