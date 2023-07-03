@@ -22,8 +22,8 @@ jobs:
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
             sudo cargo update
-            cargo build -r --target x86_64-unknown-linux-gnu
-            ldd target/x86_64-unknown-linux-gnu/release/bandwhich || true
+            cargo build -r --target x86_64-unknown-linux-musl
+            ldd target/x86_64-unknown-linux-musl/release/bandwhich || true
             mv target/  $dir/
           }
           printf "%s\n" "编译结束"
