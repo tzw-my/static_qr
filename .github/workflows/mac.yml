@@ -24,8 +24,8 @@ jobs:
             sudo cargo update
             export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
             export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-static"
-            cargo build -r --target x86_64-unknown-linux-gun
-            ldd target/x86_64-unknown-linux-gun/release/bandwhich || true
+            cargo build -r --target x86_64-unknown-linux-gnu
+            ldd target/x86_64-unknown-linux-gnu/release/bandwhich || true
             mv target/  $dir/
           }
           printf "%s\n" "编译结束"
