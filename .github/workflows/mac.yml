@@ -1,62 +1,39 @@
-name: CI
+name: build bandwhich
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: centos:latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          (
-            cd /etc/yum.repos.d/ || exec
-            sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-            sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-            yum clean all
-            yum makecache
-          )
-
-          yum install -y gcc gcc-c++ make automake autoconf pkgconfig m4 curl libtool zlib-devel ncurses-devel 
-
-          (
-            curl -LO https://github.com/Perl/perl5/archive/refs/tags/v5.36.1.tar.gz
-            tar xvf v5.36.1.tar.gz
-            cd perl5-5.36.1/ && {
-                ./Configure -Dcc=gcc -des -Dstaticperl -Duserelocatableinc -Duseshrplib=false -Duselargefiles -Dusethreads -Dprefix=/home/perl_linux_arm64
-                make
-                make install 
-            }
-          )
-          (
-          while read -r bin_name;do
-              ldd /home/perl_linux_arm64/bin/"${bin_name}" > lib_info
-              while read -r libname;do
-                  libdir="${libname##*"=>"}"
-                  [ "${libname}" != "${libdir}" ] || continue
-                  [ "${libdir}" = "${libdir%%"("*}" ] && {
-                      libdir="$(find / -name "${libname%%"=>"*}")"
-                      [ -z "${libdir}" ] && printf "%s\n" "${libname} fail"
-                      continue
-                  }
-                  libdir="${libdir%%"("*}"
-                  command cp -n ${libdir} /home/perl_linux_arm64/lib
-              done <<A
-              $(cat lib_info)
-          A
-              done <<A
-              $(ls /home/perl_linux_arm64/bin/)
-          A
-          ) || echo "-----"
+          apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool cargo
+          cargo update
+      - name: build bandwhich
+        shell: bash
+        run: |
+          bash
+          wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
+          tar zxvf 0.20.0.tar.gz
+          printf "%s\n" "开始编译"
+          cd bandwhich-0.20.0/ && {
+            export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
+            export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-static"
+            cargo build -r --target x86_64-unknown-linux-gnu
+            mv target/release  $GITHUB_WORKSPACE/
+          }
+          printf "%s\n" "编译结束"
       - name: compression
         run: |
-          cd /home
-          tar cJvf perl_linux_arm64.tar.xz perl_linux_arm64/
+          cd  $GITHUB_WORKSPACE
+          7z a bandwhich.7z $GITHUB_WORKSPACE/release
       - uses: actions/upload-artifact@v3
         with:
-          path: /home/perl_linux_arm64.tar.xz
-          name: perl_linux_arm64
+          path: bandwhich.7z
+          name: bandwhich
