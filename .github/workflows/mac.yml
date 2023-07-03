@@ -1,4 +1,4 @@
-name: build bandwhich
+name: build tig
 on:
   push:
     branches: [ main ]
@@ -12,26 +12,46 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install
+      - name: build tig
         run: |
-          brew install rust cargo-c
-      - name: build bandwhich
-        run: |
-          dir="$(pwd)"
-          wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
-          tar zxvf 0.20.0.tar.gz
-          printf "%s\n" "开始编译"
-          cd bandwhich-0.20.0/ && {
-            cargo update
-            cargo build -r
-            otool -L target/release/bandwhich || true
-            mv target/  $dir/
+          dir=$(pwd)
+          dir="${dir}/build_lib"
+          curl -LO https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz
+          tar xvf ncurses-6.4.tar.gz
+          cd ncurses-6.4 && {
+              ./configure --prefix=${dir}/test
+              make 
+              make install
+          }
+
+          curl -LO  https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
+          tar xvf readline-8.2.tar.gz
+          cd readline-8.2 && {
+              ./configure --prefix=${dir}/
+              make 
+              make install
+          }
+
+          curl -LO  https://ftp.gnu.org/gnu/libiconv/libiconv-1.17.tar.gz
+          tar xvf libiconv-1.17.tar.gz
+          cd libiconv-1.17 && {
+              ./configure --prefix=${dir}/
+              make 
+              make install
+          }
+          curl -LO https://github.com/jonas/tig/archive/refs/tags/tig-2.5.8.tar.gz
+          tar xvf tig-2.5.8.tar.gz
+          cd tig-tig-2.5.8/ && {
+            export LDFLAGS="-L${dir}/lib"
+            export CPPFLAGS="-I${dir}/libiconv/include -I${dir}/readline/include -I${dir}/ncurses/include"
+            ./configure --prefix=${dir}/../tig
           }
           printf "%s\n" "编译结束"
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a bandwhich.7z target
+          7z a tig.7z tig
       - uses: actions/upload-artifact@v3
         with:
-          path: bandwhich.7z
-          name: bandwhich
+          path: tig.7z
+          name: tig
