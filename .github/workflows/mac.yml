@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool cargo
+          brew install cargo
       - name: build bandwhich
         run: |
           dir="$(pwd)"
@@ -21,10 +21,9 @@ jobs:
           tar zxvf 0.20.0.tar.gz
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
-            sudo cargo update
-            export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
-            cargo build -r --target x86_64-unknown-linux-gnu
-            ldd target/x86_64-unknown-linux-gnu/release/bandwhich || true
+            cargo update
+            cargo build -r --target
+            otool -L target/release/bandwhich || true
             mv target/  $dir/
           }
           printf "%s\n" "编译结束"
