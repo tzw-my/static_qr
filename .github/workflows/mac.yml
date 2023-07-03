@@ -22,7 +22,7 @@ jobs:
           cd bandwhich-0.20.0/ && {
             sudo cargo update
             cargo build -r --target x86_64-unknown-linux-gnu
-            mv target/release  $GITHUB_WORKSPACE/
+            mv target/  $GITHUB_WORKSPACE/
           }
           printf "%s\n" "编译结束"
       - name: compression
