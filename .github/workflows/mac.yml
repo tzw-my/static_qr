@@ -43,7 +43,10 @@ jobs:
           cd tig-tig-2.5.8/ && {
             export LDFLAGS="-L${dir}/lib"
             export CPPFLAGS="-I${dir}/libiconv/include -I${dir}/readline/include -I${dir}/ncurses/include"
+            ./autogen.sh
             ./configure --prefix=${dir}/../tig
+            make 
+            make install
           }
           printf "%s\n" "编译结束"
       - name: compression
