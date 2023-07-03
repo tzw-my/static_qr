@@ -14,7 +14,7 @@ jobs:
       - name: install
         run: |
           sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool cargo
-          cargo update
+          sodu cargo update
       - name: build bandwhich
         run: |
           wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
