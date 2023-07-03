@@ -22,6 +22,9 @@ jobs:
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
             sudo cargo update
+            export RUSTFLAGS="$RUSTFLAGS -C target-feature=+crt-static"
+            export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-static"
+            rustc --explain E0405
             cargo build -r --target x86_64-unknown-linux-musl
             ldd target/x86_64-unknown-linux-musl/release/bandwhich || true
             mv target/  $dir/
