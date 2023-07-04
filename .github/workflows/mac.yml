@@ -46,7 +46,7 @@ jobs:
           cd tig-tig-2.5.8/ && {
             export PATH=$PATH:${dir}/bin
             export LDFLAGS="-L${dir}/lib"
-            export CPPFLAGS="-I${dir}/libiconv/include -I${dir}/readline/include -I${dir}/ncurses/include"
+            export CPPFLAGS="-I${dir}/include -I${dir}/readline/include -I${dir}/ncurses/include"
             ./autogen.sh
             ./configure --prefix=${dir}/../tig
             make 
