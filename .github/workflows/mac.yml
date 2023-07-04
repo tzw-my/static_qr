@@ -52,12 +52,23 @@ jobs:
             make 
             make install
           }
-          otool -L ${dir}/../tig/bin/tig || true
+          mkdir -p ${dir}/../tig/lib
+          while read -r lib;do
+            lib_dir=${lib%" ("*}
+            [ ${lib_dir} = ${lib} ] || {
+              [ ${lib_dir} = "/usr/lib/libSystem.B.dylib" ] || {
+                cp "${lib_dir}" ${dir}/../tig/lib
+                install_name_tool -change ${lib_dir} @executable_path/../lib/${lib_dir##*"/"} ${dir}/../tig/bin/tig
+              }
+            }
+          done <<A
+            $(otool -L ${dir}/../tig/bin/tig )
+          A
           printf "%s\n" "编译结束"
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a tig.7z tig/ build_lib
+          7z a tig.7z tig/
       - uses: actions/upload-artifact@v3
         with:
           path: tig.7z
