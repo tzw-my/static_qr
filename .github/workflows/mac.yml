@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          brew install aclocal
+          brew install rust automake
       - name: build tig
         run: |
           dir=$(pwd)
