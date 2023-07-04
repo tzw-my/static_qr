@@ -11,6 +11,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: install
+        run: |
+          brew install aclocal
       - name: build tig
         run: |
           dir=$(pwd)
