@@ -58,7 +58,8 @@ jobs:
             lib_dir=${lib%" ("*}
             [ ${lib_dir} = ${lib} ] || {
               [ ${lib_dir} = "/usr/lib/libSystem.B.dylib" ] || {
-                cp "${lib_dir}" ${dir}/../tig/lib
+                ls -lh ${lib_dir}
+                cp ${lib_dir} ${dir}/../tig/lib || true
                 install_name_tool -change ${lib_dir} @executable_path/../lib/${lib_dir##*"/"} ${dir}/../tig/bin/tig
               }
             }
