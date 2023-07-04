@@ -52,7 +52,7 @@ jobs:
             make 
             make install
           }
-          ldd ${dir}/../tig/bin/tig
+          otool -L ${dir}/../tig/bin/tig || true
           printf "%s\n" "编译结束"
       - name: compression
         run: |
