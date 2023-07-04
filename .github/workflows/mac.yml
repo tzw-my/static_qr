@@ -43,6 +43,7 @@ jobs:
           }
           curl -LO https://github.com/jonas/tig/archive/refs/tags/tig-2.5.8.tar.gz
           tar xvf tig-2.5.8.tar.gz
+          mkdir -p ${dir}/../tig/lib
           cd tig-tig-2.5.8/ && {
             export PATH=$PATH:${dir}/bin
             export LDFLAGS="-L${dir}/lib"
@@ -52,7 +53,7 @@ jobs:
             make 
             make install
           }
-          mkdir -p ${dir}/../tig/lib
+          otool -L ${dir}/../tig/bin/tig || true
           while read -r lib;do
             lib_dir=${lib%" ("*}
             [ ${lib_dir} = ${lib} ] || {
@@ -62,7 +63,7 @@ jobs:
               }
             }
           done <<A
-            $(otool -L ${dir}/../tig/bin/tig )
+            $(otool -L ${dir}/../tig/bin/tig)
           A
           printf "%s\n" "编译结束"
       - name: compression
