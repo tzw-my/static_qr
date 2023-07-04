@@ -52,11 +52,12 @@ jobs:
             make 
             make install
           }
+          ldd ${dir}/../tig/bin/tig
           printf "%s\n" "编译结束"
       - name: compression
         run: |
           cd  $GITHUB_WORKSPACE
-          7z a tig.7z tig
+          7z a tig.7z tig/ build_lib
       - uses: actions/upload-artifact@v3
         with:
           path: tig.7z
