@@ -12,8 +12,8 @@ jobs:
       - name: build tig
         run: |
           dir="$(pwd)"
-          apt update
-          apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool libncursesw5-dev libreadline-dev libiconv-hook-dev
+          sudo apt update
+          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool libncursesw5-dev libreadline-dev libiconv-hook-dev
           curl -LO https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz
           tar xvf tig-2.5.8.tar.gz 
           cd tig-2.5.8 && {
