@@ -26,6 +26,8 @@ jobs:
           }
           (
             strip ${dir}/tig_linux_x64/bin/tig
+            ldd ${dir}/tig_linux_x64/bin/tig || true
+            printf "%s" "---------"
             cd "${dir}" && {
               tar cJvf tig_linux_x64.tar.xz tig_linux_x64
             }
