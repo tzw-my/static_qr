@@ -1,73 +1,35 @@
 name: build tig
 on:
-
+  push:
+    branches: [ main ]
+    
   workflow_dispatch:
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: install
-        run: |
-          brew install automake
       - name: build tig
         run: |
-          dir=$(pwd)
-          dir="${dir}/build_lib"
-          curl -LO https://ftp.gnu.org/gnu/ncurses/ncurses-6.4.tar.gz
-          tar xvf ncurses-6.4.tar.gz
-          cd ncurses-6.4 && {
-              ./configure --prefix=${dir}/
-              make 
+          dir="$(pwd)"
+          apt update
+          apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool libncursesw5-dev libreadline-dev libiconv-hook-dev
+          curl -LO https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz
+          tar xvf tig-2.5.8.tar.gz 
+          cd tig-2.5.8 && {
+              export LD_LIBRARY_PATH=/lib:/usr/lib://usr/local/lib:/usr/lib/aarch64-linux-gnu
+              export LIBRARY_PATH=/lib:/usr/lib://usr/local/lib:/usr/lib/aarch64-linux-gnu
+              export CPATH=/usr/include:/usr/local/include
+              ./configure --with-ncurses --prefix=${dir}/tig_linux_x64
+              make LDFLAGS="-static"
               make install
           }
-
-          curl -LO  https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
-          tar xvf readline-8.2.tar.gz
-          cd readline-8.2 && {
-              ./configure --prefix=${dir}/
-              make 
-              make install
-          }
-
-          curl -LO  https://ftp.gnu.org/gnu/libiconv/libiconv-1.17.tar.gz
-          tar xvf libiconv-1.17.tar.gz
-          cd libiconv-1.17 && {
-              ./configure --prefix=${dir}/
-              make 
-              make install
-          }
-          curl -LO https://github.com/jonas/tig/archive/refs/tags/tig-2.5.8.tar.gz
-          tar xvf tig-2.5.8.tar.gz
-          mkdir -p ${dir}/../tig/lib
-          cd tig-tig-2.5.8/ && {
-            export PATH=$PATH:${dir}/bin
-            export LDFLAGS="-L${dir}/lib"
-            export CPPFLAGS="-I${dir}/include -I${dir}/readline/include -I${dir}/ncurses/include"
-            ./autogen.sh
-            ./configure --prefix=${dir}/../tig
-            make 
-            make install
-          }
-          otool -L ${dir}/../tig/bin/tig || true
-          while read -r lib;do
-            lib_dir=${lib%" ("*}
-            [ ${lib_dir} = ${lib} ] || {
-              [ ${lib_dir%"/"*} = "/usr/lib" ] || {
-                ls -lh ${lib_dir}
-                cp ${lib_dir} ${dir}/../tig/lib || true
-                install_name_tool -change ${lib_dir} @executable_path/../lib/${lib_dir##*"/"} ${dir}/../tig/bin/tig
-              }
+          (
+            cd "${dir}" && {
+              tar cJvf tig_linux_x64.tar.xz tig_linux_x64
             }
-          done <<A
-            $(otool -L ${dir}/../tig/bin/tig)
-          A
-          printf "%s\n" "编译结束"
-      - name: compression
-        run: |
-          cd  $GITHUB_WORKSPACE
-          7z a tig.7z tig/
+          )
       - uses: actions/upload-artifact@v3
         with:
-          path: tig.7z
+          path: tig_linux_x64.tar.xz
           name: tig
