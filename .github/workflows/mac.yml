@@ -38,8 +38,6 @@ jobs:
           printf "%s\n" "开始编译"
           cd bandwhich-0.20.0/ && {
             cargo update
-            rustc --explain E0512
-            rustc --explain E0793
             cargo build -r
             mv target/release  $dir/
             ldd $dir/bin/bandwhich || true
