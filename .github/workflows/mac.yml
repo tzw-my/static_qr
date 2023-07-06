@@ -1,38 +1,55 @@
-name: build tig
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-    
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+#   # This workflow contains a single job called "build"
+#  test:
+          
+  # This workflow contains a single job called "build"
   build:
-    runs-on: ubuntu-latest
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: build tig
+      - name: wget
         run: |
-          dir="$(pwd)"
-          sudo apt update
-          sudo apt install -y gcc g++ wget make automake autoconf pkg-config m4 curl libtool libncursesw5-dev libreadline-dev libiconv-hook-dev
-          curl -LO https://github.com/jonas/tig/releases/download/tig-2.5.8/tig-2.5.8.tar.gz
-          tar xvf tig-2.5.8.tar.gz 
-          cd tig-2.5.8 && {
-              export LD_LIBRARY_PATH=/lib:/usr/lib://usr/local/lib:/usr/lib/aarch64-linux-gnu
-              export LIBRARY_PATH=/lib:/usr/lib://usr/local/lib:/usr/lib/aarch64-linux-gnu
-              export CPATH=/usr/include:/usr/local/include
-              ./configure --with-ncurses --prefix=${dir}/tig_linux_x64
-              make LDFLAGS="-static"
-              make install
+          choco install wget 
+      - name: build bandwhich
+        shell: bash
+        run: |
+          bash
+          dir=$(pwd)
+          wget https://github.com/imsnif/bandwhich/archive/refs/tags/0.20.0.tar.gz
+          tar zxvf 0.20.0.tar.gz
+          printf "%s\n" "开始编译"
+          cd bandwhich-0.20.0/ && {
+            cargo update
+            rustc --explain E0512
+            rustc --explain E0793
+            cargo build -r
+            mv target/release  $dir/
+            ldd $dir/bin/bandwhich || true
           }
-          (
-            strip ${dir}/tig_linux_x64/bin/tig
-            ldd ${dir}/tig_linux_x64/bin/tig || true
-            printf "%s" "---------"
-            cd "${dir}" && {
-              tar cJvf tig_linux_x64.tar.xz tig_linux_x64
-            }
-          )
+          printf "%s\n" "编译结束"
+      - name: compression
+        run: |
+          cd  $dir
+          7z a bandwhich.7z $dir/release
       - uses: actions/upload-artifact@v3
         with:
-          path: tig_linux_x64.tar.xz
-          name: tig
+          path: bandwhich.7z
+          name: bandwhich
