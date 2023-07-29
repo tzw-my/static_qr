@@ -38,7 +38,7 @@ jobs:
           git clone https://github.com/Genymobile/scrcpy
           cd scrcpy
           meson setup x --buildtype=release --strip -Db_lto=true
-          ninja -Cx -j1
+          sudo ninja -Cx -j1
           sudo ninja -Cx install
       - name: compression
         run: |
