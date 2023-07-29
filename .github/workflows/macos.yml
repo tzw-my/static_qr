@@ -29,10 +29,13 @@ jobs:
       - name: Download dependencies
         run: |
           brew update
+          nettle gnutls rubberband srt sqlite python@3.11 meson
           brew install sdl2 ffmpeg libusb ninja
           brew install pkg-config meson
           brew tap homebrew/cask
           brew install --cask android-sdk
+          brew tap homebrew/cask-versions
+          brew install adoptopenjdk/openjdk/adoptopenjdk11
       - name: Static build
         run: |
           git clone https://github.com/Genymobile/scrcpy
