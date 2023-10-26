@@ -53,15 +53,6 @@ jobs:
                 printf "%s\n" "otool -L ttyd fail"
                 continue
             }
-            while read -r libname;do
-                libdir="${libname%%" ("*}"
-                [ -f "${libdir}" ] && {
-                    command cp -n ${libdir} ./lib/
-                    install_name_tool -change "${libdir}" "@executable_path/../lib/${libdir##*/}" ttyd
-                } 
-            done <<A
-            $(cat lib_info)
-          A
           )
           (
             cd "${dir}" && {
