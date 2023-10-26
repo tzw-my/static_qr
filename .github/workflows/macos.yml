@@ -63,6 +63,7 @@ jobs:
                 libdir="${libname%%" ("*}"
                 echo "看看哪一个出问题了: ${libdir}"
                 [ -f "${libdir}" ] && {
+                    [ "${libdir}" = "/usr/lib/libSystem.B.dylib" ] && continue
                     command cp -n ${libdir} ./lib/
                     install_name_tool -change "${libdir}" "@executable_path/../lib/${libdir##*/}" ttyd
                 } 
