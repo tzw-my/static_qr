@@ -25,15 +25,4 @@ jobs:
 
       - name: Static build
         run: |
-          source ~/.xmake/profile
-          git clone "https://${github_token}@github.com/sodium-cmd/sodium-cmd.git"
-          cd sodium-cmd || exit 1
-          xrepo install -p linux -a x64 -y libsodium
-          ls ~/.xmake/packages/l/libsodium/1.0.18
-          xmake f -p linux -a x64 --toolchain=linux -y
-          xmake build
-          7z a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
-          mv sodium.7z ../
-      - uses: actions/upload-artifact@v3
-        with:
-          path: "sodium.7z"
+          uname -a
