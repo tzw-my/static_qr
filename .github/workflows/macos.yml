@@ -29,7 +29,7 @@ jobs:
       - name: Download dependencies
         run: |
           brew update
-          brew install libwebsockets libjson-rpc-cpp sudo
+          brew install libwebsockets libjson-rpc-cpp
       - name: Static build
         run: |
           (
@@ -39,7 +39,7 @@ jobs:
             mkdir json-c-build && cd json-c-build
             cmake ../
             make
-            sudo make install
+            make install
           )
           git clone https://github.com/tsl0922/ttyd.git
           mkdir build && cd build
