@@ -55,14 +55,11 @@ jobs:
                 printf "%s\n" "otool -L ttyd fail"
                 continue
             }
-            echo "看看文件有没有问题"
             cat lib_info
-            echo "没问题"
             mkdir lib
             while read -r libname;do
                 libdir="${libname%%" ("*}"
                 [ "${libdir}" = "/usr/lib/libSystem.B.dylib" ] && continue
-                echo "看看哪一个出问题了: ${libdir}"
                 [ -f "${libdir}" ] && {
                     command cp -n ${libdir} ./lib/
                     install_name_tool -change "${libdir}" "@executable_path/../lib/${libdir##*/}" ttyd
@@ -70,8 +67,9 @@ jobs:
             done <<A
             $(cat lib_info)
           A
+          command cp -n /usr/local/lib/libjson-c.5.dylib ./lib/
+          install_name_tool -change "@rpath/libjson-c.5.dylib" "@executable_path/../lib/${libdir##*/}" ttyd
           )
-          echo "这里之前出问题"
           (
             cd "${dir}" && {
               echo "${dir} -------"
