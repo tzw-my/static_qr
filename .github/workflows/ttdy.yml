@@ -68,7 +68,7 @@ jobs:
             $(cat lib_info)
           A
           command cp -n /usr/local/lib/libjson-c.5.dylib ./lib/
-          install_name_tool -change "@rpath/libjson-c.5.dylib" "@executable_path/../lib/${libdir##*/}" ttyd
+          install_name_tool -change "@rpath/libjson-c.5.dylib" "@executable_path/../lib/libjson-c.5.dylib" ttyd
           )
           (
             cd "${dir}" && {
