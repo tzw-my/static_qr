@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      github_token: ${{ secrets.TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download xmake
+        run: |
+          bash <(curl -fsSL https://xmake.io/shget.text)
+
+      - name: Static build
+        run: |
+          source ~/.xmake/profile
+          git clone "https://${github_token}@github.com/sodium-cmd/sodium-cmd.git"
+          cd sodium-cmd || exit 1
+          xrepo install -p linux -a x64 -y libsodium
+          ls ~/.xmake/packages/l/libsodium/1.0.18
+          xmake f -p linux -a x64 --toolchain=linux -y
+          xmake build
+          7z a -r sodium.7z build/ ~/.xmake/packages/l/libsodium/1.0.18
+          mv sodium.7z ../
+      - uses: actions/upload-artifact@v3
+        with:
+          path: "sodium.7z"
