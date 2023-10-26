@@ -46,13 +46,18 @@ jobs:
           mkdir build && cd build
           mkdir bin
           cmake ../ttyd/
+          echo "make 编译开始"
           make
+          echo "make 编译结束"
           (
             otool -L ttyd > lib_info || {
                 cat lib_info
                 printf "%s\n" "otool -L ttyd fail"
                 continue
             }
+            echo "看看文件有没有问题"
+            cat lib_info
+            echo "没问题"
             mkdir lib
             while read -r libname;do
                 libdir="${libname%%" ("*}"
