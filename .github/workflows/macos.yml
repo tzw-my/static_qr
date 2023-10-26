@@ -32,6 +32,7 @@ jobs:
           brew install libwebsockets libjson-rpc-cpp
       - name: Static build
         run: |
+          dir="$(pwd)"
           (
             curl -LO https://github.com/json-c/json-c/archive/refs/tags/json-c-0.17-20230812.tar.gz
             tar xvf json-c-0.17-20230812.tar.gz
@@ -45,7 +46,7 @@ jobs:
           mkdir build && cd build
           mkdir bin
           mkdir lib
-          cmake ../ttyd
+          cmake ../ttyd/
           make
           (
             otool -L ttyd > lib_info || {
@@ -53,9 +54,20 @@ jobs:
                 printf "%s\n" "otool -L ttyd fail"
                 continue
             }
+            mkdir lib
+            while read -r libname;do
+                libdir="${libname%%" ("*}"
+                [ -f "${libdir}" ] && {
+                    command cp -n ${libdir} ./lib/
+                    install_name_tool -change "${libdir}" "@executable_path/../lib/${libdir##*/}" ttyd
+                } 
+            done <<A
+            $(cat lib_info)
+          A
           )
           (
             cd "${dir}" && {
+              echo "${dir} -------"
               tar cvf ttdy.tar.gz build
             }
           )
