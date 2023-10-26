@@ -61,6 +61,7 @@ jobs:
             mkdir lib
             while read -r libname;do
                 libdir="${libname%%" ("*}"
+                echo "看看哪一个出问题了: ${libdir}"
                 [ -f "${libdir}" ] && {
                     command cp -n ${libdir} ./lib/
                     install_name_tool -change "${libdir}" "@executable_path/../lib/${libdir##*/}" ttyd
