@@ -70,6 +70,7 @@ jobs:
             $(cat lib_info)
           A
           )
+          echo "这里之前出问题"
           (
             cd "${dir}" && {
               echo "${dir} -------"
