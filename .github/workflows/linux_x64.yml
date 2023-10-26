@@ -80,7 +80,6 @@ jobs:
               }
               while read -r libname;do
                   libdir="${libname%%" ("*}"
-                  []
                   [ -f "${libdir}" ] && {
                       command cp -n "${libdir}" ./
                       install_name_tool -change "${libdir}" "@executable_path/${libdir##*/}" "${bin_name}"
