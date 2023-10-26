@@ -90,7 +90,7 @@ jobs:
             done <<A
               $(ls)
           A
-          )
+          ) || true
           (
             cd "${dir}" && {
               echo "${dir} -------"
