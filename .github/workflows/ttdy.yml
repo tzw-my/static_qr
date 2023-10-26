@@ -37,9 +37,9 @@ jobs:
              curl -L https://sourceforge.net/projects/libpng/files/libpng16/1.6.39/libpng-1.6.39.tar.xz/download -o libpng-1.6.39.tar.xz
              tar xvf libpng-1.6.39.tar.xz
              cd libpng-1.6.39 && {
-                 LDFLAGS="-static" ./configure --prefix="${dir}/build"
-                 make
-                 make install 
+                ./configure --prefix="${dir}/build"
+                make
+                make install 
              }
           )
           (
