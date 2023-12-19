@@ -26,7 +26,6 @@ jobs:
               cd eza-0.17.0 && {
                   cargo build --release 
                   cd target/release/ && {
-                      xattr -d com.apple.quarantine eza
                       mkdir -p $dir/eza
                       cp eza $dir/eza
                   }
