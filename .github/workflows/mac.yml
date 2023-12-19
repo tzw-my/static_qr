@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+          source "$HOME/.cargo/env"
+      - name: static build
+        run: |
+          dir="$(pwd)"
+          curl -LO https://github.com/eza-community/eza/archive/refs/tags/v0.17.0.tar.gz
+          (
+              tar xvf v0.17.0.tar.gz
+              cd eza-0.17.0 && {
+                  cargo build --release 
+                  cd target/release/ && {
+                      xattr -d com.apple.quarantine eza
+                      mkdir -p $dir/eza
+                      cp eza $dir/eza
+                  }
+              }
+          )
+          (
+            cd "${dir}" && {
+              tar cJvf eza.tar.xz eza
+            }
+          )
+      - uses: actions/upload-artifact@v3
+        with:
+          path: "eza.tar.xz"
+          name: "eza"
