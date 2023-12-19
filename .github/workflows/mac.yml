@@ -17,11 +17,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: install
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-          source "$HOME/.cargo/env"
       - name: static build
         run: |
           dir="$(pwd)"
