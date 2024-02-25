@@ -21,7 +21,7 @@ jobs:
 
       - name: install
         run: |
-          apt update && apt install -y gcc g++ make automake autoconf libtool pkg-config curl
+          apt update && apt install -y gcc g++ make automake autoconf libtool pkg-config curl libsdl2-dev
       - name: static build
         run: |
           dir="$(pwd)"
