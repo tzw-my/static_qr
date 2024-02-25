@@ -27,11 +27,13 @@ jobs:
           dir="$(pwd)"
           (
               curl -LO https://github.com/ggerganov/whisper.cpp/archive/refs/tags/v1.5.4.tar.gz
-              # apt-get install libsdl2-dev
-              make
-              make command talk talk-llama lsp stream
-              command mkdir ${dir}/build 
-              cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/build 
+              tar xvf v1.5.4.tar.gz
+              cd whisper.cpp-1.5.4/ && {
+                make
+                make command talk talk-llama lsp stream
+                command mkdir ${dir}/build 
+                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/build 
+              }
           )
 
           (
