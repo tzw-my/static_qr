@@ -32,7 +32,7 @@ jobs:
                 make
                 make command talk talk-llama lsp stream
                 command mkdir ${dir}/build 
-                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/build 
+                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/build || true
               }
           )
 
