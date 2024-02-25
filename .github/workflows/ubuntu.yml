@@ -31,14 +31,14 @@ jobs:
               cd whisper.cpp-1.5.4/ && {
                 make
                 make command talk talk-llama lsp stream
-                command mkdir ${dir}/build 
-                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/build || true
+                command mkdir ${dir}/whisper 
+                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/whisper || true
               }
           )
 
           (
             cd "${dir}" && {
-              tar cJvf whisper.tar.xz 
+              tar cJvf whisper.tar.xz whisper
             }
           )
       - uses: actions/upload-artifact@v3
