@@ -20,7 +20,15 @@ jobs:
 
       - name: install
         run: |
-          brew update && brew install gcc g++ make automake autoconf libtool pkgconfig curl || true
+          brew update
+          brew install gcc 
+          brew g++ 
+          brew make
+          brew automake
+          brew autoconf
+          brew libtool
+          brew pkgconfig 
+          brew curl
       - name: static build
         run: |
           dir="$(pwd)"
