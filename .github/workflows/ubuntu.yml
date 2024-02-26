@@ -22,13 +22,13 @@ jobs:
         run: |
           brew update
           brew install gcc 
-          brew g++ 
-          brew make
-          brew automake
-          brew autoconf
-          brew libtool
-          brew pkgconfig 
-          brew curl
+          brew install g++ 
+          brew install make
+          brew install automake
+          brew install autoconf
+          brew install libtool
+          brew install pkgconfig 
+          brew install curl
       - name: static build
         run: |
           dir="$(pwd)"
