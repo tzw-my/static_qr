@@ -20,7 +20,7 @@ jobs:
 
       - name: install
         run: |
-          brew update && brew install -y gcc g++ make automake autoconf libtool pkgconfig curl libsdl2-dev
+          brew update && brew install -y gcc g++ make automake autoconf libtool pkgconfig curl sdl2
       - name: static build
         run: |
           dir="$(pwd)"
