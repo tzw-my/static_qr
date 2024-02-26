@@ -20,8 +20,7 @@ jobs:
 
       - name: install
         run: |
-          brew install --cask 3dgenceslicer
-          brew update && brew install gcc g++ make automake autoconf libtool pkgconfig curl
+          brew update && brew install gcc g++ make automake autoconf libtool pkgconfig curl || true
       - name: static build
         run: |
           dir="$(pwd)"
