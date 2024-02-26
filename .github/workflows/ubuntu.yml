@@ -14,14 +14,13 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: ubuntu:latest
+    runs-on:  macos-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: install
         run: |
-          apt update && apt install -y gcc g++ make automake autoconf libtool pkg-config curl libsdl2-dev
+          brew update && brew install -y gcc g++ make automake autoconf libtool pkgconfig curl libsdl2-dev
       - name: static build
         run: |
           dir="$(pwd)"
