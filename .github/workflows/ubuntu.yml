@@ -21,14 +21,7 @@ jobs:
       - name: install
         run: |
           brew update
-          brew install gcc 
-          brew install g++ 
-          brew install make
-          brew install automake
-          brew install autoconf
-          brew install libtool
-          brew install pkgconfig 
-          brew install curl
+           brew install sdl2 
       - name: static build
         run: |
           dir="$(pwd)"
