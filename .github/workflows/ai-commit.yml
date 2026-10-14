@@ -1,0 +1,22 @@
+# 校验 push 的 commit message 是否符合 Conventional Commits
+name: AI Commit Check
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  commit-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: x-cmd-action/ai/commit@v1
+        with:
+          mode: check
+          fail-on-invalid: 'false'  # 历史提交不规范也不挡 CI, 只提示

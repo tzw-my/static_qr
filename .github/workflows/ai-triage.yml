@@ -1,0 +1,21 @@
+# 新 Issue 自动分类: 类型 + 优先级 + 标签
+name: AI Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: x-cmd-action/ai/triage@v1
+        with:
+          model: zhipu
+          apply-labels: 'true'
+        env:
+          ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
