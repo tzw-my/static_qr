@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: { issues: write, pull-requests: write }
     steps:
-      - uses: x-cmd-action/ai/triage@v1
+      - uses: x-cmd-action/ai/triage@main
         with:
           apply-labels: 'true'   # 'false' 则只发评论、不贴标签
           comment: 'true'        # 'false' 则只贴标签、不发评论
