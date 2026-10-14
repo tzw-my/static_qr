@@ -1,22 +1,15 @@
-# PR 打开/更新时 AI 审查 diff, 结果以评论形式发布
-name: AI Review
-
+# PR 打开/更新时 AI 审查 diff, 结果以评论发布到 PR
+name: review
 on:
   pull_request:
     types: [opened, synchronize]
-
-permissions:
-  pull-requests: write
-  contents: read
-
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions: { pull-requests: write }
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+        with: { fetch-depth: 0 }
       - uses: x-cmd-action/ai/review@v1
         env:
-          ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}

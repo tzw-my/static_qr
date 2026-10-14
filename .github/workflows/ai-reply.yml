@@ -1,26 +1,22 @@
-# 评论提及 @x 时自动加 reaction + 回复 (不需要 AI key)
-name: AI Reply
-
+# 评论/新 Issue 提到 @x 时自动加 reaction + 回复
+name: reply
 on:
   issue_comment:
     types: [created]
-  pull_request_review_comment:
-    types: [created]
-
-permissions:
-  issues: write
-  pull-requests: write
-
-concurrency:
-  group: reply-${{ github.event.comment.id }}
-  cancel-in-progress: false
-
+  issues:
+    types: [opened]
 jobs:
   reply:
     runs-on: ubuntu-latest
+    permissions: { issues: write, pull-requests: write }   # PR 评论需要 pull-requests: write, 否则 403
+    concurrency: { group: ai-reply, cancel-in-progress: false }
     steps:
       - uses: x-cmd-action/ai/reply@v1
         with:
-          keyword: '@x'
+          keyword: '@x'           # 词边界匹配, 不会误触 @x-cmd
           reaction: eyes
           comment: '👀 on it'
+          # use_ai: 'true'        # 改用 AI 生成回复 (需 API key)
+          # prompt: '请用中文回复'
+        env:
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}   # 仅 use_ai: 'true' 时需要

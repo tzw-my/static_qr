@@ -1,22 +1,16 @@
-# 校验 push 的 commit message 是否符合 Conventional Commits
-name: AI Commit Check
-
+# PR 上校验 commit message 是否符合 Conventional Commits
+name: commit-check
 on:
-  push:
-    branches: [main]
-
-permissions:
-  contents: read
-
+  pull_request:
 jobs:
-  commit-check:
+  check:
     runs-on: ubuntu-latest
+    permissions: { issues: write, pull-requests: write }
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+        with: { fetch-depth: 0 }   # check 模式需要完整的分支历史
       - uses: x-cmd-action/ai/commit@v1
         with:
           mode: check
-          fail-on-invalid: 'false'  # 历史提交不规范也不挡 CI, 只提示
+          fail-on-invalid: 'false'   # 历史提交不规范, 先只告警不拦截
+          # review_invalid: 'true'   # 让 AI 在 PR 上评论修改建议 (需 API key)
