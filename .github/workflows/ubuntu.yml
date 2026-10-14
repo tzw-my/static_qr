@@ -1,55 +1,30 @@
-# This is a basic workflow to help you get started with Actions
+# Try out x-cmd usage in GitHub Actions
 
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-jobs:
-  build:
-    runs-on:  macos-latest
-    steps:
-      - uses: actions/checkout@v2
 
+jobs:
+  x-cmd-demo:
+    runs-on: macos-latest
+    steps:
       - name: Install x-cmd
         uses: x-cmd-action/x-cmd@v1
 
-      - name: Verify x-cmd installation
+      - name: Demo
         run: |
+          # 方式一: source 后作为 shell 函数使用
           . ~/.x-cmd.root/X
           x version
 
-      - name: install
-        run: |
-          brew update
-           brew install sdl2 
-      - name: static build
-        run: |
-          dir="$(pwd)"
-          (
-              curl -LO https://github.com/ggerganov/whisper.cpp/archive/refs/tags/v1.5.4.tar.gz
-              tar xvf v1.5.4.tar.gz
-              cd whisper.cpp-1.5.4/ && {
-                make
-                make command talk talk-llama lsp stream
-                command mkdir ${dir}/whisper 
-                cp -r *.o main stream command talk talk-llama bench quantize server lsp libwhisper.a libwhisper.so ${dir}/whisper || true
-              }
-          )
+          # 一些模块演示
+          x cowsay "hello from x-cmd"
+          x pkg ls jq
 
-          (
-            cd "${dir}" && {
-              tar cJvf whisper.tar.xz whisper
-            }
-          )
-      - uses: actions/upload-artifact@v4
-        with:
-          path: "whisper.tar.xz"
-          name: "whisper"
+          # 方式二: 直接作为外部命令使用
+          x-cmd cowsay "one-liner"
