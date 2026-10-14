@@ -18,6 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install x-cmd
+        uses: x-cmd-action/x-cmd@v1
+
+      - name: Verify x-cmd installation
+        run: |
+          . ~/.x-cmd.root/X
+          x version
+
       - name: install
         run: |
           brew update
