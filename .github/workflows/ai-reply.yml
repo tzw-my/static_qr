@@ -11,7 +11,7 @@ jobs:
     permissions: { issues: write, pull-requests: write }   # PR 评论需要 pull-requests: write, 否则 403
     concurrency: { group: ai-reply, cancel-in-progress: false }
     steps:
-      - uses: x-cmd-action/ai/reply@main
+      - uses: qiakai/x-cmd-action-ai/reply@main
         with:
           keyword: '@x'           # 词边界匹配, 不会误触 @x-cmd
           reaction: eyes
