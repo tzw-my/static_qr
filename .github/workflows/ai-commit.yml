@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }   # check 模式需要完整的分支历史
-      - uses: x-cmd-action/ai/commit@v1
+      - uses: x-cmd-action/ai/commit@main
         with:
           mode: check
           fail-on-invalid: 'false'   # 历史提交不规范, 先只告警不拦截
